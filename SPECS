@@ -1,0 +1,17 @@
+# follow system
+
+
+GET /api/v1-app/home/stores
+should return 200 with json {
+    stores: [
+        {
+            .. store data,
+            products: [
+                // here we have $productsPerPage
+                {
+                    .. product data
+                }
+            ]
+        }
+    ]
+}

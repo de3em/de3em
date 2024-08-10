@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "518469678091",
+    "project_id": "nichen-net",
+    "storage_bucket": "nichen-net.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518469678091:android:4e67ac363fbe7fe5b7c30e",
+        "android_client_info": {
+          "package_name": "net.nichen.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDONKxlVsFTH-FpSN2EoswGUOoEqRwAWCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
