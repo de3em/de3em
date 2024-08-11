@@ -54,73 +54,90 @@ import 'firebase_options.dart';
 import 'helper/custom_delegate.dart';
 import 'localization/app_localization.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
-if(Firebase.apps.isEmpty){
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-}
-  await FlutterDownloader.initialize(debug: true , ignoreSsl: true);
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+  }
+  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
   await di.init();
 
-  flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestNotificationsPermission();
+  flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.requestNotificationsPermission();
 
   NotificationBody? body;
   try {
-      final RemoteMessage? remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
-      if (remoteMessage != null) {
-        body = NotificationHelper.convertNotification(remoteMessage.data);
-      }
-      await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
-      FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
-
-  }catch(_) {}
-
+    final RemoteMessage? remoteMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (remoteMessage != null) {
+      body = NotificationHelper.convertNotification(remoteMessage.data);
+    }
+    await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
+    FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
+  } catch (_) {}
 
   await NotificationHelper.initialize(flutterLocalNotificationsPlugin);
   FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
 
-  runApp(MultiProvider(providers: [
+  runApp(MultiProvider(
+    providers: [
       ChangeNotifierProvider(create: (context) => di.sl<CategoryController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ShopController>()),
       ChangeNotifierProvider(create: (context) => di.sl<FlashDealController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<FeaturedDealController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<FeaturedDealController>()),
       ChangeNotifierProvider(create: (context) => di.sl<BrandController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ProductController>()),
       ChangeNotifierProvider(create: (context) => di.sl<BannerController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<ProductDetailsController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<OnBoardingController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<ProductDetailsController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<OnBoardingController>()),
       ChangeNotifierProvider(create: (context) => di.sl<AuthController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<SearchProductController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<SearchProductController>()),
       ChangeNotifierProvider(create: (context) => di.sl<CouponController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ChatController>()),
       ChangeNotifierProvider(create: (context) => di.sl<OrderController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<NotificationController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<NotificationController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ProfileController>()),
       ChangeNotifierProvider(create: (context) => di.sl<WishListController>()),
       ChangeNotifierProvider(create: (context) => di.sl<SplashController>()),
       ChangeNotifierProvider(create: (context) => di.sl<CartController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<SupportTicketController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<LocalizationController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<SupportTicketController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<LocalizationController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ThemeController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<GoogleSignInController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<FacebookLoginController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<GoogleSignInController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<FacebookLoginController>()),
       ChangeNotifierProvider(create: (context) => di.sl<AddressController>()),
       ChangeNotifierProvider(create: (context) => di.sl<WalletController>()),
       ChangeNotifierProvider(create: (context) => di.sl<CompareController>()),
       ChangeNotifierProvider(create: (context) => di.sl<CheckoutController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<LoyaltyPointController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<LoyaltyPointController>()),
       ChangeNotifierProvider(create: (context) => di.sl<LocationController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ContactUsController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ShippingController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<OrderDetailsController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<OrderDetailsController>()),
       ChangeNotifierProvider(create: (context) => di.sl<RefundController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ReOrderController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ReviewController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<SellerProductController>()),
+      ChangeNotifierProvider(
+          create: (context) => di.sl<SellerProductController>()),
     ],
     child: MyApp(body: body),
   ));
@@ -129,7 +146,6 @@ if(Firebase.apps.isEmpty){
 class MyApp extends StatelessWidget {
   final NotificationBody? body;
   const MyApp({super.key, required this.body});
-
 
   @override
   Widget build(BuildContext context) {
@@ -150,11 +166,16 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
         FallbackLocalizationDelegate()
       ],
-      builder:(context,child){
-        return MediaQuery(data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling), child: child!);
+      builder: (context, child) {
+        return MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: TextScaler.noScaling),
+            child: child!);
       },
       supportedLocales: locals,
-      home: SplashScreen(body: body,),
+      home: SplashScreen(
+        body: body,
+      ),
     );
   }
 }
@@ -163,9 +184,12 @@ class Get {
   static BuildContext? get context => navigatorKey.currentContext;
   static NavigatorState? get navigator => navigatorKey.currentState;
 }
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

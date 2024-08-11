@@ -17,67 +17,100 @@ class ProfileInfoSectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
-    return Consumer<ProfileController>(
-        builder: (context,profile,_) {
-          return Container(
-            color: Colors.grey.shade200,
-            // decoration: BoxDecoration(
-            //   color: Provider.of<ThemeController>(context).darkTheme ?
-            //   Theme.of(context).primaryColor.withOpacity(.30) : Theme.of(context).primaryColor),
-            child: Stack(children: [
-              Container(transform: Matrix4.translationValues(-10, 0, 0),
-                child: Padding(padding: const EdgeInsets.only(top: 20.0),
-                  child: SizedBox(width: 110, child: Image.asset(Images.shadow, opacity: const AlwaysStoppedAnimation(0.75))))),
-
-              Positioned(right: -110,bottom: -100,
-                child: Container(width: 200,height: 200,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(100),
-                      border: Border.all(color: Theme.of(context).cardColor.withOpacity(.05), width: 25)))),
-
-              Padding(padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault, 70.0,Dimensions.paddingSizeDefault, 30),
-                child: Row(children: [
-                  InkWell(onTap: () {
-                      if(isGuestMode) {
-                        showModalBottomSheet(backgroundColor: Colors.transparent,context:context, builder: (_)=> const NotLoggedInBottomSheetWidget());
-                      }else {if(profile.userInfoModel != null) {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfileScreen()));
-                        }
+    bool isGuestMode =
+        !Provider.of<AuthController>(context, listen: false).isLoggedIn();
+    return Consumer<ProfileController>(builder: (context, profile, _) {
+      return SizedBox(
+          width: MediaQuery.of(context).size.width * 0.6,
+          // decoration: BoxDecoration(
+          //   color: Provider.of<ThemeController>(context).darkTheme ?
+          //   Theme.of(context).primaryColor.withOpacity(.30) : Theme.of(context).primaryColor),
+          child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Row(children: [
+                InkWell(
+                  onTap: () {
+                    if (isGuestMode) {
+                      showModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (_) => const NotLoggedInBottomSheetWidget());
+                    } else {
+                      if (profile.userInfoModel != null) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const ProfileScreen()));
                       }
-                    },
-                    child: ClipRRect(borderRadius: BorderRadius.circular(100),
-                        child: Container(width: 70,height: 70,  decoration: BoxDecoration(
+                    }
+                  },
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
                           color: Theme.of(context).cardColor,
-                          border: Border.all( width: 3),
-                          shape: BoxShape.circle,),
-                          child: Provider.of<AuthController>(context, listen: false).isLoggedIn()?
-                          CustomImageWidget(image: '${Provider.of<SplashController>(context,listen: false).baseUrls!.customerImageUrl}/'
-                              '${profile.userInfoModel?.image}', width: 70,height: 70,fit: BoxFit.cover,placeholder: Images.guestProfile):
-                          // Image.asset(Images.guestProfile)
-                          Center(child: Icon(Icons.person, color: Theme.of(context).primaryColor, size: 40))
-                          ,)),
-                  ),
-                  const SizedBox(width: Dimensions.paddingSizeDefault),
+                          shape: BoxShape.circle,
+                        ),
+                        child:
+                            Provider.of<AuthController>(context, listen: false)
+                                    .isLoggedIn()
+                                ? CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage:
+                                        profile.userInfoModel?.image != null
+                                            ? NetworkImage(
+                                                profile.userInfoModel!.image!)
+                                            : null,
+                                    child: profile.userInfoModel?.image == null
+                                        ? Text(
+                                            profile.userInfoModel?.fName?[0]
+                                                    .toUpperCase() ??
+                                                'G',
+                                            style: robotoBold.copyWith(
+                                              color: ColorResources.getPrimary(
+                                                  context),
+                                              fontSize: 20,
+                                            ),
+                                          )
+                                        : null,
+                                  )
+                                :
+                                // Image.asset(Images.guestProfile)
+                                Center(
+                                    child: Icon(Icons.person,
+                                        color: Theme.of(context).primaryColor,
+                                        size: 40)),
+                      )),
+                ),
+                const SizedBox(width: 10),
 
-                  Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Text(!isGuestMode?
-                    '${profile.userInfoModel?.fName??''} ${profile.userInfoModel?.lName??''}' : 'Guest',
-                        style: textMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                        !isGuestMode
+                            ? '${profile.userInfoModel?.fName ?? ''} ${profile.userInfoModel?.lName ?? ''}'
+                            : 'Guest',
+                        style: robotoBold.copyWith(
+                            fontSize: Dimensions.fontSizeExtraLarge)),
+                    // if (!isGuestMode &&
+                    //     profile.userInfoModel?.phone != null &&
+                    //     profile.userInfoModel!.phone!.isNotEmpty)
+                    //   const SizedBox(height: Dimensions.paddingSizeSmall),
+                    // if (!isGuestMode)
+                    //   Text(profile.userInfoModel?.phone ?? '',
+                    //       style: textRegular.copyWith(
+                    //           fontSize: Dimensions.fontSizeLarge)),
+                  ],
+                ),
 
-                    if(!isGuestMode && profile.userInfoModel?.phone != null && profile.userInfoModel!.phone!.isNotEmpty)
-                    const SizedBox(height: Dimensions.paddingSizeSmall),
-                    if(!isGuestMode)
-                    Text(profile.userInfoModel?.phone??'', style: textRegular.copyWith( fontSize: Dimensions.fontSizeLarge)),
-                  ],)),
-
-                  // InkWell(onTap: ()=> Provider.of<ThemeController>(context, listen: false).toggleTheme(),
-                  //   child: Padding(padding: const EdgeInsets.all(8.0),
-                  //     child: SizedBox(width: 40, child: Image.asset(Provider.of<ThemeController>(context).darkTheme ?
-                  //     Images.sunnyDay: Images.theme, color: Provider.of<ThemeController>(context).darkTheme ? Colors.white: null))),
-                  // )
-                  
-                  ])),
-            ]));
-        });
+                // InkWell(onTap: ()=> Provider.of<ThemeController>(context, listen: false).toggleTheme(),
+                //   child: Padding(padding: const EdgeInsets.all(8.0),
+                //     child: SizedBox(width: 40, child: Image.asset(Provider.of<ThemeController>(context).darkTheme ?
+                //     Images.sunnyDay: Images.theme, color: Provider.of<ThemeController>(context).darkTheme ? Colors.white: null))),
+                // )
+              ])));
+    });
   }
 }
