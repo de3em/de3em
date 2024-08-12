@@ -70,6 +70,8 @@ dependencies:
   gradient_borders: ^1.0.0
   flutter_spinkit: ^5.2.1
   iconsax: ^0.0.8
+  navigation_view: ^1.0.6
+  iconly: ^1.0.1
 
 
 

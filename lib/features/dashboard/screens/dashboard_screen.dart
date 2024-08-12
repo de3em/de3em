@@ -12,6 +12,9 @@ import 'package:flutter_sixvalley_ecommerce/features/home/screens/fashion_theme_
 import 'package:flutter_sixvalley_ecommerce/features/home/screens/home_screens.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/screens/more_screen_view.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order/screens/order_screen.dart';
+import 'package:iconly/iconly.dart';
+import 'package:navigation_view/item_navigation_view.dart';
+import 'package:navigation_view/navigation_view.dart';
 import 'package:provider/provider.dart';
 
 class DashBoardScreen extends StatefulWidget {
@@ -30,21 +33,37 @@ class DashBoardScreenState extends State<DashBoardScreen> {
   @override
   void initState() {
     super.initState();
-    singleVendor = Provider.of<SplashController>(context, listen: false).configModel!.businessMode == "single";
+    singleVendor = Provider.of<SplashController>(context, listen: false)
+            .configModel!
+            .businessMode ==
+        "single";
 
     _screens = [
       NavigationModel(
         name: 'home',
         icon: Images.homeImage,
-        screen: (Provider.of<SplashController>(context, listen: false).configModel!.activeTheme == "default")
+        screen: (Provider.of<SplashController>(context, listen: false)
+                    .configModel!
+                    .activeTheme ==
+                "default")
             ? const HomePage()
-            : (Provider.of<SplashController>(context, listen: false).configModel!.activeTheme == "theme_aster")
+            : (Provider.of<SplashController>(context, listen: false)
+                        .configModel!
+                        .activeTheme ==
+                    "theme_aster")
                 ? const AsterThemeHomeScreen()
                 : const FashionThemeHomePage(),
       ),
-      NavigationModel(name: 'inbox', icon: Images.messageImage, screen: const InboxScreen(isBackButtonExist: false)),
-      NavigationModel(name: 'orders', icon: Images.shoppingImage, screen: const OrderScreen(isBacButtonExist: false)),
-      NavigationModel(name: 'more', icon: Images.moreImage, screen: const MoreScreen()),
+      NavigationModel(
+          name: 'inbox',
+          icon: Images.messageImage,
+          screen: const InboxScreen(isBackButtonExist: false)),
+      NavigationModel(
+          name: 'orders',
+          icon: Images.shoppingImage,
+          screen: const OrderScreen(isBacButtonExist: false)),
+      NavigationModel(
+          name: 'more', icon: Images.moreImage, screen: const MoreScreen()),
     ];
 
     NetworkInfo.checkConnectivity(context);
@@ -59,7 +78,10 @@ class DashBoardScreenState extends State<DashBoardScreen> {
           _setPage(0);
           return;
         } else {
-          showModalBottomSheet(backgroundColor: Colors.transparent, context: context, builder: (_) => const AppExitCard());
+          showModalBottomSheet(
+              backgroundColor: Colors.transparent,
+              context: context,
+              builder: (_) => const AppExitCard());
         }
         return;
       },
@@ -67,18 +89,78 @@ class DashBoardScreenState extends State<DashBoardScreen> {
         key: _scaffoldKey,
         body: PageStorage(bucket: bucket, child: _screens[_pageIndex].screen),
         bottomNavigationBar: Container(
-          height: 68,
+          height: 45,
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.paddingSizeLarge)),
-            color: Theme.of(context).cardColor,
-            boxShadow: [
-              BoxShadow(offset: const Offset(1, 1), blurRadius: 2, spreadRadius: 1, color: Theme.of(context).primaryColor.withOpacity(.125))
+            borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(Dimensions.paddingSizeLarge)),
+          ),
+          //   boxShadow: [
+          //     BoxShadow(
+          //         offset: const Offset(1, 1),
+          //         blurRadius: 2,
+          //         spreadRadius: 1,
+          //         color: Theme.of(context).primaryColor.withOpacity(.125))
+          //   ],
+          // ),
+
+          child: NavigationView(
+            onChangePage: (c) {
+              _setPage(3 - c);
+            },
+            curve: Curves.easeInBack,
+            color: Theme.of(context).colorScheme.primary,
+            durationAnimation: const Duration(milliseconds: 100),
+            items: [
+              ItemNavigationView(
+                  childAfter: Icon(
+                    IconlyBold.bag,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 30,
+                  ),
+                  childBefore: Icon(
+                    IconlyLight.bag,
+                    color: Colors.grey.withAlpha(60),
+                    size: 30,
+                  )),
+              ItemNavigationView(
+                  childAfter: Icon(
+                    IconlyBold.user_2,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 30,
+                  ),
+                  childBefore: Icon(
+                    IconlyLight.user,
+                    color: Colors.grey.withAlpha(60),
+                    size: 30,
+                  )),
+              ItemNavigationView(
+                  childAfter: Icon(
+                    IconlyBold.chat,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 30,
+                  ),
+                  childBefore: Icon(
+                    IconlyLight.chat,
+                    color: Colors.grey.withAlpha(60),
+                    size: 30,
+                  )),
+              ItemNavigationView(
+                  childAfter: Icon(
+                    IconlyBold.home,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 30,
+                  ),
+                  childBefore: Icon(
+                    IconlyLight.home,
+                    color: Colors.grey.withAlpha(60),
+                    size: 30,
+                  )),
             ],
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: _getBottomWidget(singleVendor),
-          ),
+          // child: Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: _getBottomWidget(singleVendor),
+          // ),
         ),
       ),
     );
@@ -93,7 +175,12 @@ class DashBoardScreenState extends State<DashBoardScreen> {
   List<Widget> _getBottomWidget(bool isSingleVendor) {
     List<Widget> list = [];
     for (int index = 0; index < _screens.length; index++) {
-      list.add(Expanded(child: CustomMenuWidget(isSelected: _pageIndex == index, name: _screens[index].name, icon: _screens[index].icon, onTap: () => _setPage(index))));
+      list.add(Expanded(
+          child: CustomMenuWidget(
+              isSelected: _pageIndex == index,
+              name: _screens[index].name,
+              icon: _screens[index].icon,
+              onTap: () => _setPage(index))));
     }
     return list;
   }

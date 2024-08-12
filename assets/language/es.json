@@ -19,6 +19,7 @@
   "product_details": "Detalles de producto",
   "coupon_voucher": "Cupón y cupón",
   "grab_now": "Agarrar ahora",
+  "Qty": "Cantidad",
   "seller": "Vendedor",
   "specification": "Especificación",
   "product_variants": "Variantes de productos",
@@ -733,6 +734,5 @@
   "choose_shipping_method": "Elija el método de envío",
   "first_name_is_required": "Se requiere el primer nombre",
   "last_name_is_required": "Se requiere apellido",
-  "in_stock" : "en stock"
-
+  "in_stock": "en stock"
 }

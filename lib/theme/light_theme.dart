@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 
 ThemeData light = ThemeData(
   fontFamily: 'TitilliumWeb',
-  primaryColor: Colors.black,
+  // primaryColor: Colors.black,
   brightness: Brightness.light,
-  highlightColor: Colors.white,
-  hintColor: const Color(0xFF9E9E9E),
-  splashColor: Colors.transparent,
-  colorScheme:  ColorScheme.light(
-    primary: Colors.black,
-    onPrimary: Colors.white,
-    secondary: Colors.orangeAccent,
-    tertiary: Colors.orangeAccent,
-  ),
+  // colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+  colorSchemeSeed: Colors.orange,
+
+  // highlightColor: Colors.white,
+  // hintColor: const Color(0xFF9E9E9E),
+  // splashColor: Colors.transparent,
+  // colorScheme:  ColorScheme.light(
+  //   primary: Colors.black,
+  //   onPrimary: Colors.white,
+  //   secondary: Colors.orangeAccent,
+  //   tertiary: Colors.orangeAccent,
+  // ),
 
   pageTransitionsTheme: const PageTransitionsTheme(builders: {
     TargetPlatform.android: CupertinoPageTransitionsBuilder(),

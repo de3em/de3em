@@ -12,78 +12,113 @@ import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/pro
 import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/favourite_button_widget.dart';
 import 'package:provider/provider.dart';
 
-class ProductWidget extends StatelessWidget {
+class ProductWidget extends StatefulWidget {
   final Product productModel;
   const ProductWidget({super.key, required this.productModel});
 
   @override
+  State<ProductWidget> createState() => _ProductWidgetState();
+}
+
+class _ProductWidgetState extends State<ProductWidget> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String ratting = productModel.rating != null && productModel.rating!.isNotEmpty ? productModel.rating![0].average! : "0";
+    String ratting = widget.productModel.rating != null &&
+            widget.productModel.rating!.isNotEmpty
+        ? widget.productModel.rating![0].average!
+        : "0";
 
     return InkWell(
       onTap: () {
-        Navigator.push(context, PageRouteBuilder(transitionDuration: const Duration(milliseconds: 1000), pageBuilder: (context, anim1, anim2) => ProductDetails(productId: productModel.id, slug: productModel.slug)));
+        showModalBottomSheet(
+            // constraints: BoxConstraints(
+            //   maxHeight: MediaQuery.of(context).size.height * 0.8,
+            // ),
+            // anchorPoint: Offset(0.5, 0.5),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10))),
+            backgroundColor: Theme.of(context).colorScheme.onPrimary,
+            context: context,
+            isScrollControlled: true,
+            builder: (context) {
+              return SingleChildScrollView(
+                child: ProductDetails(
+                    productId: widget.productModel.id,
+                    slug: widget.productModel.slug),
+              );
+            });
       },
       child: Container(
-        margin: const EdgeInsetsDirectional.only(start: 12),
         // padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
         decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Colors.grey.shade200),
-          borderRadius: BorderRadius.circular(10),
-          color: Theme.of(context).highlightColor,
-        ),
+            border: Border.all(width: 1, color: Colors.grey.shade200),
+            borderRadius: BorderRadius.circular(3),
+            color: Theme.of(context).colorScheme.onPrimary
+            // color: Theme.of(context).highlightColor,
+            ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             Stack(
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Provider.of<ThemeController>(context, listen: false).darkTheme ? Theme.of(context).primaryColor.withOpacity(.05) : ColorResources.getIconBg(context),
-                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                    borderRadius: BorderRadius.circular(3),
                   ),
                   child: ClipRRect(
-                    borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                    borderRadius: BorderRadius.circular(3),
                     child: CustomImageWidget(
-                      image: '${Provider.of<SplashController>(context, listen: false).baseUrls!.productThumbnailUrl}/${productModel.thumbnail}',
-                      height: MediaQuery.of(context).size.width / 2.45,
+                      image:
+                          '${Provider.of<SplashController>(context, listen: false).baseUrls!.productThumbnailUrl}/${widget.productModel.thumbnail}',
+                      height: MediaQuery.of(context).size.width / 1.9,
                       width: MediaQuery.of(context).size.width,
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                Positioned(
-                  bottom: 10,
-                  left: 10,
-                  child: Card(
-                    child: Row(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, children: [
-                      const Icon(Icons.star_rate_rounded, color: Colors.orange, size: 20),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(start: 2.0, end: 4),
-                        child: Text(double.parse(ratting).toStringAsFixed(1), style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
-                      ),
-                      // Text('(${productModel.reviewCount.toString()})', style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))
-                    ]),
-                  ),
-                ),
 
                 // Off
 
-                productModel.discount! > 0
+                widget.productModel.discount! > 0
                     ? Positioned(
                         top: 10,
                         left: 0,
                         child: Container(
                           height: 20,
-                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: Dimensions.paddingSizeExtraSmall),
                           decoration: BoxDecoration(
-                            color: ColorResources.getPrimary(context),
-                            borderRadius: const BorderRadius.only(topRight: Radius.circular(Dimensions.paddingSizeExtraSmall), bottomRight: Radius.circular(Dimensions.paddingSizeExtraSmall)),
+                            color: Colors.redAccent,
+                            borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(
+                                    Dimensions.paddingSizeExtraSmall),
+                                bottomRight: Radius.circular(
+                                    Dimensions.paddingSizeExtraSmall)),
                           ),
                           child: Center(
                             child: Directionality(
                               textDirection: TextDirection.ltr,
-                              child: Text(PriceConverter.percentageCalculation(context, productModel.unitPrice, productModel.discount, productModel.discountType), style: textRegular.copyWith(color: Theme.of(context).highlightColor, fontSize: Dimensions.fontSizeSmall)),
+                              child: Text(
+                                  PriceConverter.percentageCalculation(
+                                      context,
+                                      widget.productModel.unitPrice,
+                                      widget.productModel.discount,
+                                      widget.productModel.discountType),
+                                  style: textRegular.copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,
+                                      fontSize: Dimensions.fontSizeSmall)),
                             ),
                           ),
                         ),
@@ -95,7 +130,7 @@ class ProductWidget extends StatelessWidget {
                   right: 5,
                   child: FavouriteButtonWidget(
                     backgroundColor: ColorResources.getImageBg(context),
-                    productId: productModel.id,
+                    productId: widget.productModel.id,
                   ),
                 ),
               ],
@@ -103,30 +138,54 @@ class ProductWidget extends StatelessWidget {
 
             // Product Details
             Padding(
-              padding: const EdgeInsets.only(
-                top: Dimensions.paddingSizeSmall,
-                left: Dimensions.paddingSizeSmall,
-                right: Dimensions.paddingSizeSmall,
-              ),
+              padding: const EdgeInsets.only(left: 5, right: 5, top: 0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(PriceConverter.convertPrice(context, productModel.unitPrice, discountType: productModel.discountType, discount: productModel.discount), style: titilliumSemiBold.copyWith(color: ColorResources.getPrimary(context))),
-                  if (productModel.currentStock! == 0 && productModel.productType == 'physical') Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeExtraSmall), child: Text(getTranslated('out_of_stock', context) ?? '', style: textRegular.copyWith(color: const Color(0xFFF36A6A)))),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: Text(
-                      productModel.name ?? '',
-                      style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault - 2),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                  Text(
+                    widget.productModel.name ?? '',
+                    style: textRegular.copyWith(fontSize: 12),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  productModel.discount != null && productModel.discount! > 0
+                  Row(
+                    children: [
+                      Text(
+                          "${(widget.productModel.unitPrice! - (widget.productModel.discount ?? 0))} " +
+                              " DA",
+                          style: titilliumSemiBold.copyWith(
+                              color: ColorResources.getPrimary(context))),
+                      Spacer(),
+                      Row(mainAxisSize: MainAxisSize.min, children: [
+                        const Icon(Icons.star_rate_outlined,
+                            color: Colors.orange, size: 20),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.only(
+                              start: 0.50, end: 4),
+                          child: Text(double.parse(ratting).toStringAsFixed(1),
+                              style: textRegular.copyWith(
+                                  fontSize: Dimensions.fontSizeDefault)),
+                        ),
+                        // Text('(${productModel.reviewCount.toString()})', style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))
+                      ]),
+                    ],
+                  ),
+                  if (widget.productModel.currentStock! == 0 &&
+                      widget.productModel.productType == 'physical')
+                    Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: Dimensions.paddingSizeExtraSmall),
+                        child: Text(
+                            getTranslated('out_of_stock', context) ?? '',
+                            style: textRegular.copyWith(
+                                color: const Color(0xFFF36A6A)))),
+                  widget.productModel.discount != null &&
+                          widget.productModel.discount! > 0
                       ? Text(
-                          PriceConverter.convertPrice(context, productModel.unitPrice),
+                          PriceConverter.convertPrice(
+                              context, widget.productModel.unitPrice),
                           style: titleRegular.copyWith(
                             color: Theme.of(context).hintColor,
                             decoration: TextDecoration.lineThrough,

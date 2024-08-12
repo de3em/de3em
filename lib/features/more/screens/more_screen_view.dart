@@ -27,6 +27,7 @@ import 'package:flutter_sixvalley_ecommerce/features/notification/screens/notifi
 import 'package:flutter_sixvalley_ecommerce/features/address/screens/address_list_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/refer_and_earn/screens/refer_and_earn_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/setting/screens/settings_screen.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'faq_screen_view.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/widgets/title_button_widget.dart';
@@ -108,93 +109,87 @@ class _MoreScreenState extends State<MoreScreen> {
                     const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 5),
                         child: Center(child: MoreHorizontalSection())),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                          Dimensions.paddingSizeDefault,
-                          Dimensions.paddingSizeDefault,
-                          Dimensions.paddingSizeDefault,
-                          0),
-                      child: Text(
-                        getTranslated('general', context) ?? '',
-                        style: textRegular.copyWith(
-                            fontSize: Dimensions.fontSizeExtraLarge,
-                            color: Theme.of(context).colorScheme.onPrimary),
-                      ),
-                    ),
-                    Padding(
-                        padding:
-                            const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                        child: Container(
-                            padding: const EdgeInsets.all(
-                                Dimensions.paddingSizeSmall),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    Dimensions.fontSizeExtraSmall),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Theme.of(context)
-                                          .hintColor
-                                          .withOpacity(.05),
-                                      blurRadius: 1,
-                                      spreadRadius: 1,
-                                      offset: const Offset(0, 1))
-                                ],
-                                color: Provider.of<ThemeController>(context)
-                                        .darkTheme
+                    // Padding(
+                    //   padding: const EdgeInsets.fromLTRB(
+                    //       Dimensions.paddingSizeDefault,
+                    //       Dimensions.paddingSizeDefault,
+                    //       Dimensions.paddingSizeDefault,
+                    //       0),
+                    //   child: Text(
+                    //     getTranslated('general', context) ?? '',
+                    //     style: textRegular.copyWith(
+                    //         fontSize: Dimensions.fontSizeExtraLarge,
+                    //         color: Theme.of(context).colorScheme.onPrimary),
+                    //   ),
+                    // ),
+                    Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                                Dimensions.fontSizeExtraSmall),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Theme.of(context)
+                                      .hintColor
+                                      .withOpacity(.05),
+                                  blurRadius: 1,
+                                  spreadRadius: 1,
+                                  offset: const Offset(0, 1))
+                            ],
+                            color:
+                                Provider.of<ThemeController>(context).darkTheme
                                     ? Colors.white.withOpacity(.05)
                                     : Theme.of(context).cardColor),
-                            child: Column(children: [
-                              MenuButtonWidget(
-                                  image: Images.trackOrderIcon,
-                                  title: getTranslated('TRACK_ORDER', context),
-                                  navigateTo: const GuestTrackOrderScreen()),
-                              if (Provider.of<AuthController>(context,
-                                      listen: false)
-                                  .isLoggedIn())
-                                MenuButtonWidget(
-                                    image: Images.user,
-                                    title: getTranslated('profile', context),
-                                    navigateTo: const ProfileScreen()),
-                              MenuButtonWidget(
-                                  image: Images.address,
-                                  title: getTranslated('addresses', context),
-                                  navigateTo: const AddressListScreen()),
-                              MenuButtonWidget(
-                                  image: Images.coupon,
-                                  title: getTranslated('coupons', context),
-                                  navigateTo: const CouponList()),
-                              if (!isGuestMode)
-                                MenuButtonWidget(
-                                    image: Images.refIcon,
-                                    title: getTranslated(
-                                        'refer_and_earn', context),
-                                    isProfile: true,
-                                    navigateTo: const ReferAndEarnScreen()),
-                              MenuButtonWidget(
-                                  image: Images.category,
-                                  title: getTranslated('CATEGORY', context),
-                                  navigateTo: const CategoryScreen()),
-                              if (splashController.configModel!.activeTheme !=
-                                      "default" &&
-                                  authController.isLoggedIn())
-                                MenuButtonWidget(
-                                    image: Images.compare,
-                                    title: getTranslated(
-                                        'compare_products', context),
-                                    navigateTo: const CompareProductScreen()),
-                              MenuButtonWidget(
-                                  image: Images.notification,
-                                  title: getTranslated(
-                                    'notification',
-                                    context,
-                                  ),
-                                  isNotification: true,
-                                  navigateTo: const NotificationScreen()),
-                              MenuButtonWidget(
-                                  image: Images.settings,
-                                  title: getTranslated('settings', context),
-                                  navigateTo: const SettingsScreen())
-                            ]))),
+                        child: Column(children: [
+                          MenuButtonWidget(
+                              icon: Iconsax.sms_tracking,
+                              title: getTranslated('TRACK_ORDER', context),
+                              navigateTo: const GuestTrackOrderScreen()),
+                          if (Provider.of<AuthController>(context,
+                                  listen: false)
+                              .isLoggedIn())
+                            MenuButtonWidget(
+                                icon: Iconsax.user,
+                                title: getTranslated('profile', context),
+                                navigateTo: const ProfileScreen()),
+                          MenuButtonWidget(
+                              icon: Iconsax.location,
+                              title: getTranslated('addresses', context),
+                              navigateTo: const AddressListScreen()),
+                          MenuButtonWidget(
+                              icon: Iconsax.ticket_discount,
+                              title: getTranslated('coupons', context),
+                              navigateTo: const CouponList()),
+                          if (!isGuestMode)
+                            MenuButtonWidget(
+                                icon: Iconsax.refresh,
+                                title: getTranslated('refer_and_earn', context),
+                                isProfile: true,
+                                navigateTo: const ReferAndEarnScreen()),
+                          MenuButtonWidget(
+                              icon: Iconsax.category,
+                              title: getTranslated('CATEGORY', context),
+                              navigateTo: const CategoryScreen()),
+                          // if (splashController.configModel!.activeTheme !=
+                          //         "default" &&
+                          //     authController.isLoggedIn())
+                          //   MenuButtonWidget(
+
+                          //       title:
+                          //           getTranslated('compare_products', context),
+                          //       navigateTo: const CompareProductScreen()),
+                          // MenuButtonWidget(
+                          //   ico
+                          //     title: getTranslated(
+                          //       'notification',
+                          //       context,
+                          //     ),
+                          //     isNotification: true,
+                          //     navigateTo: const NotificationScreen()),
+                          MenuButtonWidget(
+                              icon: Iconsax.setting,
+                              title: getTranslated('settings', context),
+                              navigateTo: const SettingsScreen())
+                        ])),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(
                             Dimensions.paddingSizeDefault,
@@ -233,20 +228,20 @@ class _MoreScreenState extends State<MoreScreen> {
                               singleVendor
                                   ? const SizedBox()
                                   : MenuButtonWidget(
-                                      image: Images.chats,
+                                      icon: Iconsax.direct_inbox,
                                       title: getTranslated('inbox', context),
                                       navigateTo: const InboxScreen()),
                               MenuButtonWidget(
-                                  image: Images.callIcon,
+                                  icon: Iconsax.call_add,
                                   title: getTranslated('contact_us', context),
                                   navigateTo: const ContactUsScreen()),
                               MenuButtonWidget(
-                                  image: Images.preference,
+                                  icon: Iconsax.ticket_star,
                                   title:
                                       getTranslated('support_ticket', context),
                                   navigateTo: const SupportTicketScreen()),
                               MenuButtonWidget(
-                                  image: Images.termCondition,
+                                  icon: Iconsax.note,
                                   title:
                                       getTranslated('terms_condition', context),
                                   navigateTo: HtmlViewScreen(
@@ -258,7 +253,7 @@ class _MoreScreenState extends State<MoreScreen> {
                                         .termsConditions,
                                   )),
                               MenuButtonWidget(
-                                  image: Images.privacyPolicy,
+                                  icon: Icons.privacy_tip_outlined,
                                   title:
                                       getTranslated('privacy_policy', context),
                                   navigateTo: HtmlViewScreen(
@@ -276,7 +271,7 @@ class _MoreScreenState extends State<MoreScreen> {
                                       .status ==
                                   1)
                                 MenuButtonWidget(
-                                    image: Images.termCondition,
+                                    icon: Iconsax.refresh_left_square,
                                     title:
                                         getTranslated('refund_policy', context),
                                     navigateTo: HtmlViewScreen(
@@ -296,7 +291,7 @@ class _MoreScreenState extends State<MoreScreen> {
                                       .status ==
                                   1)
                                 MenuButtonWidget(
-                                    image: Images.termCondition,
+                                    icon: Iconsax.money_recive,
                                     title:
                                         getTranslated('return_policy', context),
                                     navigateTo: HtmlViewScreen(
@@ -316,7 +311,7 @@ class _MoreScreenState extends State<MoreScreen> {
                                       .status ==
                                   1)
                                 MenuButtonWidget(
-                                    image: Images.termCondition,
+                                    icon: Iconsax.truck_remove,
                                     title: getTranslated(
                                         'cancellation_policy', context),
                                     navigateTo: HtmlViewScreen(
@@ -330,13 +325,13 @@ class _MoreScreenState extends State<MoreScreen> {
                                           .content,
                                     )),
                               MenuButtonWidget(
-                                  image: Images.faq,
+                                  icon: Iconsax.message_question,
                                   title: getTranslated('faq', context),
                                   navigateTo: FaqScreen(
                                     title: getTranslated('faq', context),
                                   )),
                               MenuButtonWidget(
-                                  image: Images.user,
+                                  icon: Iconsax.user,
                                   title: getTranslated('about_us', context),
                                   navigateTo: HtmlViewScreen(
                                     title: getTranslated('about_us', context),
