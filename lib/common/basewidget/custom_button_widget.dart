@@ -17,22 +17,40 @@ class CustomButton extends StatelessWidget {
   final String? leftIcon;
   final double? borderWidth;
 
-  const CustomButton({super.key, this.onTap, required this.buttonText, this.isBuy= false, this.isBorder = false, this.backgroundColor, this.radius, this.textColor, this.fontSize, this.leftIcon, this.borderColor, this.borderWidth});
+  const CustomButton(
+      {super.key,
+      this.onTap,
+      required this.buttonText,
+      this.isBuy = false,
+      this.isBorder = false,
+      this.backgroundColor,
+      this.radius,
+      this.textColor,
+      this.fontSize,
+      this.leftIcon,
+      this.borderColor,
+      this.borderWidth});
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return FilledButton(
       onPressed: onTap,
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          if(leftIcon != null)
-          Padding(padding: const EdgeInsets.only(right: 5),
-            child: SizedBox(width: 30, child: Padding(
-              padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-              child: Image.asset(leftIcon!),
-            )),
-          ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (leftIcon != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: SizedBox(
+                  width: 30,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                    child: Image.asset(leftIcon!),
+                  )),
+            ),
           Flexible(
-            child: Text(buttonText??""),
+            child: Text(buttonText ?? ""),
           ),
         ],
       ),

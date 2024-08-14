@@ -104,7 +104,11 @@ class ProductListWidget extends StatelessWidget {
                       shrinkWrap: true,
                       padding: const EdgeInsets.all(0),
                       itemBuilder: (BuildContext context, int index) {
-                        return ProductWidget(productModel: productList![index]);
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2),
+                          child:
+                              ProductWidget(productModel: productList![index]),
+                        );
                       },
                     )
                   : const NoInternetOrDataScreenWidget(isNoInternet: false)

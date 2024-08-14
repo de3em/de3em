@@ -5,7 +5,7 @@ ThemeData dark = ThemeData(
   colorSchemeSeed: Colors.orange,
   // primaryColor: Colors.black,
   brightness: Brightness.dark,
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+  // colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
   // highlightColor: const Color(0xFF252525),
   // hintColor: const Color(0xFFc7c7c7),
   // cardColor: const Color(0xFF242424),

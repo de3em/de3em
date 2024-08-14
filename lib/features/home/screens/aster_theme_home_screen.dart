@@ -720,8 +720,7 @@ class _AsterThemeHomeScreenState extends State<AsterThemeHomeScreen> {
                     }),
 
                     Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: Dimensions.homePagePadding),
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
                         child: ProductListWidget(
                             isHomePage: false,
                             productType: ProductType.newArrival,

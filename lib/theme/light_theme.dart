@@ -5,7 +5,7 @@ ThemeData light = ThemeData(
   // primaryColor: Colors.black,
   brightness: Brightness.light,
   // colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
-  colorSchemeSeed: Colors.orange,
+  colorSchemeSeed: Colors.blueAccent,
 
   // highlightColor: Colors.white,
   // hintColor: const Color(0xFF9E9E9E),

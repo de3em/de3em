@@ -756,10 +756,36 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                             textColor: Theme.of(context).colorScheme.error,
                             buttonText: getTranslated('out_of_stock', context))
                         : Provider.of<CartController>(context).addToCartLoading
-                            ? const Center(
+                            ? Center(
                                 child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: CircularProgressIndicator()))
+                                padding: EdgeInsets.all(8.0),
+                                child: OutlinedButton.icon(
+                                    style: OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                    ),
+                                    label: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          getTranslated(
+                                                  "Loading...", context) ??
+                                              "Loading...",
+                                        ),
+                                        const SizedBox(width: 5),
+                                        SizedBox(
+                                          width: 20.0,
+                                          height: 20.0,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 1.9,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    onPressed: null),
+                              ))
                             : Container(
                                 // color: Theme.of(context).colorScheme.onTertiary,
                                 child: Padding(
@@ -862,7 +888,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
       Response<dynamic>? response) {
     if (response!.data['status'] == 1) {
       CartModel cart = CartModel.fromJson(response.data['cart']);
-      _navigateToCheckoutScreen(context, cart, 0);
+      _navigateToCheckoutScreen(context, cart, 0, []);
     } else if (response.data['status'] == 2) {
       List<ShippingMethodModel>? shippingMethodList = [];
 
@@ -879,8 +905,8 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
     }
   }
 
-  void _navigateToCheckoutScreen(
-      BuildContext context, CartModel cart, double shippingCost) {
+  void _navigateToCheckoutScreen(BuildContext context, CartModel cart,
+      double shippingCost, List<ShippingMethodModel>? shippingList) {
     final double discount = cart.discount! * cart.quantity!;
     final double amount = (cart.price! - cart.discount!) * cart.quantity!;
     final int totalQuantity = cart.quantity ?? 0;
@@ -899,6 +925,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
     print('======ShippingAmount=====>>>${shippingAmount}');
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => CheckoutScreen(
+            shippingMethodList: shippingList,
             cartList: [cart],
             discount: discount,
             tax: tax,

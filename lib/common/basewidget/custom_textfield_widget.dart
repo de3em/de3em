@@ -44,9 +44,10 @@ class CustomTextFieldWidget extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final Function(CountryCode countryCode)? onCountryChanged;
   final bool required;
-
+  final String? bellowTextField;
   const CustomTextFieldWidget({
     super.key,
+    this.bellowTextField,
     this.hintText = 'Write something...',
     this.controller,
     this.focusNode,
@@ -155,11 +156,12 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
           decoration: InputDecoration(
               alignLabelWithHint: true,
               border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(
-                    color: widget.borderColor,
-                    width: widget.showBorder ? 0 : .75,
-                  )),
+                borderRadius: BorderRadius.circular(15),
+                // borderSide: BorderSide(
+                //   color: widget.borderColor,
+                //   width: widget.showBorder ? 0 : .75,
+                // )),
+              ),
               focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(
@@ -179,17 +181,11 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                   : null,
               filled: widget.filled,
               // labelText : widget.showLabelText? widget.labelText?? widget.hintText : null,
-              labelStyle: widget.showLabelText
-                  ? textRegular.copyWith(
-                      fontSize: Dimensions.fontSizeDefault,
-                      color: Theme.of(context).hintColor)
-                  : null,
+
               label: Text.rich(TextSpan(children: [
                 TextSpan(
-                    text: widget.labelText ?? '',
-                    style: textRegular.copyWith(
-                        fontSize: Dimensions.fontSizeLarge,
-                        color: Theme.of(context).hintColor.withOpacity(.75))),
+                  text: widget.labelText ?? '',
+                ),
                 if (widget.required && widget.labelText != null)
                   TextSpan(
                       text: ' *',
@@ -198,13 +194,8 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
                           fontSize: Dimensions.fontSizeLarge))
               ])),
               hintText: widget.hintText,
-              hintStyle: widget.showLabelText
-                  ? null
-                  : textRegular.copyWith(
-                      fontSize: Dimensions.fontSizeDefault,
-                      color: Theme.of(context).hintColor),
               contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               prefixIcon: widget.prefixIcon != null
                   ? InkWell(
                       onTap: widget.prefixOnTap,
@@ -292,6 +283,13 @@ class _CustomTextFieldWidgetState extends State<CustomTextFieldWidget> {
               : null,
           onChanged: widget.onChanged,
         ),
+        if (widget.bellowTextField != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 5, left: 5),
+            child: Text(widget.bellowTextField!,
+                style: textRegular.copyWith(
+                    color: Theme.of(context).hintColor.withOpacity(.6))),
+          ),
       ],
     );
   }

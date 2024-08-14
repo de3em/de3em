@@ -174,13 +174,11 @@ class _ProductWidgetState extends State<ProductWidget> {
                   ),
                   if (widget.productModel.currentStock! == 0 &&
                       widget.productModel.productType == 'physical')
-                    Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: Dimensions.paddingSizeExtraSmall),
-                        child: Text(
-                            getTranslated('out_of_stock', context) ?? '',
-                            style: textRegular.copyWith(
-                                color: const Color(0xFFF36A6A)))),
+                    Text(getTranslated('out_of_stock', context) ?? '',
+                        style: textRegular.copyWith(
+                            fontSize: Dimensions.fontSizeSmall,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xFFF36A6A))),
                   widget.productModel.discount != null &&
                           widget.productModel.discount! > 0
                       ? Text(
