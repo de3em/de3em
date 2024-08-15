@@ -192,6 +192,9 @@ class _AsterThemeHomeScreenState extends State<AsterThemeHomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 20,
+                    ),
                     const BannersWidget(),
                     const SizedBox(height: Dimensions.homePagePadding),
 
