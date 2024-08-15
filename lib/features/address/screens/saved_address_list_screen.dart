@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/controllers/address_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/address/widgets/address_shimmer.dart';
 import 'package:flutter_sixvalley_ecommerce/features/checkout/controllers/checkout_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/form_checkout.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
@@ -32,8 +33,15 @@ class _SavedAddressListScreenState extends State<SavedAddressListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => const AddNewAddressScreen(isBilling: false))),
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return const FormCheckout();
+                });
+            //  Navigator.of(context).push(MaterialPageRoute(
+            //   builder: (_) => const AddNewAddressScreen(isBilling: false)))
+          },
           backgroundColor: ColorResources.getPrimary(context),
           child: Icon(Icons.add, color: Theme.of(context).highlightColor)),
       appBar: CustomAppBar(

@@ -166,6 +166,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                         Stack(
                           children: [
                             SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
                               child: Row(
                                 children: [
                                   if (widget.product!.images!.length == 1) ...[
@@ -192,7 +193,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                                     ),
                                   ] else ...[
                                     for (int i = 0;
-                                        i < widget.product!.images!.length;
+                                        i < widget.product!.colorImage!.length;
                                         i++)
                                       Container(
                                         height: 300,
@@ -201,19 +202,8 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           image: DecorationImage(
-                                              image: NetworkImage((widget
-                                                              .product!
-                                                              .colors !=
-                                                          null &&
-                                                      widget.product!.colors!
-                                                          .isNotEmpty &&
-                                                      widget.product!.images !=
-                                                          null &&
-                                                      widget.product!.images!
-                                                          .isNotEmpty)
-                                                  ? '${Provider.of<SplashController>(context, listen: false).baseUrls!.productImageUrl}/$colorWiseSelectedImage'
-                                                  : '${Provider.of<SplashController>(context, listen: false).baseUrls!.productThumbnailUrl}/'
-                                                      '${widget.product!.thumbnail}'),
+                                              image: NetworkImage(
+                                                  '${widget.product!.colorImage![i].imageName}'),
                                               fit: BoxFit.contain),
                                         ),
                                       ),
@@ -544,9 +534,9 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                                                               .highlightColor,
                                                 ),
                                                 child: Container(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                          horizontal: 10),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10),
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(

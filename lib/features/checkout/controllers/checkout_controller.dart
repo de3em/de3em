@@ -182,7 +182,7 @@ class CheckoutController with ChangeNotifier {
       _paymentMethodIndex = -1;
     }
 
-    notifyListeners();
+    // notifyListeners();
   }
 
   String selectedDigitalPaymentMethodName = '';
