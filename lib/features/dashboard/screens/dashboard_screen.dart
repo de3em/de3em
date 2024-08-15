@@ -136,17 +136,17 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                     color: Colors.grey,
                     size: 30,
                   )),
-              ItemNavigationView(
-                  childAfter: Icon(
-                    IconlyBold.bag,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 30,
-                  ),
-                  childBefore: Icon(
-                    IconlyLight.bag,
-                    color: Colors.grey.withAlpha(60),
-                    size: 30,
-                  )),
+              // ItemNavigationView(
+              //     childAfter: Icon(
+              //       IconlyBold.bag,
+              //       color: Theme.of(context).colorScheme.primary,
+              //       size: 30,
+              //     ),
+              //     childBefore: Icon(
+              //       IconlyLight.bag,
+              //       color: Colors.grey.withAlpha(60),
+              //       size: 30,
+              //     )),
               ItemNavigationView(
                   childAfter: Icon(
                     IconlyBold.chat,
@@ -182,7 +182,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
 
   void _setPage(int pageIndex) {
     setState(() {
-      _pageIndex = pageIndex;
+      _pageIndex = pageIndex.clamp(0, 3);
     });
   }
 
