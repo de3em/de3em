@@ -21,7 +21,7 @@ class NoInternetOrDataScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(padding: EdgeInsets.all(MediaQuery.of(context).size.height*0.025),
       child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Image.asset(isNoInternet ? Images.noInternet :icon != null? icon! : Images.noData, width: 75),
+            Image.asset(isNoInternet ? Images.noInternet :icon != null? icon! : Images.noData, width: 75,),
             if(isNoInternet)
             Text(getTranslated('OPPS', context)!, style: titilliumBold.copyWith(fontSize: 30,
               color: Colors.white)),
