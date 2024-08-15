@@ -178,15 +178,15 @@ class _AsterThemeHomeScreenState extends State<AsterThemeHomeScreen> {
               ),
 
               // Search Button
-              SliverPersistentHeader(
-                  pinned: true,
-                  delegate: SliverDelegate(
-                      child: InkWell(
-                          onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const SearchScreen())),
-                          child: const SearchHomePageWidget()))),
+              // SliverPersistentHeader(
+              //     pinned: true,
+              //     delegate: SliverDelegate(
+              //         child: InkWell(
+              //             onTap: () => Navigator.push(
+              //                 context,
+              //                 MaterialPageRoute(
+              //                     builder: (_) => const SearchScreen())),
+              //             child: const SearchHomePageWidget()))),
 
               SliverToBoxAdapter(
                 child: Column(

@@ -37,7 +37,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
             .configModel!
             .businessMode ==
         "single";
-
+    _setPage(3);
     _screens = [
       NavigationModel(
         name: 'home',
@@ -113,23 +113,23 @@ class DashBoardScreenState extends State<DashBoardScreen> {
             items: [
               ItemNavigationView(
                   childAfter: Icon(
-                    IconlyBold.bag,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 30,
-                  ),
-                  childBefore: Icon(
-                    IconlyLight.bag,
-                    color: Colors.grey.withAlpha(60),
-                    size: 30,
-                  )),
-              ItemNavigationView(
-                  childAfter: Icon(
                     IconlyBold.user_2,
                     color: Theme.of(context).colorScheme.primary,
                     size: 30,
                   ),
                   childBefore: Icon(
                     IconlyLight.user,
+                    color: Colors.grey.withAlpha(60),
+                    size: 30,
+                  )),
+              ItemNavigationView(
+                  childAfter: Icon(
+                    IconlyBold.bag,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 30,
+                  ),
+                  childBefore: Icon(
+                    IconlyLight.bag,
                     color: Colors.grey.withAlpha(60),
                     size: 30,
                   )),

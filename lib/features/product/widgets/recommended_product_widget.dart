@@ -173,7 +173,7 @@ class RecommendedProductWidget extends StatelessWidget {
                                         children: [
                                           recommended.recommendedProduct != null && recommended.recommendedProduct!.thumbnail != null
                                               ? Container(
-                                                  width: 135,
+                                                  width: 160,
                                                   height: (recommended
                                                                   .recommendedProduct!
                                                                   .currentStock! <
@@ -205,6 +205,23 @@ class RecommendedProductWidget extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
+                                                SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2.5,
+                                                    child: Text(
+                                                        recommended
+                                                                .recommendedProduct!
+                                                                .name ??
+                                                            '',
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: textRegular
+                                                            .copyWith())),
+
                                                 if (recommended
                                                             .recommendedProduct!
                                                             .currentStock! ==
@@ -224,43 +241,9 @@ class RecommendedProductWidget extends StatelessWidget {
                                                           style: textRegular.copyWith(
                                                               color: const Color(0xFFF36A6A)))),
 
-                                                Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Icon(Icons.star,
-                                                          color: Provider.of<
-                                                                          ThemeController>(
-                                                                      context)
-                                                                  .darkTheme
-                                                              ? Colors.white
-                                                              : Colors.orange,
-                                                          size: 15),
-                                                      Text(
-                                                          double.parse(ratting!)
-                                                              .toStringAsFixed(
-                                                                  1),
-                                                          style: titilliumBold
-                                                              .copyWith(
-                                                                  fontSize:
-                                                                      Dimensions
-                                                                          .fontSizeDefault)),
-                                                      Text(
-                                                          '(${recommended.recommendedProduct?.reviewCount ?? '0'})',
-                                                          style: textRegular.copyWith(
-                                                              fontSize: Dimensions
-                                                                  .fontSizeDefault,
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .hintColor)),
-                                                    ]),
-                                                // const SizedBox(height: Dimensions.paddingSizeSmall,),
+                                                //  ox(height: Dimensions.paddingSizeSmall,),
 
-                                                FittedBox(
-                                                    child: Row(children: [
+                                                Row(children: [
                                                   const SizedBox(
                                                       height: Dimensions
                                                           .paddingSizeExtraExtraSmall),
@@ -297,7 +280,8 @@ class RecommendedProductWidget extends StatelessWidget {
                                                   // const SizedBox(height: Dimensions.paddingSizeExtraExtraSmall,
                                                   //     width: Dimensions.paddingSizeExtraSmall),
 
-                                                  recommended.recommendedProduct != null &&
+                                                  recommended.recommendedProduct !=
+                                                              null &&
                                                           recommended
                                                                   .recommendedProduct!
                                                                   .unitPrice !=
@@ -313,49 +297,84 @@ class RecommendedProductWidget extends StatelessWidget {
                                                               discount: recommended
                                                                   .recommendedProduct!
                                                                   .discount),
-                                                          style: textBold.copyWith(
-                                                              color: ColorResources.getPrimary(context),
-                                                              fontSize: Dimensions.fontSizeLarge))
+                                                          style:
+                                                              textBold.copyWith(
+                                                            color: ColorResources
+                                                                .getPrimary(
+                                                                    context),
+                                                          ))
                                                       : const SizedBox(),
-                                                ])),
+                                                ]),
                                                 // const SizedBox(height: Dimensions.paddingSizeSmall,),
-
                                                 SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            2.5,
-                                                    child: Text(
-                                                        recommended
-                                                                .recommendedProduct!
-                                                                .name ??
-                                                            '',
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: textRegular.copyWith(
-                                                            fontSize: Dimensions
-                                                                .fontSizeLarge))),
-
+                                                  height: 55,
+                                                ),
                                                 Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        top: 0),
-                                                    child: Container(
-                                                        width: 110,
-                                                        height: 35,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius: const BorderRadius.all(
-                                                                Radius.circular(
-                                                                    Dimensions
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 0),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Container(
+                                                            width: 110,
+                                                            height: 35,
+                                                            decoration: BoxDecoration(
+                                                                borderRadius: const BorderRadius.all(
+                                                                    Radius.circular(Dimensions
                                                                         .paddingSizeOverLarge)),
-                                                            color: Theme.of(context)
-                                                                .primaryColor),
-                                                        child: Center(
-                                                            child: Text(
-                                                                getTranslated(
-                                                                    'buy_now', context)!,
-                                                                style: const TextStyle(color: Colors.white)))))
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .primaryColor),
+                                                            child: Center(
+                                                                child: Text(
+                                                                    getTranslated(
+                                                                        'buy_now',
+                                                                        context)!,
+                                                                    style: const TextStyle(
+                                                                        color: Colors.white)))),
+                                                        Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Icon(Icons.star,
+                                                                  color: Provider.of<ThemeController>(
+                                                                              context)
+                                                                          .darkTheme
+                                                                      ? Colors
+                                                                          .white
+                                                                      : Colors
+                                                                          .orange,
+                                                                  size: 15),
+                                                              Text(
+                                                                  double.parse(
+                                                                          ratting!)
+                                                                      .toStringAsFixed(
+                                                                          1),
+                                                                  style: titilliumBold
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              Dimensions.fontSizeDefault)),
+                                                              Text(
+                                                                  '(${recommended.recommendedProduct?.reviewCount ?? '0'})',
+                                                                  style: textRegular.copyWith(
+                                                                      fontSize:
+                                                                          Dimensions
+                                                                              .fontSizeDefault,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .hintColor)),
+                                                            ]),
+                                                      ],
+                                                    )),
+
+                                                // const SizedB
                                               ],
                                             ),
                                           ),

@@ -12,24 +12,16 @@ class SearchHomePageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding, vertical: Dimensions.paddingSizeSmall),
+      padding: const EdgeInsets.symmetric(
+          horizontal: Dimensions.homePagePadding,
+          vertical: Dimensions.paddingSizeSmall),
       alignment: Alignment.center,
       child: Container(
         height: 40,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          boxShadow: Provider.of<ThemeController>(context).darkTheme
-              ? null
-              : [
-                  BoxShadow(
-                    color: Theme.of(context).hintColor.withOpacity(.1),
-                    spreadRadius: 1,
-                    blurRadius: 1,
-                    offset: const Offset(0, 0),
-                  ),
-                ],
-          borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Theme.of(context).primaryColor, width: 2),
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -37,20 +29,19 @@ class SearchHomePageWidget extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: Provider.of<ThemeController>(context, listen: false).darkTheme ? Colors.white : Theme.of(context).cardColor,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(
-                  Dimensions.paddingSizeExtraSmall,
-                ),
-              ),
-            ),
+                color: Provider.of<ThemeController>(context, listen: false)
+                        .darkTheme
+                    ? Colors.white
+                    : Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(10)),
             child: Icon(
               Icons.search,
               color: Theme.of(context).primaryColor,
               size: Dimensions.iconSizeSmall,
             ),
           ),
-          Text(getTranslated('search_hint', context) ?? '', style: textRegular.copyWith(color: Theme.of(context).hintColor)),
+          Text(getTranslated('search_hint', context) ?? '',
+              style: textRegular.copyWith(color: Theme.of(context).hintColor)),
         ]),
       ),
     );
