@@ -42,10 +42,10 @@ class ProfileScreenInfo extends StatelessWidget {
                 title: getTranslated('refer_and_earn', context),
                 isProfile: true,
                 navigateTo: const ReferAndEarnScreen()),
-          MenuButtonWidget(
-              icon: Iconsax.category,
-              title: getTranslated('CATEGORY', context),
-              navigateTo: const CategoryScreen()),
+          // MenuButtonWidget(
+          //     icon: Iconsax.category,
+          //     title: getTranslated('CATEGORY', context),
+          //     navigateTo: const CategoryScreen()),
         ],
       ),
     );

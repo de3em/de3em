@@ -31,6 +31,7 @@ import 'package:flutter_sixvalley_ecommerce/features/setting/screens/settings_sc
 import 'package:iconly/iconly.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'faq_screen_view.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/widgets/title_button_widget.dart';
 
@@ -161,11 +162,11 @@ class _MoreScreenState extends State<MoreScreen> {
                             onPressed: () {}, child: Icon(Iconsax.arrow_right)),
                         leading: Icon(Iconsax.user, color: Colors.grey),
 
-                        title: Text("Profile Informations"),
+                        title: Text("المعلومات الشخصية"),
                         subtitleTextStyle:
                             TextStyle(color: Colors.grey, fontSize: 13),
                         subtitle:
-                            Text("View and edit your profile informations"),
+                            Text("عرض وتعديل معلوماتي الشخصية"),
                         // MenuButtonWidget(
                         //     icon: Iconsax.sms_tracking,
                         //     title: getTranslated('TRACK_ORDER', context),
@@ -202,6 +203,16 @@ class _MoreScreenState extends State<MoreScreen> {
                           getTranslated('help_and_support', context) ?? ""),
                       enabled: false,
                     ),
+
+                    // become a seller (open sellwithus.da3em.net)
+                    ListTile(
+                      leading: Icon(Iconsax.shop, color: Colors.red),
+                      title: Text("أفتح متجرك في داعم"),
+                      onTap: () {
+                        launchUrlString("http://sellwithus.da3em.net");
+                      },
+                    ),
+
                     Column(children: [
                       // singleVendor
                       //     ? const SizedBox()
@@ -217,6 +228,8 @@ class _MoreScreenState extends State<MoreScreen> {
                           icon: Iconsax.ticket_star,
                           title: getTranslated('support_ticket', context),
                           navigateTo: const SupportTicketScreen()),
+
+                        
                       // MenuButtonWidget(
                       //     icon: Iconsax.note,
                       //     title: getTranslated('terms_condition', context),

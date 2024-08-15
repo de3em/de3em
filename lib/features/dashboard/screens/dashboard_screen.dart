@@ -101,7 +101,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                     size: 30,
                   ),
                   childBefore: const Icon(
-                    IconlyLight.bag,
+                    IconlyLight.more_circle,
                     color: Colors.grey,
                     size: 30,
                   )),
