@@ -303,11 +303,11 @@ class CheckoutController with ChangeNotifier {
     return apiResponse;
   }
 
-  bool sameAsBilling = true;
-  // void setSameAsBilling() {
-  //   sameAsBilling = true; // it was !sameAsBilling
-  //   notifyListeners();
-  // }
+  bool sameAsBilling = false;
+
+  void setSameAsBilling() {
+    sameAsBilling = true; // it was !sameAsBilling
+  }
 
   void clearData() {
     orderNoteController.clear();

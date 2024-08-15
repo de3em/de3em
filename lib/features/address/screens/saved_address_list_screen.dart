@@ -33,17 +33,16 @@ class _SavedAddressListScreenState extends State<SavedAddressListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return const FormCheckout();
-                });
-            //  Navigator.of(context).push(MaterialPageRoute(
-            //   builder: (_) => const AddNewAddressScreen(isBilling: false)))
-          },
-          backgroundColor: ColorResources.getPrimary(context),
-          child: Icon(Icons.add, color: Theme.of(context).highlightColor)),
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return const FormCheckout();
+              });
+          //  Navigator.of(context).push(MaterialPageRoute(
+          //   builder: (_) => const AddNewAddressScreen(isBilling: false)))
+        },
+      ),
       appBar: CustomAppBar(
           title: widget.fromGuest
               ? getTranslated('ADDRESS_LIST', context)

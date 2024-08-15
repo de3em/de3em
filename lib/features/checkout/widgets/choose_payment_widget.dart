@@ -19,88 +19,93 @@ class ChoosePaymentWidget extends StatelessWidget {
     return Consumer<CheckoutController>(builder: (context, orderProvider, _) {
       return Consumer<SplashController>(builder: (context, configProvider, _) {
         return SizedBox(
-            child: ListTile(
-          onTap: () {
-            showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (c) => PaymentMethodBottomSheetWidget(
-                      onlyDigital: onlyDigital,
-                    ));
-          },
-          trailing: Icon((IconlyLight.arrow_right)),
-          title: Row(
-            children: [
-              Text('${getTranslated('payment_method', context)}',
-                  style: textMedium.copyWith(
-                      fontSize: 13, fontWeight: FontWeight.bold)),
-            ],
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: Dimensions.paddingSizeDefault,
-              ),
-              (orderProvider.paymentMethodIndex != -1)
-                  ? Row(
-                      children: [
-                        SizedBox(
-                            width: 40,
-                            child: CustomImageWidget(
-                                image:
-                                    '${configProvider.configModel?.paymentMethodImagePath}/${configProvider.configModel!.paymentMethods![orderProvider.paymentMethodIndex].additionalDatas!.gatewayImage ?? ''}')),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Dimensions.paddingSizeSmall),
-                          child: Text(configProvider
-                                  .configModel!
-                                  .paymentMethods![
-                                      orderProvider.paymentMethodIndex]
-                                  .additionalDatas!
-                                  .gatewayTitle ??
-                              ''),
-                        ),
-                      ],
-                    )
-                  : orderProvider.codChecked
-                      ? Text(
-                          getTranslated('cash_on_delivery', context) ?? '',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        )
-                      : orderProvider.offlineChecked
-                          ? Text(
-                              getTranslated('offline_payment', context) ?? '')
-                          : orderProvider.walletChecked
-                              ? Text(getTranslated('wallet_payment', context) ??
-                                  '')
-                              : InkWell(
-                                  onTap: () => showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      backgroundColor: Colors.transparent,
-                                      builder: (c) =>
-                                          PaymentMethodBottomSheetWidget(
-                                            onlyDigital: onlyDigital,
-                                          )),
-                                  child: Row(children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          right: Dimensions.paddingSizeSmall),
-                                      child: Icon(IconlyLight.paper,
-                                          size: 20,
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                    ),
-                                    Text(
-                                        '${getTranslated('add_payment_method', context)}',
-                                        style: titilliumRegular.copyWith(
-                                            fontSize: Dimensions.fontSizeSmall),
-                                        maxLines: 3,
-                                        overflow: TextOverflow.fade)
-                                  ])),
-            ],
+            child: Container(
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+          child: ListTile(
+            onTap: () {
+              showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (c) => PaymentMethodBottomSheetWidget(
+                        onlyDigital: onlyDigital,
+                      ));
+            },
+            trailing: Icon((IconlyLight.arrow_right)),
+            title: Row(
+              children: [
+                Text('${getTranslated('payment_method', context)}',
+                    style: textMedium.copyWith(
+                        fontSize: 13, fontWeight: FontWeight.bold)),
+              ],
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: Dimensions.paddingSizeDefault,
+                ),
+                (orderProvider.paymentMethodIndex != -1)
+                    ? Row(
+                        children: [
+                          SizedBox(
+                              width: 40,
+                              child: CustomImageWidget(
+                                  image:
+                                      '${configProvider.configModel?.paymentMethodImagePath}/${configProvider.configModel!.paymentMethods![orderProvider.paymentMethodIndex].additionalDatas!.gatewayImage ?? ''}')),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: Dimensions.paddingSizeSmall),
+                            child: Text(configProvider
+                                    .configModel!
+                                    .paymentMethods![
+                                        orderProvider.paymentMethodIndex]
+                                    .additionalDatas!
+                                    .gatewayTitle ??
+                                ''),
+                          ),
+                        ],
+                      )
+                    : orderProvider.codChecked
+                        ? Text(
+                            getTranslated('cash_on_delivery', context) ?? '',
+                            style: Theme.of(context).textTheme.bodySmall,
+                          )
+                        : orderProvider.offlineChecked
+                            ? Text(
+                                getTranslated('offline_payment', context) ?? '')
+                            : orderProvider.walletChecked
+                                ? Text(
+                                    getTranslated('wallet_payment', context) ??
+                                        '')
+                                : InkWell(
+                                    onTap: () => showModalBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.transparent,
+                                        builder: (c) =>
+                                            PaymentMethodBottomSheetWidget(
+                                              onlyDigital: onlyDigital,
+                                            )),
+                                    child: Row(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: Dimensions.paddingSizeSmall),
+                                        child: Icon(IconlyLight.paper,
+                                            size: 20,
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                      ),
+                                      Text(
+                                          '${getTranslated('add_payment_method', context)}',
+                                          style: titilliumRegular.copyWith(
+                                              fontSize:
+                                                  Dimensions.fontSizeSmall),
+                                          maxLines: 3,
+                                          overflow: TextOverflow.fade)
+                                    ])),
+              ],
+            ),
           ),
         ));
       });

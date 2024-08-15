@@ -437,7 +437,8 @@ class RecommendedProductWidget extends StatelessWidget {
                                                               .discountType),
                                                   style: textRegular.copyWith(
                                                       color: Theme.of(context)
-                                                          .highlightColor,
+                                                          .colorScheme
+                                                          .onPrimary,
                                                       fontSize: Dimensions
                                                           .fontSizeSmall),
                                                 ),

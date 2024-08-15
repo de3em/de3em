@@ -1,6 +1,13 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_sixvalley_ecommerce/features/address/controllers/address_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/address/domain/models/address_model.dart';
+import 'package:flutter_sixvalley_ecommerce/features/checkout/controllers/checkout_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 
 class FormCheckout extends StatefulWidget {
   const FormCheckout({super.key});
@@ -10,165 +17,316 @@ class FormCheckout extends StatefulWidget {
 }
 
 class _FormCheckoutState extends State<FormCheckout> {
-  String _currentWillaya = "0";
+  int _currentWillaya = 0;
+  int _currentBaladiya = 0;
+  final TextEditingController _contactPersonNameController =
+      TextEditingController();
+  final TextEditingController _contactPersonEmailController =
+      TextEditingController();
+  final TextEditingController _contactPersonNumberController =
+      TextEditingController();
+  final TextEditingController _willayaController = TextEditingController();
+
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _zipCodeController = TextEditingController();
+  final TextEditingController _countryCodeController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _contactPersonNameController.text =
+        Provider.of<ProfileController>(context, listen: false)
+                .userInfoModel!
+                .fName ??
+            "";
+    _contactPersonEmailController.text =
+        Provider.of<ProfileController>(context, listen: false)
+                .userInfoModel!
+                .email ??
+            "";
+    _contactPersonNumberController.text =
+        Provider.of<ProfileController>(context, listen: false)
+                .userInfoModel!
+                .phone ??
+            "";
+  }
+
+  @override
+  void dispose() {
+    _contactPersonNameController.dispose();
+    _contactPersonEmailController.dispose();
+    _contactPersonNumberController.dispose();
+    _cityController.dispose();
+    _zipCodeController.dispose();
+    _countryCodeController.dispose();
+
+    super.dispose();
+  }
+
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          title: Text("Adress Informations"),
-          enabled: false,
-        ),
-        CustomTextField(
-          controller: TextEditingController(),
-          label: 'Full Name',
-          hintText: 'Enter your full name',
-          prefixIcon: const Icon(Icons.person),
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'Please enter your full name';
-            }
-            return null;
-          },
-        ),
-        CustomTextField(
-          controller: TextEditingController(),
-          label: 'Phone Number',
-          hintText: 'Enter your phone number',
-          prefixIcon: const Icon(Icons.phone),
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'Please enter your phone number';
-            }
-            return null;
-          },
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: DropdownMenu(
-                inputDecorationTheme: InputDecorationTheme(
-                  filled: true,
-                  fillColor: Theme.of(context)
-                      .colorScheme
-                      .surfaceContainerHighest
-                      .withOpacity(0.5),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  hintStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
-                ),
-                // width: MediaQuery.of(context).size.width * 0.333,
-                hintText: "Willaya",
-                leadingIcon: const Icon(Iconsax.category),
-                enableFilter: true,
-                menuStyle: MenuStyle(
-                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-                  // fixedSize: WidgetStatePropertyAll(
-                  //     Size(MediaQuery.of(context).size.width * 0.15, 300)),
-                  padding: const WidgetStatePropertyAll(
-                      EdgeInsets.symmetric(vertical: 3)),
-                ),
-                onSelected: (value) {
-                  _currentWillaya = value;
-                  setState(() {});
+    return Consumer<AddressController>(builder: (context, value, child) {
+      return Form(
+        key: formKey,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.45,
+          child: Column(
+            children: [
+              ListTile(
+                leading: Icon(Iconsax.location),
+                title: Text("Address Informations"),
+                enabled: false,
+              ),
+              CustomTextField(
+                controller: _contactPersonNameController,
+                label: 'Full Name',
+                hintText: 'Enter your full name',
+                prefixIcon: const Icon(Icons.person),
+                validator: (value) {
+                  if (value!.isEmpty || value == "") {
+                    return 'Please enter your full name';
+                  }
+                  return null;
                 },
-                dropdownMenuEntries: AlgerWilayas.state
-                    .map((e) => DropdownMenuEntry(
-                        style: const ButtonStyle(
-                            padding: WidgetStatePropertyAll(EdgeInsets.all(1))),
-                        value: e['id'],
-                        label: "${e['ar_name']} ${e['id']}",
-                        labelWidget: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${e['ar_name']} ${e['id']}",
-                              overflow: TextOverflow.clip,
-                              maxLines: 1,
-                            ),
-                          ],
-                        ),
-                        leadingIcon:
-                            const CircleAvatar(child: Icon(Iconsax.user))))
-                    .toList(),
               ),
-            ),
-            Expanded(
-              child: DropdownMenu(
-                inputDecorationTheme: InputDecorationTheme(
-                  filled: true,
-                  fillColor: Theme.of(context)
-                      .colorScheme
-                      .surfaceContainerHighest
-                      .withOpacity(0.5),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  hintStyle:
-                      TextStyle(color: Theme.of(context).colorScheme.onSurface),
-                ),
-                // width: MediaQuery.of(context).size.width * 0.333,
-                hintText: "city",
-                leadingIcon: const Icon(Iconsax.category),
-                enableFilter: true,
-                menuStyle: MenuStyle(
-                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-                  // fixedSize: WidgetStatePropertyAll(
-                  //     Size(MediaQuery.of(context).size.width * 0.15, 300)),
-                  padding: const WidgetStatePropertyAll(
-                      EdgeInsets.symmetric(vertical: 5)),
-                ),
-                onSelected: (value) {},
-                dropdownMenuEntries: AlgerWilayas.city
-                    .where((e) {
-                      return e['wilaya_id'] == _currentWillaya.toString();
-                    })
-                    .map((e) => DropdownMenuEntry(
-                        style: const ButtonStyle(
-                            padding:
-                                WidgetStatePropertyAll(EdgeInsets.all(12))),
-                        value: e['id'],
-                        label: "${e['ar_name']} ${e['id']}",
-                        labelWidget: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${e['ar_name']} ${e['id']}",
-                              overflow: TextOverflow.clip,
-                              maxLines: 1,
-                            ),
-                          ],
-                        ),
-                        leadingIcon:
-                            const CircleAvatar(child: Icon(Iconsax.user))))
-                    .toList(),
+              CustomTextField(
+                controller: _contactPersonNumberController,
+                label: 'Phone Number',
+                hintText: 'Enter your phone number',
+                prefixIcon: const Icon(Icons.phone),
+                validator: (value) {
+                  if (value == '') {
+                    return 'Please enter your phone number';
+                  }
+                  return null;
+                },
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: DropdownMenu(
+                        inputDecorationTheme: InputDecorationTheme(
+                          filled: true,
+                          fillColor: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest
+                              .withOpacity(0.5),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          hintStyle: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface),
+                        ),
+                        width: MediaQuery.of(context).size.width * 0.45,
+                        hintText: "الولاية",
+                        leadingIcon: const Icon(Iconsax.location),
+                        enableFilter: true,
+                        menuStyle: MenuStyle(
+                          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                          // fixedSize: WidgetStatePropertyAll(
+                          //     Size(MediaQuery.of(context).size.width * 0.15, 300)),
+                          padding: const WidgetStatePropertyAll(
+                              EdgeInsets.symmetric(vertical: 3)),
+                        ),
+                        onSelected: (value) {
+                          _currentWillaya = int.parse(value);
+
+                          setState(() {});
+                        },
+                        dropdownMenuEntries: AlgerWilayas.state
+                            .map((e) => DropdownMenuEntry(
+                                style: const ButtonStyle(
+                                    padding: WidgetStatePropertyAll(
+                                        EdgeInsets.all(1))),
+                                value: e['id'],
+                                label: "${e['ar_name']} ${e['id']}",
+                                labelWidget: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${e['ar_name']} ${e['id']}",
+                                      overflow: TextOverflow.clip,
+                                      maxLines: 1,
+                                    ),
+                                  ],
+                                ),
+                                leadingIcon: const CircleAvatar(
+                                    child: Icon(Iconsax.location))))
+                            .toList(),
+                      ),
+                    ),
+                    Expanded(
+                      child: DropdownMenu(
+                        inputDecorationTheme: InputDecorationTheme(
+                          filled: true,
+                          fillColor: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest
+                              .withOpacity(0.5),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          hintStyle: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface),
+                        ),
+                        // width: MediaQuery.of(context).size.width * 0.333,
+                        width: MediaQuery.of(context).size.width * 0.45,
+
+                        hintText: "البلدية",
+                        leadingIcon: const Icon(Iconsax.shield_security),
+                        enableFilter: true,
+                        menuStyle: MenuStyle(
+                          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                          // fixedSize: WidgetStatePropertyAll(
+                          //     Size(MediaQuery.of(context).size.width * 0.15, 300)),
+                          padding: const WidgetStatePropertyAll(
+                              EdgeInsets.symmetric(vertical: 5)),
+                        ),
+                        onSelected: (value) {
+                          _currentBaladiya = int.parse(value);
+                        },
+                        dropdownMenuEntries: AlgerWilayas.city
+                            .where((e) {
+                              return e['wilaya_id'] ==
+                                  _currentWillaya.toString();
+                            })
+                            .map((e) => DropdownMenuEntry(
+                                style: const ButtonStyle(
+                                    padding: WidgetStatePropertyAll(
+                                        EdgeInsets.all(12))),
+                                value: e['id'],
+                                label: "${e['ar_name']} ${e['id']}",
+                                labelWidget: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${e['ar_name']} ${e['id']}",
+                                      overflow: TextOverflow.clip,
+                                      maxLines: 1,
+                                    ),
+                                  ],
+                                ),
+                                leadingIcon: const CircleAvatar(
+                                    child: Icon(Iconsax.shield_security))))
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(child: SizedBox()),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                      onPressed: () {
+                        if (_currentBaladiya == 0 || _currentWillaya == 0) {
+                          return;
+                        }
+                        if (formKey.currentState!.validate()) {
+                          _willayaController.text = AlgerWilayas.city
+                              .firstWhere((element) =>
+                                  element['id'] ==
+                                  _currentWillaya.toString())['ar_name'];
+                          _cityController.text = AlgerWilayas.city.firstWhere(
+                              (element) =>
+                                  element['id'] ==
+                                  _currentBaladiya.toString())['ar_name'];
+                          _zipCodeController.text = AlgerWilayas.city
+                              .firstWhere((element) =>
+                                  element['id'] ==
+                                  _currentBaladiya.toString())['post_code'];
+                          String latitude = AlgerWilayas.city.firstWhere(
+                              (element) =>
+                                  element['id'] ==
+                                  _currentBaladiya.toString())['latitude'];
+                          String longitude = AlgerWilayas.city.firstWhere(
+                              (element) =>
+                                  element['id'] ==
+                                  _currentBaladiya.toString())['longitude'];
+
+                          AddressModel address = AddressModel(
+                              latitude: latitude,
+                              longitude: longitude,
+                              addressType: "home",
+                              country: "الجزائر",
+                              address: _willayaController.text,
+                              city: _cityController.text,
+                              contactPersonName:
+                                  _contactPersonNameController.text,
+                              email: _contactPersonEmailController.text,
+                              phone: _contactPersonNumberController.text,
+                              zip: _zipCodeController.text,
+                              state: _willayaController.text,
+                              guestId: Provider.of<ProfileController>(context,
+                                      listen: false)
+                                  .userInfoModel!
+                                  .id
+                                  .toString(),
+                              isBilling: false,
+                              createdAt: DateTime.now().toString(),
+                              updatedAt: DateTime.now().toString(),
+                              id: 0);
+                          value
+                              .addAddress(
+                            address,
+                          )
+                              .then((val) {
+                            if (val.response?.statusCode == 200) {
+                              Navigator.pop(context);
+                              // if(widget.fromCheckout){
+                              //   Provider.of<CheckoutController>(context, listen: false).setAddressIndex(0);
+                              // }
+                            }
+                          });
+                          //  addressController
+                          //     .addAddress(addressModel)
+                          //     .then((value) {
+                          //   if (value.response?.statusCode ==
+                          //       200) {
+                          //     Navigator.pop(context);
+                          //     if (widget.fromCheckout) {
+                          //       Provider.of<CheckoutController>(
+                          //               context,
+                          //               listen: false)
+                          //           .setAddressIndex(0);
+                          //     }
+                          //   }
+                          // });
+                        }
+                      },
+                      child: Text("Save")),
+                ),
+              ),
+            ],
+          ),
         ),
-      ],
-    );
+      );
+    });
   }
 }
 

@@ -31,7 +31,7 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
     print('====hasPhosical====>>${widget.hasPhysical}');
     return Consumer<CheckoutController>(
         builder: (context, shippingProvider, _) {
-      // shippingProvider.setSameAsBilling();
+      shippingProvider.setSameAsBilling();
       // if (shippingProvider.sameAsBilling && !widget.hasPhysical) {
       //   shippingProvider.setSameAsBilling();
       // }
@@ -157,6 +157,9 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
                                                           .primary,
                                                     ),
                                                     Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
                                                         Text(
                                                             "${locationProvider.addressList![shippingProvider.addressIndex!].address} ${locationProvider.addressList![shippingProvider.addressIndex!].addressType}"),
@@ -217,10 +220,10 @@ class _ShippingDetailsWidgetState extends State<ShippingDetailsWidget> {
                               ]),
                         ),
 
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Divider(),
-                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(horizontal: 8),
+                        //   child: Divider(),
+                        // ),
                         // const SizedBox(
                         //   height: Dimensions.paddingSizeDefault,
                         // ),

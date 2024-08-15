@@ -913,20 +913,20 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                               '${getTranslated('country_is_required', context)}',
                                               context);
                                         } else {
-                                          addressController
-                                              .addAddress(addressModel)
-                                              .then((value) {
-                                            if (value.response?.statusCode ==
-                                                200) {
-                                              Navigator.pop(context);
-                                              if (widget.fromCheckout) {
-                                                Provider.of<CheckoutController>(
-                                                        context,
-                                                        listen: false)
-                                                    .setAddressIndex(0);
-                                              }
-                                            }
-                                          });
+                                          // addressController
+                                          //     .addAddress(addressModel)
+                                          //     .then((value) {
+                                          //   if (value.response?.statusCode ==
+                                          //       200) {
+                                          //     Navigator.pop(context);
+                                          //     if (widget.fromCheckout) {
+                                          //       Provider.of<CheckoutController>(
+                                          //               context,
+                                          //               listen: false)
+                                          //           .setAddressIndex(0);
+                                          //     }
+                                          //   }
+                                          // });
                                         }
                                       },
                               )
