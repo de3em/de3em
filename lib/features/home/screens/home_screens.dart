@@ -61,9 +61,10 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _loadData(bool reload) async {
     await Provider.of<ShopController>(Get.context!, listen: false).getTopSellerList(reload, 1, type: "top");
-    Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload);
-    Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(reload);
-    Provider.of<AddressController>(context, listen: false).getAddressList();
+    await Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload);
+    // Provider.of<BannerController>(Get.context!, listen: false).getBannerList(reload);
+    await Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(reload);
+    // Provider.of<AddressController>(context, listen: false).getAddressList();
     await Provider.of<ProductController>(Get.context!, listen: false).getHomeCategoryProductList(reload);
     await Provider.of<BrandController>(Get.context!, listen: false).getBrandList(reload);
     await Provider.of<ProductController>(Get.context!, listen: false).getLatestProductList(1, reload: reload);
@@ -77,6 +78,7 @@ class _HomePageState extends State<HomePage> {
       await Provider.of<ProfileController>(Get.context!, listen: false).getUserInfo(Get.context!);
       await Provider.of<WishListController>(Get.context!, listen: false).getWishList();
     }
+
   }
 
   void passData(int index, String title) {
@@ -117,11 +119,9 @@ class _HomePageState extends State<HomePage> {
                 CartHomePageWidget()
               ]),
               SliverToBoxAdapter(
-                child: Provider.of<SplashController>(context, listen: false).configModel!.announcement!.status == '1'
-                    ? Consumer<SplashController>(builder: (context, announcement, _) {
-                        return (announcement.configModel!.announcement!.announcement != null && announcement.onOff) ? AnnouncementWidget(announcement: announcement.configModel!.announcement) : const SizedBox();
-                      })
-                    : const SizedBox(),
+                child: Consumer<SplashController>(builder: (context, announcement, _) {
+                  return (announcement.configModel!.announcement!.announcement != null && announcement.onOff) ? AnnouncementWidget(announcement: announcement.configModel!.announcement) : const SizedBox();
+                }),
               ),
               SliverPersistentHeader(pinned: true, delegate: SliverDelegate(child: InkWell(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SearchScreen())), child: const SearchHomePageWidget()))),
               SliverToBoxAdapter(
@@ -279,8 +279,8 @@ class _HomePageState extends State<HomePage> {
                     Consumer<ProductController>(builder: (ctx, prodProvider, child) {
                       return Container(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.primary
-                          ),
+                              // color: Theme.of(context).colorScheme.primary
+                              ),
                           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                             Padding(
                                 padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault, 0, Dimensions.paddingSizeSmall, 0),

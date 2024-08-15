@@ -32,17 +32,20 @@ class FeaturedProductWidget extends StatelessWidget {
                     ? productList.isNotEmpty
                         ? isHome
                             ? Container(
-                                padding: EdgeInsets.only(
-                                  bottom: 10,
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 10
                                 ),
-                                height: 230,
+                                height: 300,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: 10,
                                   itemBuilder: (context, index) => Container(
                                     width: 150,
-                                    child: ProductWidget(
-                                      productModel: productList![0],
+                                    child: Padding(
+                                      padding: const EdgeInsetsDirectional.only(start: 10),
+                                      child: ProductWidget(
+                                        productModel: productList![0],
+                                      ),
                                     ),
                                   ),
                                 ),

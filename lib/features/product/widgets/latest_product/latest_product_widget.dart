@@ -110,10 +110,9 @@ class LatestProductWidget extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         border:
-                            Border.all(width: 1, color: Colors.grey.shade200),
+                            Border.all(width: 0, color: Colors.white.withOpacity(.1)),
                         borderRadius: BorderRadius.circular(20),
-                        color: Theme.of(context).highlightColor.withOpacity(
-                            0.5), // Adjust opacity for better effect
+                        color: const Color.fromARGB(204, 242, 242, 242), // Adjust opacity for better effect
                       ),
                       child: Center(
                         child: Column(

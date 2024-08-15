@@ -46,11 +46,9 @@ class CategoryListWidget extends StatelessWidget {
     );
   }
 
-  InkWell _item(BuildContext context, CategoryController categoryProvider, int index) {
+  Widget _item(BuildContext context, CategoryController categoryProvider, int index) {
     final CategoryModel? category = categoryProvider.categoryList.length > index ? categoryProvider.categoryList[index] : null;
-    return InkWell(
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
+    return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
