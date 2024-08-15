@@ -477,10 +477,10 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                             detailsController: details)
                         : const SizedBox(),
 
-                    (widget.product!.colors != null &&
-                            widget.product!.colors!.isNotEmpty)
-                        ? const SizedBox(height: Dimensions.paddingSizeSmall)
-                        : const SizedBox(),
+                    // (widget.product!.colors != null &&
+                    //         widget.product!.colors!.isNotEmpty)
+                    //     ? const SizedBox(height: Dimensions.paddingSizeSmall)
+                    //     : const SizedBox(),
 
                     // Variation
                     Padding(
@@ -544,6 +544,9 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                                                               .highlightColor,
                                                 ),
                                                 child: Container(
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                          horizontal: 10),
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -602,63 +605,63 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                     //   child: Divider(),
                     // ),
 //TODO i don't know how colors looks like in the app so i will just add a container with a border
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Select Color",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold)),
-                          SizedBox(
-                            height: 2,
-                          ),
-                          Row(
-                            children: [
-                              for (int i = 0; i < 2; i++)
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 5),
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                            image: NetworkImage((widget
-                                                            .product!.colors !=
-                                                        null &&
-                                                    widget.product!.colors!
-                                                        .isNotEmpty &&
-                                                    widget.product!.images !=
-                                                        null &&
-                                                    widget.product!.images!
-                                                        .isNotEmpty)
-                                                ? '${Provider.of<SplashController>(context, listen: false).baseUrls!.productImageUrl}/$colorWiseSelectedImage'
-                                                : '${Provider.of<SplashController>(context, listen: false).baseUrls!.productThumbnailUrl}/'
-                                                    '${widget.product!.thumbnail}'),
-                                            fit: BoxFit.contain),
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary
-                                            .withOpacity(0.5),
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: Theme.of(context)
-                                                .primaryColor
-                                                .withOpacity(.2))),
-                                  ),
-                                )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(left: 12),
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       Text("Select Color",
+                    //           style: Theme.of(context)
+                    //               .textTheme
+                    //               .bodyMedium!
+                    //               .copyWith(
+                    //                   fontSize: 12,
+                    //                   fontWeight: FontWeight.bold)),
+                    //       SizedBox(
+                    //         height: 2,
+                    //       ),
+                    //       Row(
+                    //         children: [
+                    //           for (int i = 0; i < 2; i++)
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(right: 5),
+                    //               child: Container(
+                    //                 width: 50,
+                    //                 height: 50,
+                    //                 decoration: BoxDecoration(
+                    //                     image: DecorationImage(
+                    //                         image: NetworkImage((widget
+                    //                                         .product!.colors !=
+                    //                                     null &&
+                    //                                 widget.product!.colors!
+                    //                                     .isNotEmpty &&
+                    //                                 widget.product!.images !=
+                    //                                     null &&
+                    //                                 widget.product!.images!
+                    //                                     .isNotEmpty)
+                    //                             ? '${Provider.of<SplashController>(context, listen: false).baseUrls!.productImageUrl}/$colorWiseSelectedImage'
+                    //                             : '${Provider.of<SplashController>(context, listen: false).baseUrls!.productThumbnailUrl}/'
+                    //                                 '${widget.product!.thumbnail}'),
+                    //                         fit: BoxFit.contain),
+                    //                     color: Theme.of(context)
+                    //                         .colorScheme
+                    //                         .primary
+                    //                         .withOpacity(0.5),
+                    //                     borderRadius: BorderRadius.circular(10),
+                    //                     border: Border.all(
+                    //                         color: Theme.of(context)
+                    //                             .primaryColor
+                    //                             .withOpacity(.2))),
+                    //               ),
+                    //             )
+                    //         ],
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: 10,
+                    // ),
 
                     Padding(
                       padding: const EdgeInsets.only(left: 12, right: 12),
@@ -671,7 +674,6 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                             width: Dimensions.paddingSizeSmall,
                           ),
                           Container(
-                            width: 100,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
@@ -975,7 +977,7 @@ class QuantityButton extends StatelessWidget {
         }
       },
       child: Container(
-        padding: EdgeInsets.all(2),
+        padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
