@@ -67,8 +67,6 @@ class ProfileInfoSectionWidget extends StatelessWidget {
                                                     .toUpperCase() ??
                                                 'G',
                                             style: robotoBold.copyWith(
-                                              color: ColorResources.getPrimary(
-                                                  context),
                                               fontSize: 20,
                                             ),
                                           )

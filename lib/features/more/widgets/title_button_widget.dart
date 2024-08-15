@@ -27,7 +27,7 @@ class MenuButtonWidget extends StatelessWidget {
             ? Consumer<NotificationController>(
                 builder: (context, notificationController, _) {
                 return CircleAvatar(
-                  radius: 12,
+                  radius: 10,
                   backgroundColor: Theme.of(context).primaryColor,
                   child: Text(
                       notificationController
@@ -43,7 +43,7 @@ class MenuButtonWidget extends StatelessWidget {
                 ? Consumer<ProfileController>(
                     builder: (context, profileProvider, _) {
                     return CircleAvatar(
-                        radius: 12,
+                        radius: 10,
                         backgroundColor: Theme.of(context).primaryColor,
                         child: Text(
                             profileProvider.userInfoModel?.referCount

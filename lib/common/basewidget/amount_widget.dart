@@ -22,9 +22,7 @@ class AmountWidget extends StatelessWidget {
                     .bodyLarge!
                     .color!
                     .withOpacity(.5))),
-        Text(amount,
-            style: titilliumRegular.copyWith(
-                fontSize: Dimensions.fontSizeDefault)),
+        Text(amount, style: titilliumRegular.copyWith()),
       ]),
     );
   }

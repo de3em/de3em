@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/features/coupon/screens/coupon_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/more/widgets/square_item_widget.dart';
+import 'package:flutter_sixvalley_ecommerce/features/order_details/screens/guest_track_order_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wallet/screens/wallet_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wishlist/controllers/wishlist_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/wishlist/screens/wishlist_screen.dart';
@@ -27,7 +29,7 @@ class MoreHorizontalSection extends StatelessWidget {
         !Provider.of<AuthController>(context, listen: false).isLoggedIn();
     return Consumer<ProfileController>(builder: (context, profileProvider, _) {
       return SizedBox(
-        height: ResponsiveHelper.isTab(context) ? 135 : 130,
+        height: ResponsiveHelper.isTab(context) ? 135 : 90,
         child: Center(
           child: ListView(
               scrollDirection: Axis.horizontal,
@@ -38,12 +40,14 @@ class MoreHorizontalSection extends StatelessWidget {
                         .configModel!
                         .activeTheme !=
                     "theme_fashion")
-                  SquareButtonWidget(
-                    icon: Iconsax.tag,
-                    title: getTranslated('offers', context),
-                    navigateTo: const OffersBannerScreen(),
-                    count: 0,
-                    hasCount: false,
+                  Expanded(
+                    child: SquareButtonWidget(
+                      icon: Iconsax.cake,
+                      title: getTranslated('offers', context),
+                      navigateTo: const OffersBannerScreen(),
+                      count: 0,
+                      hasCount: false,
+                    ),
                   ),
 
                 if (!isGuestMode &&
@@ -51,13 +55,15 @@ class MoreHorizontalSection extends StatelessWidget {
                             .configModel!
                             .walletStatus ==
                         1)
-                  SquareButtonWidget(
-                    icon: Iconsax.wallet,
-                    title: getTranslated('wallet', context),
-                    navigateTo: const WalletScreen(),
-                    count: 1,
-                    hasCount: false,
-                    isWallet: true,
+                  Expanded(
+                    child: SquareButtonWidget(
+                      icon: Iconsax.wallet,
+                      title: getTranslated('wallet', context),
+                      navigateTo: const WalletScreen(),
+                      count: 1,
+                      hasCount: false,
+                      isWallet: true,
+                    ),
                   ),
 
                 if (!isGuestMode &&
@@ -65,48 +71,73 @@ class MoreHorizontalSection extends StatelessWidget {
                             .configModel!
                             .loyaltyPointStatus ==
                         1)
-                  SquareButtonWidget(
-                      icon: Iconsax.gift,
-                      title: getTranslated('loyalty_point', context),
-                      navigateTo: const LoyaltyPointScreen(),
-                      count: 1,
-                      hasCount: false,
-                      isWallet: true,
-                      isLoyalty: true),
+                  Expanded(
+                    child: SquareButtonWidget(
+                        icon: Iconsax.gift,
+                        title: getTranslated('loyalty_point', context),
+                        navigateTo: const LoyaltyPointScreen(),
+                        count: 1,
+                        hasCount: false,
+                        isWallet: true,
+                        isLoyalty: true),
+                  ),
 
                 if (!isGuestMode)
-                  SquareButtonWidget(
-                      icon: Iconsax.shopping_cart,
-                      title: getTranslated('orders', context),
-                      navigateTo: const OrderScreen(),
-                      count: 1,
-                      hasCount: false,
-                      isWallet: true,
-                      isLoyalty: true),
+                  Expanded(
+                    child: SquareButtonWidget(
+                        icon: Iconsax.shopping_cart,
+                        title: getTranslated('orders', context),
+                        navigateTo: const OrderScreen(),
+                        count: 1,
+                        hasCount: false,
+                        isWallet: true,
+                        isLoyalty: true),
+                  ),
 
                 // SquareButtonWidget(image: Images.cartImage, title: getTranslated('cart', context),
                 //   navigateTo: const CartScreen(),
                 //   count: Provider.of<CartController>(context,listen: false).cartList.length, hasCount: true,),
 
-                SquareButtonWidget(
-                  icon: Iconsax.row_vertical,
-                  title: getTranslated('wishlist', context),
-                  navigateTo: const WishListScreen(),
-                  count: Provider.of<AuthController>(context, listen: false)
-                              .isLoggedIn() &&
-                          Provider.of<WishListController>(context,
-                                      listen: false)
-                                  .wishList !=
-                              null &&
-                          Provider.of<WishListController>(context,
-                                  listen: false)
-                              .wishList!
-                              .isNotEmpty
-                      ? Provider.of<WishListController>(context, listen: false)
-                          .wishList!
-                          .length
-                      : 0,
-                  hasCount: false,
+                Expanded(
+                  child: SquareButtonWidget(
+                    icon: Iconsax.heart,
+                    title: getTranslated('wishlist', context),
+                    navigateTo: const WishListScreen(),
+                    count: Provider.of<AuthController>(context, listen: false)
+                                .isLoggedIn() &&
+                            Provider.of<WishListController>(context,
+                                        listen: false)
+                                    .wishList !=
+                                null &&
+                            Provider.of<WishListController>(context,
+                                    listen: false)
+                                .wishList!
+                                .isNotEmpty
+                        ? Provider.of<WishListController>(context,
+                                listen: false)
+                            .wishList!
+                            .length
+                        : 0,
+                    hasCount: false,
+                  ),
+                ),
+                Expanded(
+                  child: SquareButtonWidget(
+                    icon: Iconsax.sms_tracking,
+                    title: getTranslated('TRACK_ORDER', context),
+                    navigateTo: const GuestTrackOrderScreen(),
+                    count: 0,
+                    hasCount: false,
+                  ),
+                ),
+                Expanded(
+                  child: SquareButtonWidget(
+                    icon: Iconsax.ticket_discount,
+                    title: getTranslated('coupons', context),
+                    navigateTo: const CouponList(),
+                    count: 0,
+                    hasCount: false,
+                  ),
                 ),
               ]),
         ),

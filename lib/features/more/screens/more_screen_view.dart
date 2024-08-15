@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sixvalley_ecommerce/features/loyaltyPoint/controllers/loyalty_point_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/features/more/screens/profile_screen_info.dart';
 import 'package:flutter_sixvalley_ecommerce/features/order_details/screens/guest_track_order_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/profile/screens/profile_screen.dart';
@@ -27,6 +28,7 @@ import 'package:flutter_sixvalley_ecommerce/features/notification/screens/notifi
 import 'package:flutter_sixvalley_ecommerce/features/address/screens/address_list_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/refer_and_earn/screens/refer_and_earn_screen.dart';
 import 'package:flutter_sixvalley_ecommerce/features/setting/screens/settings_screen.dart';
+import 'package:iconly/iconly.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'faq_screen_view.dart';
@@ -86,14 +88,28 @@ class _MoreScreenState extends State<MoreScreen> {
       appBar: AppBar(
         title: ProfileInfoSectionWidget(),
         actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const NotificationScreen()));
-              },
-              icon: Icon(Icons.notifications_none_outlined)),
+          SizedBox(
+            width: 40,
+            child: IconButton(
+                onPressed: () {
+                  MaterialPageRoute(builder: (_) => const SettingsScreen());
+                },
+                icon: Icon(
+                  Iconsax.setting,
+                  size: 20,
+                )),
+          ),
+          SizedBox(
+            width: 40,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const NotificationScreen()));
+                },
+                icon: Icon(Icons.notifications_none_outlined)),
+          ),
         ],
       ),
       body: CustomScrollView(
@@ -105,10 +121,15 @@ class _MoreScreenState extends State<MoreScreen> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 10),
-                    const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: Center(child: MoreHorizontalSection())),
+                    ListTile(
+                      title: Text("Ordering informations"),
+                      enabled: false,
+                      subtitle: MoreHorizontalSection(),
+                    ),
+                    // const SizedBox(height: 10),
+                    // const Padding(
+                    //     padding: EdgeInsets.symmetric(horizontal: 0),
+                    //     child: Center(child: )),
                     // Padding(
                     //   padding: const EdgeInsets.fromLTRB(
                     //       Dimensions.paddingSizeDefault,
@@ -122,238 +143,181 @@ class _MoreScreenState extends State<MoreScreen> {
                     //         color: Theme.of(context).colorScheme.onPrimary),
                     //   ),
                     // ),
+                    // Divider(thickness: 10, color: Colors.grey.withOpacity(0.3)),
                     Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.fontSizeExtraSmall),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Theme.of(context)
-                                      .hintColor
-                                      .withOpacity(.05),
-                                  blurRadius: 1,
-                                  spreadRadius: 1,
-                                  offset: const Offset(0, 1))
-                            ],
-                            color:
-                                Provider.of<ThemeController>(context).darkTheme
-                                    ? Colors.white.withOpacity(.05)
-                                    : Theme.of(context).cardColor),
-                        child: Column(children: [
-                          MenuButtonWidget(
-                              icon: Iconsax.sms_tracking,
-                              title: getTranslated('TRACK_ORDER', context),
-                              navigateTo: const GuestTrackOrderScreen()),
-                          if (Provider.of<AuthController>(context,
-                                  listen: false)
-                              .isLoggedIn())
-                            MenuButtonWidget(
-                                icon: Iconsax.user,
-                                title: getTranslated('profile', context),
-                                navigateTo: const ProfileScreen()),
-                          MenuButtonWidget(
-                              icon: Iconsax.location,
-                              title: getTranslated('addresses', context),
-                              navigateTo: const AddressListScreen()),
-                          MenuButtonWidget(
-                              icon: Iconsax.ticket_discount,
-                              title: getTranslated('coupons', context),
-                              navigateTo: const CouponList()),
-                          if (!isGuestMode)
-                            MenuButtonWidget(
-                                icon: Iconsax.refresh,
-                                title: getTranslated('refer_and_earn', context),
-                                isProfile: true,
-                                navigateTo: const ReferAndEarnScreen()),
-                          MenuButtonWidget(
-                              icon: Iconsax.category,
-                              title: getTranslated('CATEGORY', context),
-                              navigateTo: const CategoryScreen()),
-                          // if (splashController.configModel!.activeTheme !=
-                          //         "default" &&
-                          //     authController.isLoggedIn())
-                          //   MenuButtonWidget(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.1),
+                      child: ListTile(
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return ProfileScreenInfo();
+                              });
+                        },
+                        trailing: TextButton(
+                            onPressed: () {}, child: Icon(Iconsax.arrow_right)),
+                        leading: Icon(Iconsax.user, color: Colors.grey),
 
-                          //       title:
-                          //           getTranslated('compare_products', context),
-                          //       navigateTo: const CompareProductScreen()),
-                          // MenuButtonWidget(
-                          //   ico
-                          //     title: getTranslated(
-                          //       'notification',
-                          //       context,
-                          //     ),
-                          //     isNotification: true,
-                          //     navigateTo: const NotificationScreen()),
-                          MenuButtonWidget(
-                              icon: Iconsax.setting,
-                              title: getTranslated('settings', context),
-                              navigateTo: const SettingsScreen())
-                        ])),
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            Dimensions.paddingSizeDefault,
-                            Dimensions.paddingSizeDefault,
-                            Dimensions.paddingSizeDefault,
-                            0),
-                        child: Text(
-                            getTranslated('help_and_support', context) ?? '',
-                            style: textRegular.copyWith(
-                                fontSize: Dimensions.fontSizeExtraLarge,
-                                color:
-                                    Theme.of(context).colorScheme.onPrimary))),
-                    Padding(
-                        padding:
-                            const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                        child: Container(
-                            padding: const EdgeInsets.all(
-                                Dimensions.paddingSizeSmall),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    Dimensions.fontSizeExtraSmall),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Theme.of(context)
-                                          .hintColor
-                                          .withOpacity(.05),
-                                      blurRadius: 1,
-                                      spreadRadius: 1,
-                                      offset: const Offset(0, 1))
-                                ],
-                                color: Provider.of<ThemeController>(context)
-                                        .darkTheme
-                                    ? Colors.white.withOpacity(.05)
-                                    : Theme.of(context).cardColor),
-                            child: Column(children: [
-                              singleVendor
-                                  ? const SizedBox()
-                                  : MenuButtonWidget(
-                                      icon: Iconsax.direct_inbox,
-                                      title: getTranslated('inbox', context),
-                                      navigateTo: const InboxScreen()),
-                              MenuButtonWidget(
-                                  icon: Iconsax.call_add,
-                                  title: getTranslated('contact_us', context),
-                                  navigateTo: const ContactUsScreen()),
-                              MenuButtonWidget(
-                                  icon: Iconsax.ticket_star,
-                                  title:
-                                      getTranslated('support_ticket', context),
-                                  navigateTo: const SupportTicketScreen()),
-                              MenuButtonWidget(
-                                  icon: Iconsax.note,
-                                  title:
-                                      getTranslated('terms_condition', context),
-                                  navigateTo: HtmlViewScreen(
-                                    title: getTranslated(
-                                        'terms_condition', context),
-                                    url: Provider.of<SplashController>(context,
-                                            listen: false)
-                                        .configModel!
-                                        .termsConditions,
-                                  )),
-                              MenuButtonWidget(
-                                  icon: Icons.privacy_tip_outlined,
-                                  title:
-                                      getTranslated('privacy_policy', context),
-                                  navigateTo: HtmlViewScreen(
-                                    title: getTranslated(
-                                        'privacy_policy', context),
-                                    url: Provider.of<SplashController>(context,
-                                            listen: false)
-                                        .configModel!
-                                        .privacyPolicy,
-                                  )),
-                              if (Provider.of<SplashController>(context,
-                                          listen: false)
-                                      .configModel!
-                                      .refundPolicy!
-                                      .status ==
-                                  1)
-                                MenuButtonWidget(
-                                    icon: Iconsax.refresh_left_square,
-                                    title:
-                                        getTranslated('refund_policy', context),
-                                    navigateTo: HtmlViewScreen(
-                                      title: getTranslated(
-                                          'refund_policy', context),
-                                      url: Provider.of<SplashController>(
-                                              context,
-                                              listen: false)
-                                          .configModel!
-                                          .refundPolicy!
-                                          .content,
-                                    )),
-                              if (Provider.of<SplashController>(context,
-                                          listen: false)
-                                      .configModel!
-                                      .returnPolicy!
-                                      .status ==
-                                  1)
-                                MenuButtonWidget(
-                                    icon: Iconsax.money_recive,
-                                    title:
-                                        getTranslated('return_policy', context),
-                                    navigateTo: HtmlViewScreen(
-                                      title: getTranslated(
-                                          'return_policy', context),
-                                      url: Provider.of<SplashController>(
-                                              context,
-                                              listen: false)
-                                          .configModel!
-                                          .returnPolicy!
-                                          .content,
-                                    )),
-                              if (Provider.of<SplashController>(context,
-                                          listen: false)
-                                      .configModel!
-                                      .cancellationPolicy!
-                                      .status ==
-                                  1)
-                                MenuButtonWidget(
-                                    icon: Iconsax.truck_remove,
-                                    title: getTranslated(
-                                        'cancellation_policy', context),
-                                    navigateTo: HtmlViewScreen(
-                                      title: getTranslated(
-                                          'cancellation_policy', context),
-                                      url: Provider.of<SplashController>(
-                                              context,
-                                              listen: false)
-                                          .configModel!
-                                          .cancellationPolicy!
-                                          .content,
-                                    )),
-                              MenuButtonWidget(
-                                  icon: Iconsax.message_question,
-                                  title: getTranslated('faq', context),
-                                  navigateTo: FaqScreen(
-                                    title: getTranslated('faq', context),
-                                  )),
-                              MenuButtonWidget(
-                                  icon: Iconsax.user,
-                                  title: getTranslated('about_us', context),
-                                  navigateTo: HtmlViewScreen(
-                                    title: getTranslated('about_us', context),
-                                    url: Provider.of<SplashController>(context,
-                                            listen: false)
-                                        .configModel!
-                                        .aboutUs,
-                                  ))
-                            ]))),
+                        title: Text("Profile Informations"),
+                        subtitleTextStyle:
+                            TextStyle(color: Colors.grey, fontSize: 13),
+                        subtitle:
+                            Text("View and edit your profile informations"),
+                        // MenuButtonWidget(
+                        //     icon: Iconsax.sms_tracking,
+                        //     title: getTranslated('TRACK_ORDER', context),
+                        //     navigateTo: const GuestTrackOrderScreen()),
+
+                        // if (splashController.configModel!.activeTheme !=
+                        //         "default" &&
+                        //     authController.isLoggedIn())
+                        //   MenuButtonWidget(
+
+                        //       title:
+                        //           getTranslated('compare_products', context),
+                        //       navigateTo: const CompareProductScreen()),
+                        // MenuButtonWidget(
+                        //   ico
+                        //     title: getTranslated(
+                        //       'notification',
+                        //       context,
+                        //     ),
+                        //     isNotification: true,
+                        //     navigateTo: const NotificationScreen()),
+                        // MenuButtonWidget(
+                        //     icon: Iconsax.setting,
+                        //     title: getTranslated('settings', context),
+                        //     navigateTo: const SettingsScreen())
+                      ),
+                    ),
+                    // Divider(thickness: 10, color: Colors.grey.withOpacity(0.3)),
+
                     ListTile(
-                        leading: SizedBox(
-                            width: 30,
-                            child: Image.asset(
-                              Images.logOut,
-                              color: Theme.of(context).primaryColor,
-                            )),
+                      leading:
+                          Icon(Iconsax.message_question, color: Colors.grey),
+                      title: Text(
+                          getTranslated('help_and_support', context) ?? ""),
+                      enabled: false,
+                    ),
+                    Column(children: [
+                      // singleVendor
+                      //     ? const SizedBox()
+                      //     : MenuButtonWidget(
+                      //         icon: Iconsax.direct_inbox,
+                      //         title: getTranslated('inbox', context),
+                      //         navigateTo: const InboxScreen()),
+                      MenuButtonWidget(
+                          icon: Iconsax.call_add,
+                          title: getTranslated('contact_us', context),
+                          navigateTo: const ContactUsScreen()),
+                      MenuButtonWidget(
+                          icon: Iconsax.ticket_star,
+                          title: getTranslated('support_ticket', context),
+                          navigateTo: const SupportTicketScreen()),
+                      // MenuButtonWidget(
+                      //     icon: Iconsax.note,
+                      //     title: getTranslated('terms_condition', context),
+                      //     navigateTo: HtmlViewScreen(
+                      //       title:
+                      //           getTranslated('terms_condition', context),
+                      //       url: Provider.of<SplashController>(context,
+                      //               listen: false)
+                      //           .configModel!
+                      //           .termsConditions,
+                      //     )),
+                      // MenuButtonWidget(
+                      //     icon: Icons.privacy_tip_outlined,
+                      //     title: getTranslated('privacy_policy', context),
+                      //     navigateTo: HtmlViewScreen(
+                      //       title: getTranslated('privacy_policy', context),
+                      //       url: Provider.of<SplashController>(context,
+                      //               listen: false)
+                      //           .configModel!
+                      //           .privacyPolicy,
+                      //     )),
+                      // if (Provider.of<SplashController>(context,
+                      //             listen: false)
+                      //         .configModel!
+                      //         .refundPolicy!
+                      //         .status ==
+                      //     1)
+                      //   MenuButtonWidget(
+                      //       icon: Iconsax.refresh_left_square,
+                      //       title: getTranslated('refund_policy', context),
+                      //       navigateTo: HtmlViewScreen(
+                      //         title:
+                      //             getTranslated('refund_policy', context),
+                      //         url: Provider.of<SplashController>(context,
+                      //                 listen: false)
+                      //             .configModel!
+                      //             .refundPolicy!
+                      //             .content,
+                      //       )),
+                      // if (Provider.of<SplashController>(context,
+                      //             listen: false)
+                      //         .configModel!
+                      //         .returnPolicy!
+                      //         .status ==
+                      //     1)
+                      //   MenuButtonWidget(
+                      //       icon: Iconsax.money_recive,
+                      //       title: getTranslated('return_policy', context),
+                      //       navigateTo: HtmlViewScreen(
+                      //         title:
+                      //             getTranslated('return_policy', context),
+                      //         url: Provider.of<SplashController>(context,
+                      //                 listen: false)
+                      //             .configModel!
+                      //             .returnPolicy!
+                      //             .content,
+                      //       )),
+                      // if (Provider.of<SplashController>(context,
+                      //             listen: false)
+                      //         .configModel!
+                      //         .cancellationPolicy!
+                      //         .status ==
+                      //     1)
+                      //   MenuButtonWidget(
+                      //       icon: Iconsax.truck_remove,
+                      //       title: getTranslated(
+                      //           'cancellation_policy', context),
+                      //       navigateTo: HtmlViewScreen(
+                      //         title: getTranslated(
+                      //             'cancellation_policy', context),
+                      //         url: Provider.of<SplashController>(context,
+                      //                 listen: false)
+                      //             .configModel!
+                      //             .cancellationPolicy!
+                      //             .content,
+                      //       )),
+                      MenuButtonWidget(
+                          icon: Iconsax.message_question,
+                          title: getTranslated('faq', context),
+                          navigateTo: FaqScreen(
+                            title: getTranslated('faq', context),
+                          )),
+                      MenuButtonWidget(
+                          icon: Iconsax.user,
+                          title: getTranslated('about_us', context),
+                          navigateTo: HtmlViewScreen(
+                            title: getTranslated('about_us', context),
+                            url: Provider.of<SplashController>(context,
+                                    listen: false)
+                                .configModel!
+                                .aboutUs,
+                          ))
+                    ]),
+                    ListTile(
+                        leading: Icon(Iconsax.logout,
+                            color: Theme.of(context).colorScheme.error),
                         title: Text(
-                            isGuestMode
-                                ? getTranslated('sign_in', context)!
-                                : getTranslated('sign_out', context)!,
-                            style: titilliumRegular.copyWith(
-                                fontSize: Dimensions.fontSizeLarge)),
+                          isGuestMode
+                              ? getTranslated('sign_in', context)!
+                              : getTranslated('sign_out', context)!,
+                        ),
                         onTap: () {
                           if (isGuestMode) {
                             Navigator.push(
@@ -375,10 +339,9 @@ class _MoreScreenState extends State<MoreScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                  '${getTranslated('version', context)} ${AppConstants.appVersion}',
-                                  style: textRegular.copyWith(
-                                      fontSize: Dimensions.fontSizeLarge,
-                                      color: Theme.of(context).hintColor))
+                                '${getTranslated('version', context)} ${AppConstants.appVersion}',
+                                style: TextStyle(color: Colors.grey),
+                              )
                             ]))
                   ]),
             ),

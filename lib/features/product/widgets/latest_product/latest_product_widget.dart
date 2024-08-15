@@ -30,13 +30,31 @@ class LatestProductWidget extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
-            PageRouteBuilder(
-              transitionDuration: const Duration(milliseconds: 1000),
-              pageBuilder: (context, anim1, anim2) => ProductDetails(
-                  productId: productModel.id, slug: productModel.slug),
-            ));
+        // Navigator.push(
+        //     context,
+        //     PageRouteBuilder(
+        //       transitionDuration: const Duration(milliseconds: 1000),
+        //       pageBuilder: (context, anim1, anim2) => ProductDetails(
+        //           productId: productModel.id, slug: productModel.slug),
+        //     ));
+        showModalBottomSheet(
+            // constraints: BoxConstraints(
+            //   maxHeight: MediaQuery.of(context).size.height * 0.8,
+            // ),
+            // anchorPoint: Offset(0.5, 0.5),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10))),
+            backgroundColor: Theme.of(context).colorScheme.onPrimary,
+            context: context,
+            isScrollControlled: true,
+            builder: (context) {
+              return SingleChildScrollView(
+                child: ProductDetails(
+                    productId: productModel.id, slug: productModel.slug),
+              );
+            });
       },
       child: Padding(
         padding:
@@ -194,7 +212,8 @@ class LatestProductWidget extends StatelessWidget {
                                   productModel.discount,
                                   productModel.discountType),
                               style: textRegular.copyWith(
-                                  color: Theme.of(context).highlightColor,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
                                   fontSize: Dimensions.fontSizeSmall)),
                         ))))
                 : const SizedBox.shrink(),
