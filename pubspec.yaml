@@ -29,7 +29,7 @@ dependencies:
   photo_view: ^0.14.0
   firebase_core: ^2.15.1
   firebase_messaging: ^14.7.10
-  flutter_local_notifications: ^16.3.0
+  flutter_local_notifications:
   path_provider: ^2.1.2
   google_sign_in: ^6.2.1
   flutter_facebook_auth:
@@ -63,7 +63,7 @@ dependencies:
   emoji_picker_flutter: ^1.6.2
   just_audio: ^0.9.36
   file_picker: ^6.1.1
-  carousel_slider: ^4.2.1
+  carousel_slider:
   webview_flutter_android: ^3.13.2
   webview_flutter_wkwebview: ^3.10.1
   dropdown_button2: ^2.3.9

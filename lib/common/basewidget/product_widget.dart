@@ -60,10 +60,11 @@ class _ProductWidgetState extends State<ProductWidget> {
         // padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
         decoration: BoxDecoration(
             border: Border.all(width: 1, color: Colors.grey.shade200),
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(14),
             color: Theme.of(context).colorScheme.onPrimary
             // color: Theme.of(context).highlightColor,
             ),
+            clipBehavior: Clip.antiAlias,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

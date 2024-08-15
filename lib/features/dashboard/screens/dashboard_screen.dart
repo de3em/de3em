@@ -89,10 +89,13 @@ class DashBoardScreenState extends State<DashBoardScreen> {
         key: _scaffoldKey,
         body: PageStorage(bucket: bucket, child: _screens[_pageIndex].screen),
         bottomNavigationBar: Container(
-          height: 45,
+          height: kBottomNavigationBarHeight,
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(Dimensions.paddingSizeLarge)),
+            border: Border(
+              top: BorderSide(
+                color: Theme.of(context).dividerColor.withOpacity(.2),
+              ),
+            ),
           ),
           //   boxShadow: [
           //     BoxShadow(
@@ -113,13 +116,27 @@ class DashBoardScreenState extends State<DashBoardScreen> {
             items: [
               ItemNavigationView(
                   childAfter: Icon(
+<<<<<<< HEAD
+=======
+                    IconlyBold.bag,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 30,
+                  ),
+                  childBefore: Icon(
+                    IconlyLight.bag,
+                    color: Colors.grey,
+                    size: 30,
+                  )),
+              ItemNavigationView(
+                  childAfter: Icon(
+>>>>>>> 804a533 (Update icon and padding in MoreScreen widget, update dependencies in pubspec.yaml, and improve borderRadius in ProductWidget.)
                     IconlyBold.user_2,
                     color: Theme.of(context).colorScheme.primary,
                     size: 30,
                   ),
                   childBefore: Icon(
                     IconlyLight.user,
-                    color: Colors.grey.withAlpha(60),
+                    color: Colors.grey,
                     size: 30,
                   )),
               ItemNavigationView(
@@ -141,7 +158,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                   ),
                   childBefore: Icon(
                     IconlyLight.chat,
-                    color: Colors.grey.withAlpha(60),
+                    color: Colors.grey,
                     size: 30,
                   )),
               ItemNavigationView(
@@ -152,7 +169,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                   ),
                   childBefore: Icon(
                     IconlyLight.home,
-                    color: Colors.grey.withAlpha(60),
+                    color: Colors.grey,
                     size: 30,
                   )),
             ],

@@ -105,7 +105,7 @@ class ProductListWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(0),
                       itemBuilder: (BuildContext context, int index) {
                         return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2),
+                          padding: const EdgeInsets.all(4),
                           child:
                               ProductWidget(productModel: productList![index]),
                         );

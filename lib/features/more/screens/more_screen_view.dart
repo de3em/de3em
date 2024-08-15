@@ -108,7 +108,7 @@ class _MoreScreenState extends State<MoreScreen> {
                       MaterialPageRoute(
                           builder: (_) => const NotificationScreen()));
                 },
-                icon: Icon(Icons.notifications_none_outlined)),
+                icon: Icon(Iconsax.notification)),
           ),
         ],
       ),
