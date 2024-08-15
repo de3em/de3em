@@ -30,7 +30,7 @@ class IconWithTextRowWidget extends StatelessWidget {
                   width: 17,
                   child: Image.asset(
                     imageIcon!,
-                    color: Theme.of(context).primaryColor.withOpacity(.5),
+                    color: Theme.of(context).primaryColor,
                   )),
             )
           : Icon(

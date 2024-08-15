@@ -206,9 +206,7 @@ class ShippingAndBillingWidget extends StatelessWidget {
                                                     listen: false)
                                                 .darkTheme
                                             ? Colors.white
-                                            : Theme.of(context)
-                                                .primaryColor
-                                                .withOpacity(.30)),
+                                            : Theme.of(context).primaryColor),
                                     const SizedBox(
                                         width: Dimensions.marginSizeSmall),
                                     Expanded(
