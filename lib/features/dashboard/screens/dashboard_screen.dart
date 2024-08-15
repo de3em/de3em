@@ -116,8 +116,6 @@ class DashBoardScreenState extends State<DashBoardScreen> {
             items: [
               ItemNavigationView(
                   childAfter: Icon(
-<<<<<<< HEAD
-=======
                     IconlyBold.bag,
                     color: Theme.of(context).colorScheme.primary,
                     size: 30,
@@ -129,7 +127,6 @@ class DashBoardScreenState extends State<DashBoardScreen> {
                   )),
               ItemNavigationView(
                   childAfter: Icon(
->>>>>>> 804a533 (Update icon and padding in MoreScreen widget, update dependencies in pubspec.yaml, and improve borderRadius in ProductWidget.)
                     IconlyBold.user_2,
                     color: Theme.of(context).colorScheme.primary,
                     size: 30,
