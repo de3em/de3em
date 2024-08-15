@@ -124,9 +124,21 @@ class _AsterThemeHomeScreenState extends State<AsterThemeHomeScreen> {
           child: CustomScrollView(
             controller: _scrollController,
             slivers: [
-              SliverAppBar(floating: true, elevation: 0, centerTitle: false, automaticallyImplyLeading: false, backgroundColor: Theme.of(context).highlightColor, title: Image.asset(Images.logoWithNameImage, height: 35), actions: const [
-                CartHomePageWidget()
-              ]),
+              SliverAppBar(
+                  floating: true,
+                  pinned: true,
+                  elevation: 0,
+                  centerTitle: false,
+                  automaticallyImplyLeading: false,
+                  // backgroundColor: Theme.of(context).highlightColor,
+                  backgroundColor: Colors.white,
+                  title: Image.asset(
+                    Images.logoWithNameImage,
+                    height: 35,
+                  ),
+                  actions: const [
+                    CartHomePageWidget()
+                  ]),
 
               SliverToBoxAdapter(
                 child: Provider.of<SplashController>(context, listen: false).configModel!.announcement!.status == '1'
@@ -154,21 +166,19 @@ class _AsterThemeHomeScreenState extends State<AsterThemeHomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const BannersWidget(),
-                    const SizedBox(height: Dimensions.homePagePadding),
+                    // const SizedBox(height: Dimensions.homePagePadding),
 
                     Consumer<FlashDealController>(builder: (context, megaDeal, child) {
                       return megaDeal.flashDeal != null
                           ? megaDeal.flashDealList.isNotEmpty
                               ? Column(children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(Dimensions.homePagePadding, Dimensions.paddingSizeSmall, Dimensions.paddingSizeDefault, Dimensions.paddingSizeExtraExtraSmall),
-                                    child: TitleRowWidget(
-                                        title: getTranslated('flash_deal', context),
-                                        eventDuration: megaDeal.flashDeal != null ? megaDeal.duration : null,
-                                        onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (_) => const FlashDealScreenView()));
-                                        },
-                                        isFlash: true),
+                                  TitleRowWidget(
+                                    title: getTranslated('flash_deal', context),
+                                    eventDuration: megaDeal.flashDeal != null ? megaDeal.duration : null,
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (_) => const FlashDealScreenView()));
+                                    },
+                                    isFlash: true,
                                   ),
                                   const SizedBox(height: Dimensions.paddingSizeSmall),
                                   Text(getTranslated('hurry_up_the_offer_is_limited_grab_while_it_lasts', context) ?? '', style: textRegular.copyWith(color: Provider.of<ThemeController>(context, listen: false).darkTheme ? Theme.of(context).hintColor : Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeDefault)),
@@ -180,19 +190,19 @@ class _AsterThemeHomeScreenState extends State<AsterThemeHomeScreen> {
                     }),
 
                     // Find what you need
-                    Consumer<ProductController>(builder: (context, productController, _) {
-                      return productController.findWhatYouNeedModel != null
-                          ? (productController.findWhatYouNeedModel!.findWhatYouNeed != null && productController.findWhatYouNeedModel!.findWhatYouNeed!.isNotEmpty)
-                              ? Padding(
-                                  padding: const EdgeInsets.only(bottom: Dimensions.homePagePadding, top: Dimensions.homePagePadding),
-                                  child: Column(children: [
-                                    TitleRowWidget(title: getTranslated('find_what_you_need', context)),
-                                    const SizedBox(height: Dimensions.homePagePadding),
-                                    SizedBox(height: ResponsiveHelper.isTab(context) ? 165 : 150, child: const FindWhatYouNeedView()),
-                                  ]))
-                              : const SizedBox()
-                          : const FindWhatYouNeedShimmer();
-                    }),
+                    // Consumer<ProductController>(builder: (context, productController, _) {
+                    //   return productController.findWhatYouNeedModel != null
+                    //       ? (productController.findWhatYouNeedModel!.findWhatYouNeed != null && productController.findWhatYouNeedModel!.findWhatYouNeed!.isNotEmpty)
+                    //           ? Padding(
+                    //               padding: const EdgeInsets.only(bottom: Dimensions.homePagePadding, top: Dimensions.homePagePadding),
+                    //               child: Column(children: [
+                    //                 TitleRowWidget(title: getTranslated('find_what_you_need', context)),
+                    //                 const SizedBox(height: Dimensions.homePagePadding),
+                    //                 SizedBox(height: ResponsiveHelper.isTab(context) ? 165 : 150, child: const FindWhatYouNeedView()),
+                    //               ]))
+                    //           : const SizedBox()
+                    //       : const FindWhatYouNeedShimmer();
+                    // }),
 
                     //Order Again
                     (Provider.of<AuthController>(context, listen: false).isLoggedIn())

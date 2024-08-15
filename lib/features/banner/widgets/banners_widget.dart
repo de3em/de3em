@@ -21,7 +21,9 @@ class BannersWidget extends StatelessWidget {
 
             double width = MediaQuery.of(context).size.width;
             return Stack(children: [
-                bannerProvider.mainBannerList != null ? bannerProvider.mainBannerList!.isNotEmpty ?
+                // bannerProvider.mainBannerList != null ? 
+                // bannerProvider.mainBannerList!.isNotEmpty ?
+                if (bannerProvider.mainBannerList != null && bannerProvider.mainBannerList!.isNotEmpty)
                 SizedBox(width: width,
                   child: Column(children: [
                       SizedBox(height: width * 0.33, width: width,
@@ -68,7 +70,8 @@ class BannersWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                ) : const SizedBox() : const BannerShimmer(),
+                ),
+                //  : const SizedBox() : const BannerShimmer(),
 
                 if( bannerProvider.mainBannerList != null &&  bannerProvider.mainBannerList!.isNotEmpty)
                   Positioned(bottom: 5, left: 0, right: 0,

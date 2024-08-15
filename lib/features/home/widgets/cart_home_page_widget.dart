@@ -23,7 +23,7 @@ class CartHomePageWidget extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => const SearchScreen()));
             },
-            icon: Icon(Iconsax.search_status,
+            icon: Icon(Icons.search,
                 color: ColorResources.getPrimary(context), size: 25)),
         Consumer<NotificationController>(
             builder: (context, notificationProvider, _) {
@@ -33,10 +33,13 @@ class CartHomePageWidget extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (_) => const NotificationScreen())),
               icon: Stack(clipBehavior: Clip.none, children: [
-                Image.asset(Images.notification,
-                    height: Dimensions.iconSizeDefault,
-                    width: Dimensions.iconSizeDefault,
-                    color: ColorResources.getPrimary(context)),
+                // Image.asset(Images.notification,
+                //     height: Dimensions.iconSizeDefault,
+                //     width: Dimensions.iconSizeDefault,
+                //     color: ColorResources.getPrimary(context)),
+                Icon(Iconsax.notification,
+                    color: ColorResources.getPrimary(context),
+                    size: 25),
                 Positioned(
                     top: -4,
                     right: -4,
