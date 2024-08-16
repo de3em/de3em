@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/data/localstorage/local_storage.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
 import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
 import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
 import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
+import 'package:flutter_sixvalley_ecommerce/main.dart';
 import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
 import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
@@ -23,12 +25,13 @@ class ProductWidget extends StatefulWidget {
 class _ProductWidgetState extends State<ProductWidget> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final recentProductProvider = context.watch<RecentProductProvider>();
+
     String ratting = widget.productModel.rating != null &&
             widget.productModel.rating!.isNotEmpty
         ? widget.productModel.rating![0].average!
@@ -49,6 +52,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             context: context,
             isScrollControlled: true,
             builder: (context) {
+              recentProductProvider.addProduct(widget.productModel);
               return SingleChildScrollView(
                 child: ProductDetails(
                     productId: widget.productModel.id,
@@ -64,7 +68,7 @@ class _ProductWidgetState extends State<ProductWidget> {
             color: Theme.of(context).colorScheme.onPrimary
             // color: Theme.of(context).highlightColor,
             ),
-            clipBehavior: Clip.antiAlias,
+        clipBehavior: Clip.antiAlias,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

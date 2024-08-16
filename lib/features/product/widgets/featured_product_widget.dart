@@ -16,7 +16,8 @@ class FeaturedProductWidget extends StatelessWidget {
   final ScrollController? scrollController;
   final bool isHome;
 
-  const FeaturedProductWidget({super.key, this.scrollController, required this.isHome});
+  const FeaturedProductWidget(
+      {super.key, this.scrollController, required this.isHome});
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +27,22 @@ class FeaturedProductWidget extends StatelessWidget {
         productList = prodProvider.featuredProductList;
         return Stack(
           children: [
-            Column( 
+            Column(
               children: [
                 productList != null
                     ? productList.isNotEmpty
                         ? isHome
                             ? Container(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 10
-                                ),
+                                padding: EdgeInsets.symmetric(vertical: 10),
                                 height: 300,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: productList!.length,
+                                  itemCount: productList.length,
                                   itemBuilder: (context, index) => Container(
                                     width: 150,
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.only(start: 10),
+                                      padding: const EdgeInsetsDirectional.only(
+                                          start: 10),
                                       child: ProductWidget(
                                         productModel: productList![index],
                                       ),
@@ -52,19 +52,28 @@ class FeaturedProductWidget extends StatelessWidget {
                               )
                             : MasonryGridView.count(
                                 itemCount: productList.length,
-                                crossAxisCount: ResponsiveHelper.isTab(context) ? 3 : 2,
+                                crossAxisCount:
+                                    ResponsiveHelper.isTab(context) ? 3 : 2,
                                 padding: const EdgeInsets.all(0),
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) => ProductWidget(productModel: productList![index]),
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        ProductWidget(
+                                            productModel: productList![index]),
                               )
                         : const SizedBox.shrink()
-                    : ProductShimmer(isHomePage: true, isEnabled: prodProvider.firstFeaturedLoading),
+                    : ProductShimmer(
+                        isHomePage: true,
+                        isEnabled: prodProvider.firstFeaturedLoading),
                 prodProvider.isFeaturedLoading
                     ? Center(
                         child: Padding(
-                        padding: const EdgeInsets.all(Dimensions.iconSizeExtraSmall),
-                        child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
+                        padding:
+                            const EdgeInsets.all(Dimensions.iconSizeExtraSmall),
+                        child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Theme.of(context).primaryColor)),
                       ))
                     : const SizedBox.shrink()
               ],

@@ -352,6 +352,47 @@ class Product {
     }
     brand = json['brand'] != null ? Brand.fromJson(json['brand']) : null;
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': _id,
+      'added_by': _addedBy,
+      'user_id': _userId,
+      'name': _name,
+      'slug': _slug,
+      'product_type': _productType,
+      'category_ids': _categoryIds?.map((e) => e.toJson()).toList(),
+      'unit': _unit,
+      'images': _images,
+      'thumbnail': _thumbnail,
+      'colors': _colors?.map((e) => e.toJson()).toList(),
+      'attributes': _attributes,
+      'choice_options': _choiceOptions?.map((e) => e.toJson()).toList(),
+      'variation': _variation?.map((e) => e.toJson()).toList(),
+      'unit_price': _unitPrice,
+      'purchase_price': _purchasePrice,
+      'tax': _tax,
+      'tax_model': _taxModel,
+      'min_qty': _minQty,
+      'refundable': _refundable,
+      'digital_product_type': _digitalProductType,
+      'digital_file_ready': _digitalFileReady,
+      'tax_type': _taxType,
+      'discount': _discount,
+      'discount_type': _discountType,
+      'current_stock': _currentStock,
+      'details': _details,
+      'created_at': _createdAt,
+      'updated_at': _updatedAt,
+      'rating': _rating?.map((e) => e.toJson()).toList(),
+      'shipping_cost': _shippingCost,
+      'multiply_qty': _isMultiPly,
+      'reviews_count': _reviewCount,
+      'video_url': _videoUrl,
+      'minimum_order_qty': _minimumOrderQty,
+      'wish_list_count': wishList,
+      'brand': brand?.toJson(),
+    };
+  }
 }
 
 class CategoryIds {
@@ -365,6 +406,12 @@ class CategoryIds {
 
   CategoryIds.fromJson(Map<String, dynamic> json) {
     _position = json['position'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['position'] = _position;
+    return data;
   }
 }
 
@@ -383,6 +430,13 @@ class ProductColors {
   ProductColors.fromJson(Map<String, dynamic> json) {
     _name = json['name'];
     _code = json['code'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = _name;
+    data['code'] = _code;
+    return data;
   }
 }
 
@@ -407,6 +461,14 @@ class ChoiceOptions {
     if (json['options'] != null) {
       _options = json['options'].cast<String>();
     }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = _name;
+    data['title'] = _title;
+    data['options'] = _options;
+    return data;
   }
 }
 
@@ -434,6 +496,15 @@ class Variation {
     _sku = json['sku'];
     _qty = json['qty'];
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = _type;
+    data['price'] = _price;
+    data['sku'] = _sku;
+    data['qty'] = _qty;
+    return data;
+  }
 }
 
 class Rating {
@@ -448,6 +519,12 @@ class Rating {
   Rating.fromJson(Map<String, dynamic> json) {
     _average = json['average'].toString();
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['average'] = _average;
+    return data;
+  }
 }
 
 class Brand {
@@ -459,5 +536,11 @@ class Brand {
 
   Brand.fromJson(Map<String, dynamic> json) {
     name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    return data;
   }
 }

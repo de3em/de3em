@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_sixvalley_ecommerce/data/localstorage/local_storage.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/facebook_login_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/auth/controllers/google_login_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/banner/controllers/banner_controller.dart';
@@ -138,6 +139,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (context) => di.sl<ReviewController>()),
       ChangeNotifierProvider(
           create: (context) => di.sl<SellerProductController>()),
+      ChangeNotifierProvider(create: (context) => RecentProductProvider()),
     ],
     child: MyApp(body: body),
   ));
