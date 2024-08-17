@@ -247,6 +247,7 @@ class _HomePageState extends State<HomePage> {
                     //     ),
                     //   ),
                     // ),
+
                     const SizedBox(height: Dimensions.paddingSizeSmall),
                     const CategoryListWidget(isHomePage: true),
 
@@ -314,170 +315,46 @@ class _HomePageState extends State<HomePage> {
                     if (Provider.of<RecentProductProvider>(context)
                         .recentProducts
                         .isNotEmpty)
-                      Consumer<RecentProductProvider>(
-                          builder: (context, recentProductProvider, _) {
-                        return Stack(children: [
-                          // Padding(
-                          //     padding: const EdgeInsets.only(bottom: 25),
-                          //     child: Container(
-                          //       width: MediaQuery.of(context).size.width,
-                          //       height: ResponsiveHelper.isTab(context) ? MediaQuery.of(context).size.width / 2 : MediaQuery.of(context).size.width - 50,
-                          //       decoration: BoxDecoration(borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.paddingSizeDefault), bottomLeft: Radius.circular(Dimensions.paddingSizeDefault)), color: Theme.of(context).colorScheme.onSecondaryContainer),
-                          //     )),
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 12, bottom: 12),
-                                  child: TitleRowWidget(
-                                    title: getTranslated(
-                                        'featured_products', context),
-                                    onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => AllProductScreen(
-                                            productType:
-                                                ProductType.featuredProduct),
+                      Container(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.05),
+                        child: Consumer<RecentProductProvider>(
+                            builder: (context, recentProductProvider, _) {
+                          return Stack(children: [
+                            // Padding(
+                            //     padding: const EdgeInsets.only(bottom: 25),
+                            //     child: Container(
+                            //       width: MediaQuery.of(context).size.width,
+                            //       height: ResponsiveHelper.isTab(context) ? MediaQuery.of(context).size.width / 2 : MediaQuery.of(context).size.width - 50,
+                            //       decoration: BoxDecoration(borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.paddingSizeDefault), bottomLeft: Radius.circular(Dimensions.paddingSizeDefault)), color: Theme.of(context).colorScheme.onSecondaryContainer),
+                            //     )),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 12, bottom: 12),
+                                    child: TitleRowWidget(
+                                      title: "Recently Viewed",
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => AllProductScreen(
+                                              productType:
+                                                  ProductType.featuredProduct),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                RecentProductWidget(
-                                    scrollController: _scrollController,
-                                    isHome: true),
-                              ])
-                        ]);
-                      }),
-
-                    Consumer<ProductController>(
-                        builder: (context, featured, _) {
-                      return featured.featuredProductList != null
-                          ? featured.featuredProductList!.isNotEmpty
-                              ? Stack(children: [
-                                  // Padding(
-                                  //     padding: const EdgeInsets.only(bottom: 25),
-                                  //     child: Container(
-                                  //       width: MediaQuery.of(context).size.width,
-                                  //       height: ResponsiveHelper.isTab(context) ? MediaQuery.of(context).size.width / 2 : MediaQuery.of(context).size.width - 50,
-                                  //       decoration: BoxDecoration(borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.paddingSizeDefault), bottomLeft: Radius.circular(Dimensions.paddingSizeDefault)), color: Theme.of(context).colorScheme.onSecondaryContainer),
-                                  //     )),
-                                  Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 12, bottom: 12),
-                                          child: TitleRowWidget(
-                                            title: getTranslated(
-                                                'featured_products', context),
-                                            onTap: () => Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (_) =>
-                                                    AllProductScreen(
-                                                        productType: ProductType
-                                                            .featuredProduct),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        FeaturedProductWidget(
-                                            scrollController: _scrollController,
-                                            isHome: true),
-                                      ])
+                                  RecentProductWidget(
+                                      scrollController: _scrollController,
+                                      isHome: true),
                                 ])
-                              : const SizedBox()
-                          : const FeaturedProductShimmer();
-                    }),
-
-                    singleVendor
-                        ? const SizedBox()
-                        : Consumer<ShopController>(
-                            builder: (context, topSellerProvider, child) {
-                            return (topSellerProvider.sellerModel != null &&
-                                    (topSellerProvider.sellerModel!.sellers !=
-                                            null &&
-                                        topSellerProvider
-                                            .sellerModel!.sellers!.isNotEmpty))
-                                ? TitleRowWidget(
-                                    title: getTranslated('top_seller', context),
-                                    onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (_) =>
-                                                const AllTopSellerScreen(
-                                                  title: 'top_stores',
-                                                ))))
-                                : const SizedBox();
-                          }),
-                    singleVendor
-                        ? const SizedBox(height: 0)
-                        : const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                    singleVendor
-                        ? const SizedBox()
-                        : Consumer<ShopController>(
-                            builder: (context, topSellerProvider, child) {
-                            return (topSellerProvider.sellerModel != null &&
-                                    (topSellerProvider.sellerModel!.sellers !=
-                                            null &&
-                                        topSellerProvider
-                                            .sellerModel!.sellers!.isNotEmpty))
-                                ? Padding(
-                                    padding: const EdgeInsets.only(
-                                        bottom: Dimensions.homePagePadding),
-                                    child: SizedBox(
-                                        height: ResponsiveHelper.isTab(context)
-                                            ? 170
-                                            : 165,
-                                        child: TopSellerView(
-                                          isHomePage: true,
-                                          scrollController: _scrollController,
-                                        )))
-                                : const SizedBox();
-                          }),
-
-                    const Padding(
-                        padding:
-                            EdgeInsets.only(bottom: Dimensions.homePagePadding),
-                        child: RecommendedProductWidget()),
-
-                    const Padding(
-                        padding: EdgeInsets.only(
-                            bottom: Dimensions.paddingSizeSmall),
-                        child: LatestProductListWidget()),
-
-                    Provider.of<SplashController>(context, listen: false)
-                                .configModel!
-                                .brandSetting ==
-                            "1"
-                        ? TitleRowWidget(
-                            title: getTranslated('brand', context),
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const BrandsView())))
-                        : const SizedBox(),
-                    SizedBox(
-                        height: Provider.of<SplashController>(context,
-                                        listen: false)
-                                    .configModel!
-                                    .brandSetting ==
-                                "1"
-                            ? Dimensions.paddingSizeSmall
-                            : 0),
-                    Provider.of<SplashController>(context, listen: false)
-                                .configModel!
-                                .brandSetting ==
-                            "1"
-                        ? const BrandListWidget(isHomePage: true)
-                        : const SizedBox(),
-
-                    const HomeCategoryProductWidget(isHomePage: true),
-                    const SizedBox(height: Dimensions.homePagePadding),
-
+                          ]);
+                        }),
+                      ),
                     Consumer<BannerController>(
                         builder: (context, footerBannerProvider, child) {
                       return footerBannerProvider.footerBannerList != null &&
@@ -636,6 +513,133 @@ class _HomePageState extends State<HomePage> {
                                     height: Dimensions.homePagePadding)
                               ]));
                     }),
+                    Consumer<ProductController>(
+                        builder: (context, featured, _) {
+                      return featured.featuredProductList != null
+                          ? featured.featuredProductList!.isNotEmpty
+                              ? Stack(children: [
+                                  // Padding(
+                                  //     padding: const EdgeInsets.only(bottom: 25),
+                                  //     child: Container(
+                                  //       width: MediaQuery.of(context).size.width,
+                                  //       height: ResponsiveHelper.isTab(context) ? MediaQuery.of(context).size.width / 2 : MediaQuery.of(context).size.width - 50,
+                                  //       decoration: BoxDecoration(borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.paddingSizeDefault), bottomLeft: Radius.circular(Dimensions.paddingSizeDefault)), color: Theme.of(context).colorScheme.onSecondaryContainer),
+                                  //     )),
+                                  Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 12, bottom: 12),
+                                          child: TitleRowWidget(
+                                            title: getTranslated(
+                                                'featured_products', context),
+                                            onTap: () => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (_) =>
+                                                    AllProductScreen(
+                                                        productType: ProductType
+                                                            .featuredProduct),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        FeaturedProductWidget(
+                                            scrollController: _scrollController,
+                                            isHome: true),
+                                      ])
+                                ])
+                              : const SizedBox()
+                          : const FeaturedProductShimmer();
+                    }),
+
+                    singleVendor
+                        ? const SizedBox()
+                        : Consumer<ShopController>(
+                            builder: (context, topSellerProvider, child) {
+                            return (topSellerProvider.sellerModel != null &&
+                                    (topSellerProvider.sellerModel!.sellers !=
+                                            null &&
+                                        topSellerProvider
+                                            .sellerModel!.sellers!.isNotEmpty))
+                                ? TitleRowWidget(
+                                    title: getTranslated('top_seller', context),
+                                    onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const AllTopSellerScreen(
+                                                  title: 'top_stores',
+                                                ))))
+                                : const SizedBox();
+                          }),
+                    singleVendor
+                        ? const SizedBox(height: 0)
+                        : const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                    singleVendor
+                        ? const SizedBox()
+                        : Consumer<ShopController>(
+                            builder: (context, topSellerProvider, child) {
+                            return (topSellerProvider.sellerModel != null &&
+                                    (topSellerProvider.sellerModel!.sellers !=
+                                            null &&
+                                        topSellerProvider
+                                            .sellerModel!.sellers!.isNotEmpty))
+                                ? Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: Dimensions.homePagePadding),
+                                    child: SizedBox(
+                                        height: ResponsiveHelper.isTab(context)
+                                            ? 170
+                                            : 165,
+                                        child: TopSellerView(
+                                          isHomePage: true,
+                                          scrollController: _scrollController,
+                                        )))
+                                : const SizedBox();
+                          }),
+
+                    const Padding(
+                        padding:
+                            EdgeInsets.only(bottom: Dimensions.homePagePadding),
+                        child: RecommendedProductWidget()),
+
+                    const Padding(
+                        padding: EdgeInsets.only(
+                            bottom: Dimensions.paddingSizeSmall),
+                        child: LatestProductListWidget()),
+
+                    Provider.of<SplashController>(context, listen: false)
+                                .configModel!
+                                .brandSetting ==
+                            "1"
+                        ? TitleRowWidget(
+                            title: getTranslated('brand', context),
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const BrandsView())))
+                        : const SizedBox(),
+                    SizedBox(
+                        height: Provider.of<SplashController>(context,
+                                        listen: false)
+                                    .configModel!
+                                    .brandSetting ==
+                                "1"
+                            ? Dimensions.paddingSizeSmall
+                            : 0),
+                    Provider.of<SplashController>(context, listen: false)
+                                .configModel!
+                                .brandSetting ==
+                            "1"
+                        ? const BrandListWidget(isHomePage: true)
+                        : const SizedBox(),
+
+                    const HomeCategoryProductWidget(isHomePage: true),
+                    const SizedBox(height: Dimensions.homePagePadding),
                   ],
                 ),
               )

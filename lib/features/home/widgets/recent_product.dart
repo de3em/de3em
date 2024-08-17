@@ -40,7 +40,7 @@ class RecentProductWidget extends StatelessWidget {
                                   scrollDirection: Axis.horizontal,
                                   itemCount: productList.length,
                                   itemBuilder: (context, index) => Container(
-                                    width: 150,
+                                    width: 180,
                                     child: Padding(
                                       padding: const EdgeInsetsDirectional.only(
                                           start: 10),

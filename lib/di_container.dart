@@ -279,8 +279,6 @@ Future<void> init() async {
   sl.registerFactory(() => RefundController(refundServiceInterface: sl()));
   sl.registerFactory(() => ReOrderController(reOrderServiceInterface: sl()));
 
-  sl.registerFactory(() => RecentProductProvider());
-
   //interface
   AddressRepoInterface addressRepoInterface =
       AddressRepository(dioClient: sl());

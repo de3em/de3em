@@ -139,7 +139,8 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (context) => di.sl<ReviewController>()),
       ChangeNotifierProvider(
           create: (context) => di.sl<SellerProductController>()),
-      ChangeNotifierProvider(create: (context) => RecentProductProvider()),
+      ChangeNotifierProvider(
+          create: (context) => RecentProductProvider(context)),
     ],
     child: MyApp(body: body),
   ));

@@ -16,7 +16,9 @@ import 'package:provider/provider.dart';
 
 class ProductWidget extends StatefulWidget {
   final Product productModel;
-  const ProductWidget({super.key, required this.productModel});
+  final bool isRecentlyViewed;
+  const ProductWidget(
+      {super.key, required this.productModel, this.isRecentlyViewed = false});
 
   @override
   State<ProductWidget> createState() => _ProductWidgetState();

@@ -1,31 +1,44 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
 import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
+import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RecentProductProvider with ChangeNotifier {
   List<Product> _recentProducts = [];
   bool _isLoading = false;
+  List<Product>? currentProducts = [];
 
   List<Product> get recentProducts => _recentProducts;
   bool get isLoading => _isLoading;
 
-  RecentProductProvider() {
-    loadProducts();
+  RecentProductProvider(BuildContext context) {
+    loadProducts(context);
   }
 
-  Future<void> loadProducts() async {
+  Future<void> loadProducts(BuildContext context) async {
     _isLoading = true;
     notifyListeners();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     List<String>? productStrings = prefs.getStringList('recent_products');
+    await Provider.of<ProductController>(context, listen: false)
+        .getLProductList("1");
+    currentProducts =
+        Provider.of<ProductController>(context, listen: false).lProductList;
     if (productStrings != null) {
-      _recentProducts = productStrings
-          .map((productString) => Product.fromJson(jsonDecode(productString)))
-          .toList();
+      List<Product> recentProductsforNow = [];
+      for (var i = 0; i < productStrings.length; i++) {
+        for (var j = 0; j < currentProducts!.length; j++) {
+          if (currentProducts![j].id == jsonDecode(productStrings[i])['id']) {
+            recentProductsforNow.add(currentProducts![j]);
+          }
+        }
+      }
+      _recentProducts = recentProductsforNow;
     }
 
     _isLoading = false;
