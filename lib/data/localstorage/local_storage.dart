@@ -22,7 +22,6 @@ class RecentProductProvider with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     List<String>? productStrings = prefs.getStringList('recent_products');
-    print(productStrings);
     if (productStrings != null) {
       _recentProducts = productStrings
           .map((productString) => Product.fromJson(jsonDecode(productString)))
@@ -47,15 +46,16 @@ class RecentProductProvider with ChangeNotifier {
 
   Future<void> saveProducts() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> recent = [];
     try {
-      recent = _recentProducts
-          .map((productString) => jsonEncode(productString.toJson()))
-          .toList();
+      List<String> productStrings = _recentProducts.map((product) {
+        return jsonEncode({
+          "id": product.id,
+        });
+      }).toList();
+      print(productStrings);
+      prefs.setStringList('recent_products', productStrings);
     } catch (e) {
       print('Error decoding JSON: $e');
     }
-
-    await prefs.setStringList('recent_products', recent);
   }
 }

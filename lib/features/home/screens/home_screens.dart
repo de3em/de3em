@@ -315,39 +315,40 @@ class _HomePageState extends State<HomePage> {
                         .recentProducts
                         .isNotEmpty)
                       Consumer<RecentProductProvider>(
-                        builder: (context, recentLocalStorage, child) {
-                          return Stack(children: [
-                            Container(
-                                width: MediaQuery.of(context).size.width,
-                                height: 150,
-                                color: Provider.of<ThemeController>(context,
-                                            listen: false)
-                                        .darkTheme
-                                    ? Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(.20)
-                                    : Theme.of(context)
-                                        .primaryColor
-                                        .withOpacity(.125)),
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    bottom: Dimensions.homePagePadding),
-                                child: Column(children: [
-                                  Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0,
-                                          Dimensions.paddingSizeDefault,
-                                          0,
-                                          Dimensions.paddingSizeDefault),
-                                      child: TitleRowWidget(
-                                        title:
-                                            '${getTranslated('featured_deals', context)}',
-                                      )),
-                                  const RecentProductWidget()
-                                ]))
-                          ]);
-                        },
-                      ),
+                          builder: (context, recentProductProvider, _) {
+                        return Stack(children: [
+                          // Padding(
+                          //     padding: const EdgeInsets.only(bottom: 25),
+                          //     child: Container(
+                          //       width: MediaQuery.of(context).size.width,
+                          //       height: ResponsiveHelper.isTab(context) ? MediaQuery.of(context).size.width / 2 : MediaQuery.of(context).size.width - 50,
+                          //       decoration: BoxDecoration(borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.paddingSizeDefault), bottomLeft: Radius.circular(Dimensions.paddingSizeDefault)), color: Theme.of(context).colorScheme.onSecondaryContainer),
+                          //     )),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 12, bottom: 12),
+                                  child: TitleRowWidget(
+                                    title: getTranslated(
+                                        'featured_products', context),
+                                    onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => AllProductScreen(
+                                            productType:
+                                                ProductType.featuredProduct),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                RecentProductWidget(
+                                    scrollController: _scrollController,
+                                    isHome: true),
+                              ])
+                        ]);
+                      }),
 
                     Consumer<ProductController>(
                         builder: (context, featured, _) {

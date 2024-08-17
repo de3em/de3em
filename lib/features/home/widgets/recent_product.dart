@@ -14,32 +14,85 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
 class RecentProductWidget extends StatelessWidget {
-  final bool isHomePage;
-  const RecentProductWidget({super.key, this.isHomePage = true});
+  final ScrollController? scrollController;
+  final bool isHome;
+
+  const RecentProductWidget(
+      {super.key, this.scrollController, required this.isHome});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<RecentProductProvider>(
-        builder: (context, recentProductsController, child) {
-      return CarouselSlider.builder(
-        options: CarouselOptions(
-          aspectRatio: 2.5,
-          viewportFraction: 0.83,
-          autoPlay: true,
-          pauseAutoPlayOnTouch: true,
-          pauseAutoPlayOnManualNavigate: true,
-          pauseAutoPlayInFiniteScroll: true,
-          enlargeFactor: 0.2,
-          enlargeCenterPage: true,
-          enableInfiniteScroll: true,
-          disableCenter: true,
-        ),
-        itemCount: recentProductsController.recentProducts.length,
-        itemBuilder: (context, index, _) => FeaturedDealWidget(
-            isRecentProduct: true,
-            isHomePage: isHomePage,
-            product: recentProductsController.recentProducts[index]),
-      );
-    });
+      builder: (context, prodProvider, child) {
+        List<Product>? productList;
+        productList = prodProvider.recentProducts;
+        return Stack(
+          children: [
+            Column(
+              children: [
+                productList != null
+                    ? productList.isNotEmpty
+                        ? isHome
+                            ? Container(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                height: 300,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: productList.length,
+                                  itemBuilder: (context, index) => Container(
+                                    width: 150,
+                                    child: Padding(
+                                      padding: const EdgeInsetsDirectional.only(
+                                          start: 10),
+                                      child: ProductWidget(
+                                        productModel: productList![index],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : MasonryGridView.count(
+                                itemCount: productList.length,
+                                crossAxisCount:
+                                    ResponsiveHelper.isTab(context) ? 3 : 2,
+                                padding: const EdgeInsets.all(0),
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder:
+                                    (BuildContext context, int index) =>
+                                        ProductWidget(
+                                            productModel: productList![index]),
+                              )
+                        : const SizedBox.shrink()
+                    : ProductShimmer(
+                        isHomePage: true, isEnabled: prodProvider.isLoading),
+                prodProvider.isLoading
+                    ? Center(
+                        child: Padding(
+                        padding:
+                            const EdgeInsets.all(Dimensions.iconSizeExtraSmall),
+                        child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Theme.of(context).primaryColor)),
+                      ))
+                    : const SizedBox.shrink()
+              ],
+            ),
+            // Align(
+            //   alignment: Alignment.bottomCenter,
+            //   child: LinearPercentIndicator(
+            //     padding: EdgeInsets.zero,
+            //     barRadius: const Radius.circular(Dimensions.paddingSizeDefault),
+            //     width: 80,
+            //     lineHeight: 4.0,
+            //     percent: prodProvider.featuredIndex / productList!.length,
+            //     backgroundColor: Provider.of<ThemeController>(context, listen: false).darkTheme ? Theme.of(context).primaryColor.withOpacity(.7) : Theme.of(context).primaryColor.withOpacity(.2),
+            //     progressColor: (Provider.of<ThemeController>(context, listen: false).darkTheme) ? Theme.of(context).colorScheme.onSecondary : Theme.of(context).primaryColor,
+            //   ),
+            // ),
+          ],
+        );
+      },
+    );
   }
 }
