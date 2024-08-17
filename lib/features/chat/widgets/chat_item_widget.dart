@@ -132,42 +132,46 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
                 horizontal: Dimensions.paddingSizeDefault),
             child: Row(
               children: [
-                Stack(
-                  children: [
-                    Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(.25),
-                                width: .5),
-                            borderRadius: BorderRadius.circular(100)),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: CustomImageWidget(
-                                image: (widget.chat?.adminId == 0)
-                                    ? "${Provider.of<SplashController>(context, listen: false).configModel?.companyIcon}"
-                                    : '$baseUrl/$image',
-                                height: 50,
-                                width: 50,
-                                fit: BoxFit.cover))),
-                    if (vacationIsOn)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Stack(
+                    children: [
                       Container(
-                          width: 70,
-                          height: 70,
+                          width: 55,
+                          height: 55,
                           decoration: BoxDecoration(
-                              color: Colors.black54.withOpacity(.65),
+                              border: Border.all(
+                                  color: Theme.of(context)
+                                      .primaryColor
+                                      .withOpacity(.25),
+                                  width: .5),
                               borderRadius: BorderRadius.circular(100)),
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
-                              child: Center(
-                                  child: Text(
-                                getTranslated("close", context) ?? '',
-                                style: textMedium.copyWith(color: Colors.white),
-                              ))))
-                  ],
+                              child: CustomImageWidget(
+                                  image: (widget.chat?.adminId == 0)
+                                      ? "${Provider.of<SplashController>(context, listen: false).configModel?.companyIcon}"
+                                      : '$baseUrl/$image',
+                                  height: 50,
+                                  width: 50,
+                                  fit: BoxFit.cover))),
+                      if (vacationIsOn)
+                        Container(
+                            width: 70,
+                            height: 70,
+                            decoration: BoxDecoration(
+                                color: Colors.black54.withOpacity(.65),
+                                borderRadius: BorderRadius.circular(100)),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: Center(
+                                    child: Text(
+                                  getTranslated("close", context) ?? '',
+                                  style:
+                                      textMedium.copyWith(color: Colors.white),
+                                ))))
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   width: Dimensions.paddingSizeDefault,
@@ -194,17 +198,18 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
                                           fontSize:
                                               Dimensions.fontSizeDefault))),
                           const SizedBox(width: Dimensions.paddingSizeSmall),
-                          Text(
-                              DateConverter.compareDates(
-                                  widget.chat!.createdAt!),
-                              style: titilliumRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeSmall,
-                                  color: Theme.of(context).hintColor)),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                                DateConverter.compareDates(
+                                    widget.chat!.createdAt!),
+                                style: titilliumRegular.copyWith(
+                                    fontSize: 11,
+                                    color: Theme.of(context).hintColor)),
+                          ),
                         ],
                       ),
-                      const SizedBox(
-                        height: Dimensions.paddingSizeSmall,
-                      ),
+                      const SizedBox(height: 5),
                       Row(
                         children: [
                           Expanded(

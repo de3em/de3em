@@ -27,6 +27,7 @@ class RecentProductProvider with ChangeNotifier {
     List<String>? productStrings = prefs.getStringList('recent_products');
     await Provider.of<ProductController>(context, listen: false)
         .getLProductList("1");
+
     currentProducts =
         Provider.of<ProductController>(context, listen: false).lProductList;
     if (productStrings != null) {
@@ -38,11 +39,26 @@ class RecentProductProvider with ChangeNotifier {
           }
         }
       }
-      _recentProducts = recentProductsforNow;
+
+      _recentProducts = removeDuplicates(recentProductsforNow);
     }
 
     _isLoading = false;
     notifyListeners();
+  }
+
+  List<Product> removeDuplicates(List<Product> products) {
+    Set<String> uniqueProductIds = {};
+    List<Product> uniqueProducts = [];
+
+    for (var product in products) {
+      if (!uniqueProductIds.contains(product.id.toString())) {
+        uniqueProducts.add(product);
+        uniqueProductIds.add(product.id.toString());
+      }
+    }
+
+    return uniqueProducts;
   }
 
   Future<void> addProduct(Product product) async {

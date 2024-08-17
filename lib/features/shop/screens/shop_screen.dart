@@ -30,13 +30,24 @@ class TopSellerProductScreen extends StatefulWidget {
   final String? banner;
   final String? image;
   final bool fromMore;
-  const TopSellerProductScreen({super.key, this.sellerId, this.temporaryClose, this.vacationStatus, this.vacationEndDate, this.vacationStartDate, this.name, this.banner, this.image, this.fromMore = false});
+  const TopSellerProductScreen(
+      {super.key,
+      this.sellerId,
+      this.temporaryClose,
+      this.vacationStatus,
+      this.vacationEndDate,
+      this.vacationStartDate,
+      this.name,
+      this.banner,
+      this.image,
+      this.fromMore = false});
 
   @override
   State<TopSellerProductScreen> createState() => _TopSellerProductScreenState();
 }
 
-class _TopSellerProductScreenState extends State<TopSellerProductScreen> with TickerProviderStateMixin {
+class _TopSellerProductScreenState extends State<TopSellerProductScreen>
+    with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   TextEditingController searchController = TextEditingController();
   bool vacationIsOn = false;
@@ -44,21 +55,30 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
   int selectedIndex = 0;
 
   void _load() async {
-    await Provider.of<SellerProductController>(context, listen: false).getSellerProductList(widget.sellerId.toString(), 1, "");
-    await Provider.of<ShopController>(Get.context!, listen: false).getSellerInfo(widget.sellerId.toString());
-    await Provider.of<SellerProductController>(Get.context!, listen: false).getSellerWiseBestSellingProductList(widget.sellerId.toString(), 1);
-    await Provider.of<SellerProductController>(Get.context!, listen: false).getSellerWiseFeaturedProductList(widget.sellerId.toString(), 1);
-    await Provider.of<SellerProductController>(Get.context!, listen: false).getSellerWiseRecommandedProductList(widget.sellerId.toString(), 1);
-    await Provider.of<CouponController>(Get.context!, listen: false).getSellerWiseCouponList(widget.sellerId!, 1);
-    await Provider.of<CategoryController>(Get.context!, listen: false).getSellerWiseCategoryList(widget.sellerId!);
-    await Provider.of<BrandController>(Get.context!, listen: false).getSellerWiseBrandList(widget.sellerId!);
+    await Provider.of<SellerProductController>(context, listen: false)
+        .getSellerProductList(widget.sellerId.toString(), 1, "");
+    await Provider.of<ShopController>(Get.context!, listen: false)
+        .getSellerInfo(widget.sellerId.toString());
+    await Provider.of<SellerProductController>(Get.context!, listen: false)
+        .getSellerWiseBestSellingProductList(widget.sellerId.toString(), 1);
+    await Provider.of<SellerProductController>(Get.context!, listen: false)
+        .getSellerWiseFeaturedProductList(widget.sellerId.toString(), 1);
+    await Provider.of<SellerProductController>(Get.context!, listen: false)
+        .getSellerWiseRecommandedProductList(widget.sellerId.toString(), 1);
+    await Provider.of<CouponController>(Get.context!, listen: false)
+        .getSellerWiseCouponList(widget.sellerId!, 1);
+    await Provider.of<CategoryController>(Get.context!, listen: false)
+        .getSellerWiseCategoryList(widget.sellerId!);
+    await Provider.of<BrandController>(Get.context!, listen: false)
+        .getSellerWiseBrandList(widget.sellerId!);
   }
 
   @override
   void initState() {
     super.initState();
     // if (widget.fromMore) {
-      Provider.of<ShopController>(context, listen: false).setMenuItemIndex(1, notify: false);
+    Provider.of<ShopController>(context, listen: false)
+        .setMenuItemIndex(1, notify: false);
     // } else {
     //   Provider.of<ShopController>(context, listen: false).setMenuItemIndex(0, notify: false);
     // }
@@ -66,7 +86,7 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
     searchController.clear();
     _load();
     // if (widget.fromMore) {
-      _tabController = TabController(length: 2, initialIndex: 1, vsync: this);
+    _tabController = TabController(length: 2, initialIndex: 1, vsync: this);
     // } else {
     //   _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
     // }
@@ -91,7 +111,8 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
     return PopScope(
       canPop: true,
       onPopInvoked: (value) {
-        Provider.of<SellerProductController>(context, listen: false).clearSellerProducts();
+        Provider.of<SellerProductController>(context, listen: false)
+            .clearSellerProducts();
       },
       child: Scaffold(
           resizeToAvoidBottomInset: false,
@@ -100,11 +121,18 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
             return CustomScrollView(
               controller: _scrollController,
               slivers: [
-                SliverToBoxAdapter(child: ShopInfoWidget(vacationIsOn: vacationIsOn, sellerName: widget.name ?? "", sellerId: widget.sellerId!, banner: widget.banner ?? '', shopImage: widget.image ?? '', temporaryClose: widget.temporaryClose!)),
+                SliverToBoxAdapter(
+                    child: ShopInfoWidget(
+                        vacationIsOn: vacationIsOn,
+                        sellerName: widget.name ?? "",
+                        sellerId: widget.sellerId!,
+                        banner: widget.banner ?? '',
+                        shopImage: widget.image ?? '',
+                        temporaryClose: widget.temporaryClose!)),
                 SliverPersistentHeader(
                   pinned: true,
                   delegate: SliverDelegate(
-                    height: sellerProvider.shopMenuIndex == 1 ? 110 : 40,
+                    height: sellerProvider.shopMenuIndex == 1 ? 50 : 40,
                     child: Container(
                       color: Theme.of(context).canvasColor,
                       child: Column(
@@ -158,7 +186,10 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
                           ]),
                           Container(
                             color: Theme.of(context).canvasColor,
-                            child: SearchWidget(hintText: '${getTranslated('search_hint', context)}', sellerId: widget.sellerId!),
+                            child: SearchWidget(
+                                hintText:
+                                    '${getTranslated('search_hint', context)}',
+                                sellerId: widget.sellerId!),
                           ),
                         ],
                       ),
@@ -167,7 +198,11 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen> with Ti
                 ),
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall, Dimensions.paddingSizeSmall, 0),
+                    padding: const EdgeInsets.fromLTRB(
+                        Dimensions.paddingSizeSmall,
+                        Dimensions.paddingSizeSmall,
+                        Dimensions.paddingSizeSmall,
+                        0),
                     child: ShopProductViewList(
                       scrollController: _scrollController,
                       sellerId: widget.sellerId!,

@@ -250,7 +250,31 @@ class _HomePageState extends State<HomePage> {
 
                     const SizedBox(height: Dimensions.paddingSizeSmall),
                     const CategoryListWidget(isHomePage: true),
-
+                    Provider.of<SplashController>(context, listen: false)
+                                .configModel!
+                                .brandSetting ==
+                            "1"
+                        ? TitleRowWidget(
+                            title: getTranslated('brand', context),
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const BrandsView())))
+                        : const SizedBox(),
+                    SizedBox(
+                        height: Provider.of<SplashController>(context,
+                                        listen: false)
+                                    .configModel!
+                                    .brandSetting ==
+                                "1"
+                            ? Dimensions.paddingSizeSmall
+                            : 0),
+                    Provider.of<SplashController>(context, listen: false)
+                                .configModel!
+                                .brandSetting ==
+                            "1"
+                        ? const BrandListWidget(isHomePage: true)
+                        : const SizedBox(),
                     Consumer<FeaturedDealController>(
                       builder: (context, featuredDealProvider, child) {
                         return featuredDealProvider.featuredDealProductList !=
@@ -594,7 +618,7 @@ class _HomePageState extends State<HomePage> {
                                     child: SizedBox(
                                         height: ResponsiveHelper.isTab(context)
                                             ? 170
-                                            : 165,
+                                            : 63,
                                         child: TopSellerView(
                                           isHomePage: true,
                                           scrollController: _scrollController,
@@ -611,32 +635,6 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.only(
                             bottom: Dimensions.paddingSizeSmall),
                         child: LatestProductListWidget()),
-
-                    Provider.of<SplashController>(context, listen: false)
-                                .configModel!
-                                .brandSetting ==
-                            "1"
-                        ? TitleRowWidget(
-                            title: getTranslated('brand', context),
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => const BrandsView())))
-                        : const SizedBox(),
-                    SizedBox(
-                        height: Provider.of<SplashController>(context,
-                                        listen: false)
-                                    .configModel!
-                                    .brandSetting ==
-                                "1"
-                            ? Dimensions.paddingSizeSmall
-                            : 0),
-                    Provider.of<SplashController>(context, listen: false)
-                                .configModel!
-                                .brandSetting ==
-                            "1"
-                        ? const BrandListWidget(isHomePage: true)
-                        : const SizedBox(),
 
                     const HomeCategoryProductWidget(isHomePage: true),
                     const SizedBox(height: Dimensions.homePagePadding),
