@@ -1,4 +1,4 @@
-package net.nichen.app
+package net.da3em.app
 
 import io.flutter.embedding.android.FlutterActivity
 

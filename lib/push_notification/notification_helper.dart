@@ -140,7 +140,7 @@ class NotificationHelper {
 
   static Future<void> showTextNotification(String title, String body, String orderID, NotificationBody? notificationBody, FlutterLocalNotificationsPlugin fln) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'Nichen', 'Nichen', playSound: true,
+      'Da3em', 'Da3em', playSound: true,
       importance: Importance.max, priority: Priority.max, sound: RawResourceAndroidNotificationSound('notification'),
     );
     const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
@@ -153,7 +153,7 @@ class NotificationHelper {
       contentTitle: title, htmlFormatContentTitle: true,
     );
     AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'Nichen', 'Nichen', importance: Importance.max,
+      'Da3em', 'Da3em', importance: Importance.max,
       styleInformation: bigTextStyleInformation, priority: Priority.max, playSound: true,
       sound: const RawResourceAndroidNotificationSound('notification'),
     );
@@ -170,7 +170,7 @@ class NotificationHelper {
       summaryText: body, htmlFormatSummaryText: true,
     );
     final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'Nichen', 'Nichen',
+      'Da3em', 'Da3em',
       largeIcon: FilePathAndroidBitmap(largeIconPath), priority: Priority.max, playSound: true,
       styleInformation: bigPictureStyleInformation, importance: Importance.max,
       sound: const RawResourceAndroidNotificationSound('notification'),

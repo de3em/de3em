@@ -84,11 +84,24 @@ dev_dependencies:
 dependency_overrides:
   intl: ^0.19.0
   
+# flutter_launcher_icons:
+#   android: "launcher_icon"
+#   ios: true
+#   image_path: "assets/images/icon-forground.png"
+#   min_sdk_android: 21 # android min sdk min:16, default 21
+
 flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/images/icon-forground.png"
+  image_path_android: "assets/launcher/icon.png"
+  image_path_ios: "assets/launcher/icon.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+  adaptive_icon_background: "#ffffff" # only available for Android 8.0 devices and above
+  adaptive_icon_foreground: "assets/launcher/fg.png" # only available for Android 8.0 devices and above
+  adaptive_icon_monochrome: "assets/launcher/fg.png" # only available for Android 13 devices and above
   min_sdk_android: 21 # android min sdk min:16, default 21
+  remove_alpha_ios: true
+  background_color_ios: "#ffffff"
+
 
 flutter:
   uses-material-design: true

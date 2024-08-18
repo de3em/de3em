@@ -10,7 +10,7 @@
 	</array>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)net.nichen.app</string>
+		<string>$(AppIdentifierPrefix)net.da3em.app</string>
 	</array>
 </dict>
 </plist>

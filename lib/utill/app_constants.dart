@@ -2,10 +2,10 @@ import 'package:flutter_sixvalley_ecommerce/localization/models/language_model.d
 import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
 
 class AppConstants {
-  static const String appName = 'Nichen';
-  static const String slogan = 'Nichen Marketplace';
+  static const String appName = 'Da3em';
+  static const String slogan = 'Da3em Marketplace';
   static const String appVersion = '14.6';
-  static const String baseUrl = 'https://nichen.net';
+  static const String baseUrl = 'https://da3em.net';
   static const String userId = 'userId';
   static const String name = 'name';
   static const String categoriesUri = '/api/v1/categories?guest_id=1';
