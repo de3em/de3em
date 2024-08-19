@@ -29,7 +29,7 @@ import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_wid
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/success_dialog_widget.dart';
 import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_textfield_widget.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
@@ -314,10 +314,12 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                                         : _defaut.longitude,
                                                   )
                                                 : LatLng(
-                                                    locationController
-                                                        .position.latitude,
-                                                    locationController
-                                                        .position.longitude),
+0,0
+                                                    // locationController
+                                                    //     .position.latitude,
+                                                    // locationController
+                                                    //     .position.longitude
+                                                        ),
                                             zoom: 16),
                                         onTap: (latLng) {
                                           Navigator.of(context).push(
@@ -837,13 +839,22 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                             address: locationController
                                                 .locationController.text,
                                             latitude: widget.isEnableUpdate
-                                                ? locationController.position.latitude
-                                                    .toString()
-                                                : locationController.position.latitude
-                                                    .toString(),
+                                                ? 
+                                                '0'
+                                                // locationController.position.latitude
+                                                //     .toString()
+                                                : '0'
+                                                // locationController.position.latitude
+                                                //     .toString()
+                                                    ,
                                             longitude: widget.isEnableUpdate
-                                                ? locationController.position.longitude.toString()
-                                                : locationController.position.longitude.toString());
+                                                ? '0'
+                                                // locationController.position.longitude.toString()
+                                                : 
+                                                '0'
+                                                // locationController.position.longitude.toString()
+                                                
+                                                ,);
 
                                         if (widget.isEnableUpdate) {
                                           addressModel.id = widget.address!.id;
@@ -947,36 +958,36 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   }
 
   void _checkPermission(Function callback, BuildContext context) async {
-    LocationPermission permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.whileInUse) {
-      InkWell(
-          onTap: () async {
-            Navigator.pop(context);
-            await Geolocator.requestPermission();
-            _checkPermission(callback, Get.context!);
-          },
-          child: AlertDialog(
-              content: SuccessDialog(
-                  icon: Icons.location_on_outlined,
-                  title: '',
-                  description: getTranslated('you_denied', Get.context!))));
-    } else if (permission == LocationPermission.deniedForever) {
-      InkWell(
-          onTap: () async {
-            if (context.mounted) {}
-            Navigator.pop(context);
-            await Geolocator.openAppSettings();
-            _checkPermission(callback, Get.context!);
-          },
-          child: AlertDialog(
-              content: SuccessDialog(
-                  icon: Icons.location_on_outlined,
-                  title: '',
-                  description: getTranslated('you_denied', Get.context!))));
-    } else {
-      callback();
-    }
+    // LocationPermission permission = await Geolocator.requestPermission();
+    // if (permission == LocationPermission.denied ||
+    //     permission == LocationPermission.whileInUse) {
+    //   InkWell(
+    //       onTap: () async {
+    //         Navigator.pop(context);
+    //         await Geolocator.requestPermission();
+    //         _checkPermission(callback, Get.context!);
+    //       },
+    //       child: AlertDialog(
+    //           content: SuccessDialog(
+    //               icon: Icons.location_on_outlined,
+    //               title: '',
+    //               description: getTranslated('you_denied', Get.context!))));
+    // } else if (permission == LocationPermission.deniedForever) {
+    //   InkWell(
+    //       onTap: () async {
+    //         if (context.mounted) {}
+    //         Navigator.pop(context);
+    //         await Geolocator.openAppSettings();
+    //         _checkPermission(callback, Get.context!);
+    //       },
+    //       child: AlertDialog(
+    //           content: SuccessDialog(
+    //               icon: Icons.location_on_outlined,
+    //               title: '',
+    //               description: getTranslated('you_denied', Get.context!))));
+    // } else {
+    //   callback();
+    // }
   }
 }
 

@@ -50,7 +50,10 @@ class SelectLocationScreenState extends State<SelectLocationScreen> {
           builder: (context, locationController, child) => Provider.of<SplashController>(context, listen: false).configModel!.mapApiStatus == 1 ? Stack(clipBehavior: Clip.none, children: [
               GoogleMap(mapType: MapType.normal,
                 initialCameraPosition: CameraPosition(
-                  target: LatLng(locationController.position.latitude, locationController.position.longitude), zoom: 16),
+                  target: LatLng(
+                    0,0
+                    // locationController.position.latitude, locationController.position.longitude
+                    ), zoom: 16),
                 zoomControlsEnabled: false,
                 compassEnabled: false,
                 indoorViewEnabled: true,
@@ -90,8 +93,8 @@ class SelectLocationScreenState extends State<SelectLocationScreen> {
                         child: CustomButton(buttonText: getTranslated('select_location', context),
                           onTap: () {
                             if(widget.googleMapController != null) {
-                              widget.googleMapController!.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(
-                                locationController.pickPosition.latitude, locationController.pickPosition.longitude), zoom: 16)));
+                              // widget.googleMapController!.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(
+                              //   locationController.pickPosition.latitude, locationController.pickPosition.longitude), zoom: 16)));
                               locationController.setAddAddressData();
                             }
                             Navigator.of(context).pop();
