@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_app_bar_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/no_internet_screen_widget.dart';
+import 'package:da3em/features/splash/controllers/splash_controller.dart';
+import 'package:da3em/utill/color_resources.dart';
+import 'package:da3em/utill/custom_themes.dart';
+import 'package:da3em/common/basewidget/custom_app_bar_widget.dart';
+import 'package:da3em/common/basewidget/no_internet_screen_widget.dart';
 import 'package:provider/provider.dart';
 class FaqScreen extends StatefulWidget {
   final String? title;

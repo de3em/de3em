@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/domain/models/login_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/domain/models/register_model.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/error_response.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/response_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/domain/models/social_login_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/domain/services/auth_service_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/features/auth/screens/auth_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:da3em/features/auth/domain/models/login_model.dart';
+import 'package:da3em/features/auth/domain/models/register_model.dart';
+import 'package:da3em/data/model/api_response.dart';
+import 'package:da3em/data/model/error_response.dart';
+import 'package:da3em/data/model/response_model.dart';
+import 'package:da3em/features/auth/domain/models/social_login_model.dart';
+import 'package:da3em/features/auth/domain/services/auth_service_interface.dart';
+import 'package:da3em/features/auth/screens/auth_screen.dart';
+import 'package:da3em/helper/api_checker.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/main.dart';
+import 'package:da3em/localization/controllers/localization_controller.dart';
+import 'package:da3em/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:provider/provider.dart';
 
 class AuthController with ChangeNotifier {

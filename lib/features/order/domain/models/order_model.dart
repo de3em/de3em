@@ -1,6 +1,6 @@
 
 
-import 'package:flutter_sixvalley_ecommerce/features/shop/domain/models/seller_model.dart';
+import 'package:da3em/features/shop/domain/models/seller_model.dart';
 
 class OrderModel {
   int? totalSize;
@@ -72,6 +72,11 @@ class Orders {
   DeliveryMan? deliveryMan;
   Seller? seller;
 
+  String? name;
+  String? phone;
+  String? state;
+  String? city;
+
   Orders(
       {this.id,
         this.customerId,
@@ -118,7 +123,12 @@ class Orders {
         this.orderDetailsCount,
         this.details,
         this.deliveryMan,
-        this.seller});
+        this.seller,
+this.name,
+this.phone,
+this.state,
+this.city,
+        });
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -163,6 +173,11 @@ class Orders {
 
     expectedDeliveryDate = json['expected_delivery_date'];
     orderNote = json['order_note'];
+    name = json['name'];
+    phone = json['phone'];
+    state = json['state'];
+    city = json['city'];
+
     billingAddress = json['billing_address'];
     billingAddressData = json['billing_address_data'] != null ? BillingAddressData.fromJson(json['billing_address_data']) : null;
     orderType = json['order_type'];

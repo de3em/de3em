@@ -1,10 +1,10 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/utill/custom_themes.dart';
+import 'package:da3em/utill/dimensions.dart';
+import 'package:da3em/utill/images.dart';
 
 class ReferHintView extends StatelessWidget {
   final List<String> hintList;

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/coupon/domain/models/coupon_item_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/coupon/domain/models/coupon_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/coupon/domain/services/coupon_service_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:da3em/data/model/api_response.dart';
+import 'package:da3em/features/coupon/domain/models/coupon_item_model.dart';
+import 'package:da3em/features/coupon/domain/models/coupon_model.dart';
+import 'package:da3em/features/coupon/domain/services/coupon_service_interface.dart';
+import 'package:da3em/helper/price_converter.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/main.dart';
+import 'package:da3em/common/basewidget/show_custom_snakbar_widget.dart';
 
 class CouponController extends ChangeNotifier {
   final CouponServiceInterface? couponRepo;

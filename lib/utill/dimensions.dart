@@ -1,5 +1,5 @@
-import 'package:flutter_sixvalley_ecommerce/helper/responsive_helper.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
+import 'package:da3em/helper/responsive_helper.dart';
+import 'package:da3em/main.dart';
 
 class Dimensions {
   static double fontSizeExtraSmall =

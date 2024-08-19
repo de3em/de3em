@@ -1,6 +1,6 @@
 
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shop/domain/models/seller_model.dart';
+import 'package:da3em/features/product/domain/models/product_model.dart';
+import 'package:da3em/features/shop/domain/models/seller_model.dart';
 
 class OrderDetailsModel {
   int? _id;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/specification_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
+import 'package:da3em/features/product_details/screens/specification_screen.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/theme/controllers/theme_controller.dart';
+import 'package:da3em/utill/custom_themes.dart';
+import 'package:da3em/utill/dimensions.dart';
 import 'package:provider/provider.dart';
 
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/review/domain/models/review_model.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/image_diaglog_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/rating_bar_widget.dart';
+import 'package:da3em/features/review/domain/models/review_model.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/features/splash/controllers/splash_controller.dart';
+import 'package:da3em/utill/color_resources.dart';
+import 'package:da3em/utill/custom_themes.dart';
+import 'package:da3em/utill/dimensions.dart';
+import 'package:da3em/utill/images.dart';
+import 'package:da3em/common/basewidget/image_diaglog_widget.dart';
+import 'package:da3em/common/basewidget/rating_bar_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 

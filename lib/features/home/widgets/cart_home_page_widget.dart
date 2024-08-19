@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/cart/controllers/cart_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/notification/controllers/notification_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/search_product/screens/search_product_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/responsive_helper.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:flutter_sixvalley_ecommerce/features/cart/screens/cart_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/notification/screens/notification_screen.dart';
+import 'package:da3em/features/cart/controllers/cart_controller.dart';
+import 'package:da3em/features/notification/controllers/notification_controller.dart';
+import 'package:da3em/features/search_product/screens/search_product_screen.dart';
+import 'package:da3em/helper/responsive_helper.dart';
+import 'package:da3em/utill/color_resources.dart';
+import 'package:da3em/utill/custom_themes.dart';
+import 'package:da3em/utill/dimensions.dart';
+import 'package:da3em/utill/images.dart';
+import 'package:da3em/features/cart/screens/cart_screen.dart';
+import 'package:da3em/features/notification/screens/notification_screen.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 

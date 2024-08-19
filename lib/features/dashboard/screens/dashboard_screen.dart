@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/dashboard/models/navigation_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/dashboard/widgets/dashboard_menu_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/network_info.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/features/dashboard/widgets/app_exit_card_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/chat/screens/inbox_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:flutter_sixvalley_ecommerce/features/home/screens/aster_theme_home_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/home/screens/fashion_theme_home_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/home/screens/home_screens.dart';
-import 'package:flutter_sixvalley_ecommerce/features/more/screens/more_screen_view.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order/screens/order_screen.dart';
+import 'package:da3em/features/dashboard/models/navigation_model.dart';
+import 'package:da3em/features/dashboard/widgets/dashboard_menu_widget.dart';
+import 'package:da3em/helper/network_info.dart';
+import 'package:da3em/features/splash/controllers/splash_controller.dart';
+import 'package:da3em/utill/dimensions.dart';
+import 'package:da3em/features/dashboard/widgets/app_exit_card_widget.dart';
+import 'package:da3em/features/chat/screens/inbox_screen.dart';
+import 'package:da3em/utill/images.dart';
+import 'package:da3em/features/home/screens/aster_theme_home_screen.dart';
+import 'package:da3em/features/home/screens/fashion_theme_home_screen.dart';
+import 'package:da3em/features/home/screens/home_screens.dart';
+import 'package:da3em/features/more/screens/more_screen_view.dart';
+import 'package:da3em/features/order/screens/order_screen.dart';
 import 'package:iconly/iconly.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:navigation_view/item_navigation_view.dart';
@@ -34,10 +34,10 @@ class DashBoardScreenState extends State<DashBoardScreen> {
   @override
   void initState() {
     super.initState();
-    singleVendor = Provider.of<SplashController>(context, listen: false)
-            .configModel!
-            .businessMode ==
-        "single";
+    // singleVendor = Provider.of<SplashController>(context, listen: false)
+    //         .configModel!
+    //         .businessMode ==
+    //     "single";
     _screens = [
       NavigationModel(
         name: 'home',

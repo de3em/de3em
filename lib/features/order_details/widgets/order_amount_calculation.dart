@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/amount_widget.dart';
+import 'package:da3em/features/order_details/controllers/order_details_controller.dart';
+import 'package:da3em/helper/price_converter.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/utill/color_resources.dart';
+import 'package:da3em/utill/dimensions.dart';
+import 'package:da3em/common/basewidget/amount_widget.dart';
 
 class OrderAmountCalculation extends StatelessWidget {
   final double itemTotalAmount;

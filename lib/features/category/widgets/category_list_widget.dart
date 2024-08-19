@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/category/controllers/category_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/category/domain/models/category_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/category/widgets/category_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/screens/brand_and_category_product_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
+import 'package:da3em/features/category/controllers/category_controller.dart';
+import 'package:da3em/features/category/domain/models/category_model.dart';
+import 'package:da3em/features/category/widgets/category_widget.dart';
+import 'package:da3em/features/product/screens/brand_and_category_product_screen.dart';
+import 'package:da3em/localization/controllers/localization_controller.dart';
 import 'package:provider/provider.dart';
 
 import 'category_shimmer_widget.dart';

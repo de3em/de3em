@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/notification/domain/models/notification_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/notification/domain/services/notification_service_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
+import 'package:da3em/data/model/api_response.dart';
+import 'package:da3em/features/notification/domain/models/notification_model.dart';
+import 'package:da3em/features/notification/domain/services/notification_service_interface.dart';
+import 'package:da3em/helper/api_checker.dart';
 
 class NotificationController extends ChangeNotifier {
   final NotificationServiceInterface notificationServiceInterface;

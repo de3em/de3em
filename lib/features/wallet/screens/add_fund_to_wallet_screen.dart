@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_sixvalley_ecommerce/features/wallet/controllers/wallet_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/app_constants.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/animated_custom_dialog_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/checkout/widgets/order_place_dialog_widget.dart';
+import 'package:da3em/features/wallet/controllers/wallet_controller.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/main.dart';
+import 'package:da3em/utill/app_constants.dart';
+import 'package:da3em/common/basewidget/animated_custom_dialog_widget.dart';
+import 'package:da3em/features/checkout/widgets/order_place_dialog_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

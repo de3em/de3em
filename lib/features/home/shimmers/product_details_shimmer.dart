@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
+import 'package:da3em/utill/color_resources.dart';
+import 'package:da3em/utill/dimensions.dart';
+import 'package:da3em/utill/images.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ProductDetailsShimmer extends StatelessWidget {

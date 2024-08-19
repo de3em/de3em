@@ -1,11 +1,11 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/chat/controllers/chat_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order/domain/models/order_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/order_details/controllers/order_details_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/images.dart';
-import 'package:flutter_sixvalley_ecommerce/features/chat/screens/chat_screen.dart';
+import 'package:da3em/features/chat/controllers/chat_controller.dart';
+import 'package:da3em/features/order/domain/models/order_model.dart';
+import 'package:da3em/features/order_details/controllers/order_details_controller.dart';
+import 'package:da3em/utill/dimensions.dart';
+import 'package:da3em/utill/images.dart';
+import 'package:da3em/features/chat/screens/chat_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 

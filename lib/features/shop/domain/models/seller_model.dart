@@ -1,5 +1,5 @@
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
+import 'package:da3em/features/splash/controllers/splash_controller.dart';
+import 'package:da3em/main.dart';
 import 'package:provider/provider.dart';
 
 class SellerModel {

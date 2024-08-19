@@ -1,4 +1,4 @@
-import 'package:flutter_sixvalley_ecommerce/interface/repo_interface.dart';
+import 'package:da3em/interface/repo_interface.dart';
 
 abstract class FeaturedDealRepositoryInterface implements RepositoryInterface{
 

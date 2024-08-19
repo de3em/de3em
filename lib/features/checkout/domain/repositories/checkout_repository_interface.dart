@@ -1,8 +1,11 @@
-import 'package:flutter_sixvalley_ecommerce/interface/repo_interface.dart';
+import 'package:da3em/interface/repo_interface.dart';
 
 abstract class CheckoutRepositoryInterface implements RepositoryInterface{
 
-  Future<dynamic> cashOnDeliveryPlaceOrder(String? addressID, String? couponCode,String? couponDiscountAmount, String? billingAddressId, String? orderNote, bool? isCheckCreateAccount, String? password);
+  Future<dynamic> cashOnDeliveryPlaceOrder(String? addressID, String? couponCode,String? couponDiscountAmount, String? billingAddressId, String? orderNote, bool? isCheckCreateAccount, String? password,
+    String? name,
+    String? phone,
+    String? state,);
 
   Future<dynamic> offlinePaymentPlaceOrder(String? addressID, String? couponCode, String? couponDiscountAmount, String? billingAddressId, String? orderNote, List <String?> typeKey, List<String> typeValue, int? id, String name, String? paymentNote, bool? isCheckCreateAccount, String? password);
 

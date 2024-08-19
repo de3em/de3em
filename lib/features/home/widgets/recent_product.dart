@@ -1,15 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/product_shimmer_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/product_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/data/localstorage/local_storage.dart';
-import 'package:flutter_sixvalley_ecommerce/features/deal/widgets/featured_deal_card_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/home/widgets/aster_theme/find_what_you_need_shimmer.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/responsive_helper.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
+import 'package:da3em/common/basewidget/product_shimmer_widget.dart';
+import 'package:da3em/common/basewidget/product_widget.dart';
+import 'package:da3em/data/localstorage/local_storage.dart';
+import 'package:da3em/features/deal/widgets/featured_deal_card_widget.dart';
+import 'package:da3em/features/home/widgets/aster_theme/find_what_you_need_shimmer.dart';
+import 'package:da3em/features/product/controllers/product_controller.dart';
+import 'package:da3em/features/product/domain/models/product_model.dart';
+import 'package:da3em/helper/responsive_helper.dart';
+import 'package:da3em/utill/dimensions.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 

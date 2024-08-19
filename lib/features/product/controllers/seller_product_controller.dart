@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/services/seller_product_service_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shop/domain/models/shop_again_from_recent_store_model.dart';
+import 'package:da3em/data/model/api_response.dart';
+import 'package:da3em/features/product/domain/models/product_model.dart';
+import 'package:da3em/features/product/domain/services/seller_product_service_interface.dart';
+import 'package:da3em/helper/api_checker.dart';
+import 'package:da3em/features/shop/domain/models/shop_again_from_recent_store_model.dart';
 
 class SellerProductController extends ChangeNotifier {
   final SellerProductServiceInterface? sellerProductServiceInterface;

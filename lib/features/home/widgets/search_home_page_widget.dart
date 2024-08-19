@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/controllers/localization_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
+import 'package:da3em/localization/controllers/localization_controller.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/theme/controllers/theme_controller.dart';
+import 'package:da3em/utill/custom_themes.dart';
+import 'package:da3em/utill/dimensions.dart';
 import 'package:provider/provider.dart';
 
 class SearchHomePageWidget extends StatelessWidget {
@@ -17,11 +17,12 @@ class SearchHomePageWidget extends StatelessWidget {
           vertical: Dimensions.paddingSizeSmall),
       alignment: Alignment.center,
       child: Container(
+        clipBehavior: Clip.antiAlias,
         height: 40,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(100),
           border: Border.all(color: Theme.of(context).primaryColor, width: 2),
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -31,8 +32,8 @@ class SearchHomePageWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 color: Provider.of<ThemeController>(context, listen: false)
                         .darkTheme
-                    ? Colors.white
-                    : Theme.of(context).cardColor,
+                    ? Colors.transparent
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(10)),
             child: Icon(
               Icons.search,

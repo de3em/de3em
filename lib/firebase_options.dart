@@ -59,12 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCPCd7q34j7IrcHeuvv4SyqNEzDL5vtyBA',
-    appId: '1:518469678091:ios:2dd3824325719ad0b7c30e',
+    appId: '1:518469678091:ios:33e7b138b5c6cbe4b7c30e',
     messagingSenderId: '518469678091',
     projectId: 'nichen-net',
     storageBucket: 'nichen-net.appspot.com',
-    iosClientId: '518469678091-d04o8oiul7d0f9c3tvfgc38fth2sk5ak.apps.googleusercontent.com',
-    iosBundleId: 'net.da3em.app',
+    iosClientId: '518469678091-c4m63d89ig2o04ergf4tnm00gjmlqvtq.apps.googleusercontent.com',
+    iosBundleId: 'com.example.da3em',
   );
 
 }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/category/domain/models/find_what_you_need.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/home_category_product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/most_demanded_product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/services/product_service_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/enums/product_type.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
+import 'package:da3em/data/model/api_response.dart';
+import 'package:da3em/features/category/domain/models/find_what_you_need.dart';
+import 'package:da3em/features/product/domain/models/home_category_product_model.dart';
+import 'package:da3em/features/product/domain/models/most_demanded_product_model.dart';
+import 'package:da3em/features/product/domain/models/product_model.dart';
+import 'package:da3em/features/product/domain/services/product_service_interface.dart';
+import 'package:da3em/helper/api_checker.dart';
+import 'package:da3em/features/product/enums/product_type.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/main.dart';
 
 class ProductController extends ChangeNotifier {
   final ProductServiceInterface? productServiceInterface;

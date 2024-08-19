@@ -1,26 +1,26 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/checkout/screens/checkout_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/color_selection_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/controllers/product_details_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/domain/models/product_details_model.dart'
+import 'package:da3em/features/cart/domain/models/cart_model.dart';
+import 'package:da3em/features/checkout/screens/checkout_screen.dart';
+import 'package:da3em/features/product/domain/models/product_model.dart';
+import 'package:da3em/features/product_details/widgets/color_selection_widget.dart';
+import 'package:da3em/features/product_details/controllers/product_details_controller.dart';
+import 'package:da3em/features/product_details/domain/models/product_details_model.dart'
     as prefix;
-import 'package:flutter_sixvalley_ecommerce/features/product_details/widgets/shipping_method_dialog.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shipping/domain/models/shipping_method_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/price_converter.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/features/cart/controllers/cart_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/color_resources.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/custom_themes.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_button_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/custom_image_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/cart/screens/cart_screen.dart';
+import 'package:da3em/features/product_details/widgets/shipping_method_dialog.dart';
+import 'package:da3em/features/shipping/domain/models/shipping_method_model.dart';
+import 'package:da3em/features/splash/controllers/splash_controller.dart';
+import 'package:da3em/helper/price_converter.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/features/cart/controllers/cart_controller.dart';
+import 'package:da3em/theme/controllers/theme_controller.dart';
+import 'package:da3em/utill/color_resources.dart';
+import 'package:da3em/utill/custom_themes.dart';
+import 'package:da3em/utill/dimensions.dart';
+import 'package:da3em/common/basewidget/custom_button_widget.dart';
+import 'package:da3em/common/basewidget/custom_image_widget.dart';
+import 'package:da3em/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:da3em/features/cart/screens/cart_screen.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/src/material/colors.dart' as color;
@@ -915,17 +915,33 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
     }
 
     print('======ShippingAmount=====>>>${shippingAmount}');
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => CheckoutScreen(
-            shippingMethodList: shippingList,
-            cartList: [cart],
-            discount: discount,
-            tax: tax,
-            totalOrderAmount: amount,
-            shippingFee: shippingAmount,
-            quantity: totalQuantity,
-            onlyDigital: !hasPhysical,
-            hasPhysical: hasPhysical)));
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) {
+          return CheckoutScreen(
+              shippingMethodList: shippingList,
+              cartList: [cart],
+              discount: discount,
+              tax: tax,
+              totalOrderAmount: amount,
+              shippingFee: shippingAmount,
+              quantity: totalQuantity,
+              onlyDigital: !hasPhysical,
+              hasPhysical: hasPhysical);
+        }
+    );
+    // Navigator.of(context).push(MaterialPageRoute(
+    //     builder: (context) => CheckoutScreen(
+    //         shippingMethodList: shippingList,
+    //         cartList: [cart],
+    //         discount: discount,
+    //         tax: tax,
+    //         totalOrderAmount: amount,
+    //         shippingFee: shippingAmount,
+    //         quantity: totalQuantity,
+    //         onlyDigital: !hasPhysical,
+    //         hasPhysical: hasPhysical)));
   }
 }
 

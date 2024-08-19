@@ -1,13 +1,13 @@
-import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/checkout/domain/services/checkout_service_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/features/offline_payment/domain/models/offline_payment_model.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
+import 'package:da3em/data/model/api_response.dart';
+import 'package:da3em/features/checkout/domain/services/checkout_service_interface.dart';
+import 'package:da3em/features/offline_payment/domain/models/offline_payment_model.dart';
+import 'package:da3em/helper/api_checker.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/main.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/checkout/screens/digital_payment_order_place_screen.dart';
+import 'package:da3em/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:da3em/features/checkout/screens/digital_payment_order_place_screen.dart';
 
 class CheckoutController with ChangeNotifier {
   final CheckoutServiceInterface checkoutServiceInterface;
@@ -45,6 +45,10 @@ class CheckoutController with ChangeNotifier {
   Future<void> placeOrder(
       {required Function callback,
       String? addressID,
+      
+      String? phone,
+      String? state,
+
       String? couponCode,
       String? couponAmount,
       String? billingAddressId,
@@ -67,31 +71,32 @@ class CheckoutController with ChangeNotifier {
     _newUser = false;
     notifyListeners();
     ApiResponse apiResponse;
-    isfOffline
-        ? apiResponse = await checkoutServiceInterface.offlinePaymentPlaceOrder(
-            addressID,
-            couponCode,
-            couponAmount,
-            billingAddressId,
-            orderNote,
-            keyList,
-            inputValueList,
-            offlineMethodSelectedId,
-            offlineMethodSelectedName,
-            paymentNote,
-            _isCheckCreateAccount,
-            passwordController.text.trim())
-        : wallet
-            ? apiResponse =
-                await checkoutServiceInterface.walletPaymentPlaceOrder(
-                    addressID,
-                    couponCode,
-                    couponAmount,
-                    billingAddressId,
-                    orderNote,
-                    _isCheckCreateAccount,
-                    passwordController.text.trim())
-            : apiResponse =
+    // isfOffline
+    //     ? apiResponse = await checkoutServiceInterface.offlinePaymentPlaceOrder(
+    //         addressID,
+    //         couponCode,
+    //         couponAmount,
+    //         billingAddressId,
+    //         orderNote,
+    //         keyList,
+    //         inputValueList,
+    //         offlineMethodSelectedId,
+    //         offlineMethodSelectedName,
+    //         paymentNote,
+    //         _isCheckCreateAccount,
+    //         passwordController.text.trim())
+    //     : wallet
+    //         ? apiResponse =
+    //             await checkoutServiceInterface.walletPaymentPlaceOrder(
+    //                 addressID,
+    //                 couponCode,
+    //                 couponAmount,
+    //                 billingAddressId,
+    //                 orderNote,
+    //                 _isCheckCreateAccount,
+    //                 passwordController.text.trim())
+    //         : 
+            apiResponse =
                 await checkoutServiceInterface.cashOnDeliveryPlaceOrder(
                     addressID,
                     couponCode,
@@ -99,7 +104,11 @@ class CheckoutController with ChangeNotifier {
                     billingAddressId,
                     orderNote,
                     _isCheckCreateAccount,
-                    passwordController.text.trim());
+                    passwordController.text.trim(),
+                    name,
+                    phone,
+                    state,
+                  );
 
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {

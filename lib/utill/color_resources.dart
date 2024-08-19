@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:flutter_sixvalley_ecommerce/theme/controllers/theme_controller.dart';
+import 'package:da3em/main.dart';
+import 'package:da3em/theme/controllers/theme_controller.dart';
 import 'package:provider/provider.dart';
 
 class ColorResources {

@@ -1,5 +1,5 @@
-import 'package:flutter_sixvalley_ecommerce/features/chat/domain/models/message_body.dart';
-import 'package:flutter_sixvalley_ecommerce/interface/repo_interface.dart';
+import 'package:da3em/features/chat/domain/models/message_body.dart';
+import 'package:da3em/interface/repo_interface.dart';
 import 'package:image_picker/image_picker.dart';
 abstract class ChatRepositoryInterface<T> extends RepositoryInterface{
 

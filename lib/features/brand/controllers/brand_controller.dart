@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/brand/domain/models/brand_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/brand/domain/repositories/brand_repository.dart';
+import 'package:da3em/data/model/api_response.dart';
+import 'package:da3em/features/brand/domain/models/brand_model.dart';
+import 'package:da3em/features/brand/domain/repositories/brand_repository.dart';
 
 class BrandController extends ChangeNotifier {
   final BrandRepository? brandRepo;

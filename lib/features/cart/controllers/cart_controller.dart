@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/cart/domain/services/cart_service_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/cart/domain/models/cart_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shipping/controllers/shipping_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
-import 'package:flutter_sixvalley_ecommerce/main.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/show_custom_snakbar_widget.dart';
+import 'package:da3em/features/cart/domain/services/cart_service_interface.dart';
+import 'package:da3em/data/model/api_response.dart';
+import 'package:da3em/features/cart/domain/models/cart_model.dart';
+import 'package:da3em/features/product/domain/models/product_model.dart';
+import 'package:da3em/features/shipping/controllers/shipping_controller.dart';
+import 'package:da3em/helper/api_checker.dart';
+import 'package:da3em/main.dart';
+import 'package:da3em/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:provider/provider.dart';
 
 class CartController extends ChangeNotifier {

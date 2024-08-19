@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/banner/domain/models/banner_model.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/banner/domain/services/banner_service_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/screens/brand_and_category_product_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shop/controllers/shop_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
-import 'package:flutter_sixvalley_ecommerce/features/brand/controllers/brand_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/category/controllers/category_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product_details/screens/product_details_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/shop/screens/shop_screen.dart';
+import 'package:da3em/features/banner/domain/models/banner_model.dart';
+import 'package:da3em/data/model/api_response.dart';
+import 'package:da3em/features/banner/domain/services/banner_service_interface.dart';
+import 'package:da3em/features/product/domain/models/product_model.dart';
+import 'package:da3em/features/product/screens/brand_and_category_product_screen.dart';
+import 'package:da3em/features/shop/controllers/shop_controller.dart';
+import 'package:da3em/helper/api_checker.dart';
+import 'package:da3em/features/brand/controllers/brand_controller.dart';
+import 'package:da3em/features/category/controllers/category_controller.dart';
+import 'package:da3em/features/product_details/screens/product_details_screen.dart';
+import 'package:da3em/features/shop/screens/shop_screen.dart';
 import 'package:provider/provider.dart';
 
 class BannerController extends ChangeNotifier {

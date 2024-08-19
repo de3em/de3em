@@ -2,10 +2,10 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_sixvalley_ecommerce/features/address/controllers/address_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/address/domain/models/address_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/checkout/controllers/checkout_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/profile/controllers/profile_contrroller.dart';
+import 'package:da3em/features/address/controllers/address_controller.dart';
+import 'package:da3em/features/address/domain/models/address_model.dart';
+import 'package:da3em/features/checkout/controllers/checkout_controller.dart';
+import 'package:da3em/features/profile/controllers/profile_contrroller.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
@@ -367,6 +367,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             obscureText: widget.obscure,
             readOnly: widget.enabled,
             validator: widget.validator,

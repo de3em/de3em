@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/data/model/api_response.dart';
-import 'package:flutter_sixvalley_ecommerce/features/deal/domain/services/featured_deal_service_interface.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
+import 'package:da3em/data/model/api_response.dart';
+import 'package:da3em/features/deal/domain/services/featured_deal_service_interface.dart';
+import 'package:da3em/features/product/domain/models/product_model.dart';
 
-import 'package:flutter_sixvalley_ecommerce/helper/api_checker.dart';
+import 'package:da3em/helper/api_checker.dart';
 
 class FeaturedDealController extends ChangeNotifier {
   final FeaturedDealServiceInterface featuredDealServiceInterface;

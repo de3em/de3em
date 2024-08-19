@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/controllers/product_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/domain/models/product_model.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/screens/view_all_product_screen.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/widgets/latest_product/latest_product_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/product/enums/product_type.dart';
-import 'package:flutter_sixvalley_ecommerce/features/splash/controllers/splash_controller.dart';
-import 'package:flutter_sixvalley_ecommerce/localization/language_constrants.dart';
-import 'package:flutter_sixvalley_ecommerce/utill/dimensions.dart';
-import 'package:flutter_sixvalley_ecommerce/common/basewidget/title_row_widget.dart';
-import 'package:flutter_sixvalley_ecommerce/features/home/shimmers/latest_product_shimmer.dart';
+import 'package:da3em/features/product/controllers/product_controller.dart';
+import 'package:da3em/features/product/domain/models/product_model.dart';
+import 'package:da3em/features/product/screens/view_all_product_screen.dart';
+import 'package:da3em/features/product/widgets/latest_product/latest_product_widget.dart';
+import 'package:da3em/features/product/enums/product_type.dart';
+import 'package:da3em/features/splash/controllers/splash_controller.dart';
+import 'package:da3em/localization/language_constrants.dart';
+import 'package:da3em/utill/dimensions.dart';
+import 'package:da3em/common/basewidget/title_row_widget.dart';
+import 'package:da3em/features/home/shimmers/latest_product_shimmer.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:provider/provider.dart';
 
