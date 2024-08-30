@@ -21,7 +21,7 @@ class CategoryController extends ChangeNotifier {
 
   Future<void> getCategoryList(bool reload) async {
     if (_categoryList.isEmpty || reload) {
-      ApiResponse apiResponse = await categoryServiceInterface!.getList();
+      ApiResponse apiResponse   = await categoryServiceInterface!.getList();
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
         _categoryList.clear();
         apiResponse.response!.data.forEach((category) => _categoryList.add(CategoryModel.fromJson(category)));

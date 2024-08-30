@@ -53,6 +53,7 @@ class SquareButtonWidget extends StatelessWidget {
               //
               //C           borderRadius: BorderRadius.circular(100)))),
               CircleAvatar(
+                backgroundColor: const Color.fromARGB(255, 215, 215, 215),
                 child: Center(
                   child: Icon(icon,
                       size: 20, color: ColorResources.getPrimary(context)),

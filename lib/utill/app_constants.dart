@@ -8,7 +8,7 @@ class AppConstants {
   static const String baseUrl = 'https://da3em.net';
   static const String userId = 'userId';
   static const String name = 'name';
-  static const String categoriesUri = '/api/v1/categories?guest_id=1';
+  static const String categoriesUri = '/api/v1/categories/simple';
   static const String brandUri = '/api/v1/brands?guest_id=1';
   static const String brandProductUri = '/api/v1/brands/products/';
   static const String categoryProductUri = '/api/v1/categories/products/';

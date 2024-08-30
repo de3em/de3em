@@ -17,8 +17,7 @@ import 'package:provider/provider.dart';
 class ProductWidget extends StatefulWidget {
   final Product productModel;
   final bool isRecentlyViewed;
-  const ProductWidget(
-      {super.key, required this.productModel, this.isRecentlyViewed = false});
+  const ProductWidget({super.key, required this.productModel, this.isRecentlyViewed = false});
 
   @override
   State<ProductWidget> createState() => _ProductWidgetState();
@@ -34,40 +33,33 @@ class _ProductWidgetState extends State<ProductWidget> {
   Widget build(BuildContext context) {
     final recentProductProvider = context.watch<RecentProductProvider>();
 
-    String ratting = widget.productModel.rating != null &&
-            widget.productModel.rating!.isNotEmpty
-        ? widget.productModel.rating![0].average!
-        : "0";
+    String ratting = widget.productModel.rating != null && widget.productModel.rating!.isNotEmpty ? widget.productModel.rating![0].average! : "0";
 
     return InkWell(
       onTap: () {
+                // Navigator.push(context, PageRouteBuilder(transitionDuration: const Duration(milliseconds: 1000), pageBuilder: (context, anim1, anim2) => ProductDetails(productId: widget.productModel.id, slug: widget.productModel.slug)));
+
+        // Navigator.push(context, PageRouteBuilder(transitionDuration: const Duration(milliseconds: 1000), pageBuilder: (context, anim1, anim2) => ProductDetails(productId: widget.productModel.id, slug: widget.productModel.slug)));
+
         showModalBottomSheet(
             // constraints: BoxConstraints(
             //   maxHeight: MediaQuery.of(context).size.height * 0.8,
             // ),
             // anchorPoint: Offset(0.5, 0.5),
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10))),
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
             backgroundColor: Theme.of(context).colorScheme.onPrimary,
             context: context,
             isScrollControlled: true,
             builder: (context) {
               recentProductProvider.addProduct(widget.productModel);
               return SingleChildScrollView(
-                child: ProductDetails(
-                    productId: widget.productModel.id,
-                    slug: widget.productModel.slug),
+                child: ProductDetails(productId: widget.productModel.id, slug: widget.productModel.slug),
               );
             });
       },
       child: Container(
         // padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
-        decoration: BoxDecoration(
-            border: Border.all(width: 1, color: Colors.grey.shade200),
-            borderRadius: BorderRadius.circular(14),
-            color: Theme.of(context).colorScheme.onPrimary
+        decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.grey.shade200), borderRadius: BorderRadius.circular(14), color: Theme.of(context).colorScheme.onPrimary
             // color: Theme.of(context).highlightColor,
             ),
         clipBehavior: Clip.antiAlias,
@@ -85,8 +77,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(3),
                     child: CustomImageWidget(
-                      image:
-                          '${Provider.of<SplashController>(context, listen: false).baseUrls!.productThumbnailUrl}/${widget.productModel.thumbnail}',
+                      image: '${Provider.of<SplashController>(context, listen: false).baseUrls!.productThumbnailUrl}/${widget.productModel.thumbnail}',
                       height: MediaQuery.of(context).size.width / 1.9,
                       width: MediaQuery.of(context).size.width,
                       fit: BoxFit.cover,
@@ -102,30 +93,15 @@ class _ProductWidgetState extends State<ProductWidget> {
                         left: 0,
                         child: Container(
                           height: 20,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Dimensions.paddingSizeExtraSmall),
+                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
                           decoration: BoxDecoration(
                             color: Colors.redAccent,
-                            borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(
-                                    Dimensions.paddingSizeExtraSmall),
-                                bottomRight: Radius.circular(
-                                    Dimensions.paddingSizeExtraSmall)),
+                            borderRadius: const BorderRadius.only(topRight: Radius.circular(Dimensions.paddingSizeExtraSmall), bottomRight: Radius.circular(Dimensions.paddingSizeExtraSmall)),
                           ),
                           child: Center(
                             child: Directionality(
                               textDirection: TextDirection.ltr,
-                              child: Text(
-                                  PriceConverter.percentageCalculation(
-                                      context,
-                                      widget.productModel.unitPrice,
-                                      widget.productModel.discount,
-                                      widget.productModel.discountType),
-                                  style: textRegular.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary,
-                                      fontSize: Dimensions.fontSizeSmall)),
+                              child: Text(PriceConverter.percentageCalculation(context, widget.productModel.unitPrice, widget.productModel.discount, widget.productModel.discountType), style: textRegular.copyWith(color: Theme.of(context).colorScheme.onPrimary, fontSize: Dimensions.fontSizeSmall)),
                             ),
                           ),
                         ),
@@ -159,38 +135,22 @@ class _ProductWidgetState extends State<ProductWidget> {
                   ),
                   Row(
                     children: [
-                      Text(
-                          "${(widget.productModel.unitPrice! - (widget.productModel.discount ?? 0))} " +
-                              " DA",
-                          style: titilliumSemiBold.copyWith(
-                              color: ColorResources.getPrimary(context))),
+                      Text("${(widget.productModel.unitPrice! - (widget.productModel.discount ?? 0))} " + " DA", style: titilliumSemiBold.copyWith(color: ColorResources.getPrimary(context))),
                       Spacer(),
                       Row(mainAxisSize: MainAxisSize.min, children: [
-                        const Icon(Icons.star_rate_outlined,
-                            color: Colors.orange, size: 20),
+                        const Icon(Icons.star_rate_outlined, color: Colors.orange, size: 20),
                         Padding(
-                          padding: const EdgeInsetsDirectional.only(
-                              start: 0.50, end: 4),
-                          child: Text(double.parse(ratting).toStringAsFixed(1),
-                              style: textRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeDefault)),
+                          padding: const EdgeInsetsDirectional.only(start: 0.50, end: 4),
+                          child: Text(double.parse(ratting).toStringAsFixed(1), style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault)),
                         ),
                         // Text('(${productModel.reviewCount.toString()})', style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor))
                       ]),
                     ],
                   ),
-                  if (widget.productModel.currentStock! == 0 &&
-                      widget.productModel.productType == 'physical')
-                    Text(getTranslated('out_of_stock', context) ?? '',
-                        style: textRegular.copyWith(
-                            fontSize: Dimensions.fontSizeSmall,
-                            fontWeight: FontWeight.bold,
-                            color: const Color(0xFFF36A6A))),
-                  widget.productModel.discount != null &&
-                          widget.productModel.discount! > 0
+                  if (widget.productModel.currentStock! == 0 && widget.productModel.productType == 'physical') Text(getTranslated('out_of_stock', context) ?? '', style: textRegular.copyWith(fontSize: Dimensions.fontSizeSmall, fontWeight: FontWeight.bold, color: const Color(0xFFF36A6A))),
+                  widget.productModel.discount != null && widget.productModel.discount! > 0
                       ? Text(
-                          PriceConverter.convertPrice(
-                              context, widget.productModel.unitPrice),
+                          PriceConverter.convertPrice(context, widget.productModel.unitPrice),
                           style: titleRegular.copyWith(
                             color: Theme.of(context).hintColor,
                             decoration: TextDecoration.lineThrough,

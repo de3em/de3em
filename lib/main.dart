@@ -129,7 +129,7 @@ Future<void> main() async {
       ChangeNotifierProvider(create: (context) => di.sl<CheckoutController>()),
       ChangeNotifierProvider(
           create: (context) => di.sl<LoyaltyPointController>()),
-      ChangeNotifierProvider(create: (context) => di.sl<LocationController>()),
+      // ChangeNotifierProvider(create: (context) => di.sl<LocationController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ContactUsController>()),
       ChangeNotifierProvider(create: (context) => di.sl<ShippingController>()),
       ChangeNotifierProvider(
@@ -161,7 +161,8 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: Provider.of<ThemeController>(context).darkTheme ? dark : light,
-      locale: Provider.of<LocalizationController>(context).locale,
+      locale: Locale("ar"),
+      // Provider.of<LocalizationController>(context).locale,
       localizationsDelegates: [
         AppLocalization.delegate,
         GlobalMaterialLocalizations.delegate,

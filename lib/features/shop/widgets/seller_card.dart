@@ -70,36 +70,37 @@ class _SellerCardState extends State<SellerCard> {
                       )));
         },
         child: Padding(
-          padding: widget.isHomePage
-              ? EdgeInsets.only(
-                  left: widget.index == 0
-                      ? Dimensions.paddingSizeDefault
-                      : Provider.of<LocalizationController>(context,
-                                  listen: false)
-                              .isLtr
-                          ? Dimensions.paddingSizeDefault
-                          : 0,
-                  right: widget.index + 1 == widget.length
-                      ? Dimensions.paddingSizeDefault
-                      : (Provider.of<LocalizationController>(context,
-                                      listen: false)
-                                  .isLtr &&
-                              widget.isHomePage)
-                          ? 0
-                          : Dimensions.paddingSizeDefault,
-                  bottom: widget.isHomePage
-                      ? Dimensions.paddingSizeExtraSmall
-                      : Dimensions.paddingSizeDefault)
-              : const EdgeInsets.fromLTRB(
-                  Dimensions.paddingSizeSmall,
-                  Dimensions.paddingSizeDefault,
-                  Dimensions.paddingSizeSmall,
-                  0),
+          padding: EdgeInsets.all(6),
+          // padding: widget.isHomePage
+          //     ? EdgeInsets.only(
+          //         left: widget.index == 0
+          //             ? Dimensions.paddingSizeDefault
+          //             : Provider.of<LocalizationController>(context,
+          //                         listen: false)
+          //                     .isLtr
+          //                 ? Dimensions.paddingSizeDefault
+          //                 : 0,
+          //         right: widget.index + 1 == widget.length
+          //             ? Dimensions.paddingSizeDefault
+          //             : (Provider.of<LocalizationController>(context,
+          //                             listen: false)
+          //                         .isLtr &&
+          //                     widget.isHomePage)
+          //                 ? 0
+          //                 : Dimensions.paddingSizeDefault,
+          //         bottom: widget.isHomePage
+          //             ? Dimensions.paddingSizeExtraSmall
+          //             : Dimensions.paddingSizeDefault)
+          //     : const EdgeInsets.fromLTRB(
+          //         Dimensions.paddingSizeSmall,
+          //         Dimensions.paddingSizeDefault,
+          //         Dimensions.paddingSizeSmall,
+          //         0),
           child: Container(
             clipBehavior: Clip.none,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Theme.of(context).highlightColor.withOpacity(0.2),
+              color: Colors.grey.withOpacity(0.2),
             ),
             child: Row(
               children: [
@@ -107,9 +108,9 @@ class _SellerCardState extends State<SellerCard> {
                   child: SizedBox(
                       height: widget.isHomePage ? 60 : 120,
                       child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              bottomLeft: Radius.circular(10)),
+                          borderRadius: const BorderRadiusDirectional.only(
+                              topStart: Radius.circular(10),
+                              bottomStart: Radius.circular(10)),
                           child: CustomImageWidget(
                               fit: BoxFit.cover,
                               image: widget.sellerModel!.id == 0

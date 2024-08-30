@@ -33,7 +33,7 @@ class FeaturedProductWidget extends StatelessWidget {
                     ? productList.isNotEmpty
                         ? isHome
                             ? Container(
-                                padding: EdgeInsets.symmetric(vertical: 10),
+                                padding: const EdgeInsets.symmetric(vertical: 0),
                                 height: 300,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,

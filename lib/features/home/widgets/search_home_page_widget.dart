@@ -23,7 +23,7 @@ class SearchHomePageWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(100),
-          border: Border.all(color: Theme.of(context).primaryColor, width: 2),
+          border: Border.all(color: Colors.grey.shade400, width: 1),
         ),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           Container(

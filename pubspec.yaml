@@ -41,7 +41,7 @@ dependencies:
   firebase_messaging: ^14.7.10
   flutter_local_notifications:
   firebase_core: ^2.15.1
-  google_maps_flutter: ^2.5.2
+  # google_maps_flutter: ^2.5.2
   flutter_facebook_auth:
   # geolocator: ^13.0.1
   permission_handler: ^11.1.0
@@ -114,6 +114,7 @@ flutter:
   assets:
     - assets/images/
     - assets/language/
+    - assets/logo_full.webp
 
   fonts:
     - family: SF-Pro-Rounded-Regular

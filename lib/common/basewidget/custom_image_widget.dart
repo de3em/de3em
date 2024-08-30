@@ -12,29 +12,38 @@ class CustomImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var imgUrl = image.replaceAll("/app/public", "").replaceAll("http://", "https://").replaceAll("https://da3em.net/storage", "https://da3em-s3.s3.eu-west-3.amazonaws.com");
     return CachedNetworkImage(
+      key: ValueKey(imgUrl),
       placeholder: (context, url) {
-        return Image.asset(placeholder ?? Images.placeholder, height: height, width: width, fit: BoxFit.cover);
+            return Container(
+              height: height,
+              width: width,
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+              ),
+              // child: Center(
+              //   child: Icon(Icons.error, color: Colors.grey[300]),
+              // ),
+            );
       },
-      imageUrl: image.replaceAll("/app/public", "").replaceAll("http://", "https://"),
+      imageUrl: imgUrl,
       fit: fit ?? BoxFit.cover,
       height: height,
       width: width,
-      errorWidget: (c, image, s) {
-        return CachedNetworkImage(
-          placeholder: (context, url) {
-            return Image.asset(placeholder ?? Images.placeholder, height: height, width: width, fit: BoxFit.cover);
-          },
-          imageUrl: image.replaceAll("https://da3em.net/storage", "https://da3em-s3.s3.eu-west-3.amazonaws.com"),
-          fit: fit ?? BoxFit.cover,
-          height: height,
-          width: width,
           errorWidget: (c, image, s) {
+            return Container(
+              height: height,
+              width: width,
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+              ),
+              // child: Center(
+              //   child: Icon(Icons.error, color: Colors.grey[300]),
+              // ),
+            );
             return Image.asset(placeholder ?? Images.placeholder, height: height, width: width, fit: BoxFit.cover);
           },
-        );
-        // return Image.asset(placeholder ?? Images.placeholder, height: height, width: width, fit: BoxFit.cover);
-      },
     );
   }
 }

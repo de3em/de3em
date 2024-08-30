@@ -4,7 +4,7 @@ import 'package:da3em/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:da3em/data/model/api_response.dart';
 import 'package:da3em/features/location/domain/repositories/location_repository_interface.dart';
 import 'package:da3em/utill/app_constants.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 class LocationRepository implements LocationRepositoryInterface{
@@ -14,7 +14,7 @@ class LocationRepository implements LocationRepositoryInterface{
 
 
   @override
-  Future<ApiResponse> getAddressFromGeocode(LatLng latLng) async {
+  Future<ApiResponse> getAddressFromGeocode(dynamic latLng) async {
     try {
       Response response = await dioClient!.get('${AppConstants.geocodeUri}?lat=${latLng.latitude}&lng=${latLng.longitude}');
       return ApiResponse.withSuccess(response);

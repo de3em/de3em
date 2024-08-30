@@ -26,7 +26,7 @@ class RecommendedProductWidget extends StatelessWidget {
       padding: const EdgeInsets.only(
           top: Dimensions.paddingSizeSmall,
           bottom: Dimensions.paddingSizeDefault),
-      color: Theme.of(context).primaryColor.withOpacity(.125),
+      color: Theme.of(context).primaryColor.withOpacity(.05),
       child: Column(
         children: [
           Consumer<ProductController>(
@@ -167,7 +167,7 @@ class RecommendedProductWidget extends StatelessWidget {
                                           border: Border.all(
                                               color: Theme.of(context)
                                                   .primaryColor
-                                                  .withOpacity(.40),
+                                                  .withOpacity(.20),
                                               width: 1)),
                                       child: Row(
                                         children: [

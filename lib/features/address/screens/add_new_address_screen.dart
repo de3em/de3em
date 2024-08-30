@@ -30,7 +30,7 @@ import 'package:da3em/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:da3em/common/basewidget/success_dialog_widget.dart';
 import 'package:da3em/common/basewidget/custom_textfield_widget.dart';
 // import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconly/iconly.dart';
 import 'package:provider/provider.dart';
 
@@ -67,12 +67,12 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
   final FocusNode _numberNode = FocusNode();
   final FocusNode _cityNode = FocusNode();
   final FocusNode _zipNode = FocusNode();
-  GoogleMapController? _controller;
-  CameraPosition? _cameraPosition;
+  // GoogleMapController? _controller;
+  // CameraPosition? _cameraPosition;
   bool _updateAddress = true;
   Address? _address;
   String zip = '', country = 'IN';
-  late LatLng _defaut;
+  // late LatLng _defaut;
 
   @override
   void initState() {
@@ -82,8 +82,8 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
         Provider.of<SplashController>(context, listen: false)
             .configModel
             ?.defaultLocation;
-    _defaut = LatLng(double.parse(dLocation?.lat ?? '0'),
-        double.parse(dLocation?.lng ?? '0'));
+    // _defaut = LatLng(double.parse(dLocation?.lat ?? '0'),
+    //     double.parse(dLocation?.lng ?? '0'));
 
     if (widget.isBilling!) {
       _address = Address.billing;
@@ -110,31 +110,31 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
     Provider.of<AddressController>(context, listen: false)
         .getRestrictedDeliveryZipList();
 
-    _checkPermission(
-        () => Provider.of<LocationController>(context, listen: false)
-            .getCurrentLocation(context, true, mapController: _controller),
-        context);
+    // _checkPermission(
+    //     () => Provider.of<LocationController>(context, listen: false)
+    //         .getCurrentLocation(context, true, mapController: _controller),
+    //     context);
     if (widget.isEnableUpdate && widget.address != null) {
       _updateAddress = false;
       print('===ccccc===>>${widget.address!.email.toString()}');
 
-      Provider.of<LocationController>(context, listen: false).updateMapPosition(
-          CameraPosition(
-              target: LatLng(
-            (widget.address!.latitude != null &&
-                    widget.address!.latitude != '0' &&
-                    widget.address!.latitude != '')
-                ? double.parse(widget.address!.latitude!)
-                : _defaut.latitude,
-            (widget.address!.longitude != null &&
-                    widget.address!.longitude != '0' &&
-                    widget.address!.longitude != '')
-                ? double.parse(widget.address!.longitude!)
-                : _defaut.longitude,
-          )),
-          true,
-          widget.address!.address,
-          context);
+      // Provider.of<LocationController>(context, listen: false).updateMapPosition(
+      //     CameraPosition(
+      //         target: LatLng(
+      //       (widget.address!.latitude != null &&
+      //               widget.address!.latitude != '0' &&
+      //               widget.address!.latitude != '')
+      //           ? double.parse(widget.address!.latitude!)
+      //           : _defaut.latitude,
+      //       (widget.address!.longitude != null &&
+      //               widget.address!.longitude != '0' &&
+      //               widget.address!.longitude != '')
+      //           ? double.parse(widget.address!.longitude!)
+      //           : _defaut.longitude,
+      //     )),
+      //     true,
+      //     widget.address!.address,
+      //     context);
       // _contactPersonNameController.text = '${widget.address?.contactPersonName}';
       // _contactPersonEmailController.text =  '${widget.address?.email}';
       // _contactPersonNumberController.text = '${widget.address?.phone}';
@@ -195,8 +195,6 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
           children: [
             Consumer<AddressController>(
               builder: (context, addressController, child) {
-                return Consumer<LocationController>(
-                    builder: (context, locationController, _) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -284,82 +282,82 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                       Dimensions.paddingSizeSmall),
                                   child:
                                       Stack(clipBehavior: Clip.none, children: [
-                                    GoogleMap(
-                                        mapType: MapType.normal,
-                                        initialCameraPosition: CameraPosition(
-                                            target: widget.isEnableUpdate
-                                                ? LatLng(
-                                                    (widget.address!.latitude !=
-                                                                null &&
-                                                            widget.address!
-                                                                    .latitude !=
-                                                                '0' &&
-                                                            widget.address!
-                                                                    .latitude !=
-                                                                '')
-                                                        ? double.parse(widget
-                                                            .address!.latitude!)
-                                                        : _defaut.latitude,
-                                                    (widget.address!.longitude !=
-                                                                null &&
-                                                            widget.address!
-                                                                    .longitude !=
-                                                                '0' &&
-                                                            widget.address!
-                                                                    .longitude !=
-                                                                '')
-                                                        ? double.parse(widget
-                                                            .address!
-                                                            .longitude!)
-                                                        : _defaut.longitude,
-                                                  )
-                                                : LatLng(
-0,0
-                                                    // locationController
-                                                    //     .position.latitude,
-                                                    // locationController
-                                                    //     .position.longitude
-                                                        ),
-                                            zoom: 16),
-                                        onTap: (latLng) {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (BuildContext
-                                                          context) =>
-                                                      SelectLocationScreen(
-                                                          googleMapController:
-                                                              _controller)));
-                                        },
-                                        zoomControlsEnabled: false,
-                                        compassEnabled: false,
-                                        indoorViewEnabled: true,
-                                        mapToolbarEnabled: false,
-                                        onCameraIdle: () {
-                                          if (_updateAddress) {
-                                            locationController
-                                                .updateMapPosition(
-                                                    _cameraPosition,
-                                                    true,
-                                                    null,
-                                                    context);
-                                          } else {
-                                            _updateAddress = true;
-                                          }
-                                        },
-                                        onCameraMove: ((position) =>
-                                            _cameraPosition = position),
-                                        onMapCreated:
-                                            (GoogleMapController controller) {
-                                          _controller = controller;
-                                          if (!widget.isEnableUpdate &&
-                                              _controller != null) {
-                                            locationController
-                                                .getCurrentLocation(
-                                                    context, true,
-                                                    mapController: _controller);
-                                          }
-                                        }),
-                                    locationController.loading
+//                                     GoogleMap(
+//                                         mapType: MapType.normal,
+//                                         initialCameraPosition: CameraPosition(
+//                                             target: widget.isEnableUpdate
+//                                                 ? LatLng(
+//                                                     (widget.address!.latitude !=
+//                                                                 null &&
+//                                                             widget.address!
+//                                                                     .latitude !=
+//                                                                 '0' &&
+//                                                             widget.address!
+//                                                                     .latitude !=
+//                                                                 '')
+//                                                         ? double.parse(widget
+//                                                             .address!.latitude!)
+//                                                         : _defaut.latitude,
+//                                                     (widget.address!.longitude !=
+//                                                                 null &&
+//                                                             widget.address!
+//                                                                     .longitude !=
+//                                                                 '0' &&
+//                                                             widget.address!
+//                                                                     .longitude !=
+//                                                                 '')
+//                                                         ? double.parse(widget
+//                                                             .address!
+//                                                             .longitude!)
+//                                                         : _defaut.longitude,
+//                                                   )
+//                                                 : LatLng(
+// 0,0
+//                                                     // locationController
+//                                                     //     .position.latitude,
+//                                                     // locationController
+//                                                     //     .position.longitude
+//                                                         ),
+//                                             zoom: 16),
+//                                         onTap: (latLng) {
+//                                           Navigator.of(context).push(
+//                                               MaterialPageRoute(
+//                                                   builder: (BuildContext
+//                                                           context) =>
+//                                                       SelectLocationScreen(
+//                                                           googleMapController:
+//                                                               _controller)));
+//                                         },
+//                                         zoomControlsEnabled: false,
+//                                         compassEnabled: false,
+//                                         indoorViewEnabled: true,
+//                                         mapToolbarEnabled: false,
+//                                         onCameraIdle: () {
+//                                           if (_updateAddress) {
+//                                             locationController
+//                                                 .updateMapPosition(
+//                                                     _cameraPosition,
+//                                                     true,
+//                                                     null,
+//                                                     context);
+//                                           } else {
+//                                             _updateAddress = true;
+//                                           }
+//                                         },
+//                                         onCameraMove: ((position) =>
+//                                             _cameraPosition = position),
+//                                         onMapCreated:
+//                                             (GoogleMapController controller) {
+//                                           _controller = controller;
+//                                           if (!widget.isEnableUpdate &&
+//                                               _controller != null) {
+//                                             locationController
+//                                                 .getCurrentLocation(
+//                                                     context, true,
+//                                                     mapController: _controller);
+//                                           }
+//                                         }),
+                                    false
                                         ? Center(
                                             child: CircularProgressIndicator(
                                                 valueColor:
@@ -383,13 +381,15 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                         top: 10,
                                         right: 0,
                                         child: InkWell(
-                                            onTap: () => Navigator.of(context)
-                                                .push(MaterialPageRoute(
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        SelectLocationScreen(
-                                                            googleMapController:
-                                                                _controller))),
+                                            onTap: () {
+                                              // Navigator.of(context)
+                                              //   .push(MaterialPageRoute(
+                                              //       builder: (BuildContext
+                                              //               context) =>
+                                              //           SelectLocationScreen(
+                                              //               googleMapController:
+                                              //                   null)));
+                                            },
                                             child: Container(
                                                 width: 30,
                                                 height: 30,
@@ -544,7 +544,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                           prefixIcon: Images.address,
                           required: true,
                           nextFocus: _cityNode,
-                          controller: locationController.locationController,
+                          // controller: locationController.locationController,
                         ),
                       ),
                       Padding(
@@ -813,7 +813,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                 buttonText: widget.isEnableUpdate
                                     ? getTranslated('update_address', context)
                                     : getTranslated('save_location', context),
-                                onTap: locationController.loading
+                                onTap: false
                                     ? null
                                     : () {
                                         log("==ccc> ${_countryCodeController.text}");
@@ -836,8 +836,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                                 .getGuestToken(),
                                             isBilling:
                                                 _address == Address.billing,
-                                            address: locationController
-                                                .locationController.text,
+                                            address: null,
                                             latitude: widget.isEnableUpdate
                                                 ? 
                                                 '0'
@@ -875,10 +874,7 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                                           showCustomSnackBar(
                                               '${getTranslated('contact_person_phone_is_required', context)}',
                                               context);
-                                        } else if (locationController
-                                            .locationController.text
-                                            .trim()
-                                            .isEmpty) {
+                                        } else if (false) {
                                           showCustomSnackBar(
                                               '${getTranslated('address_is_required', context)}',
                                               context);
@@ -948,7 +944,6 @@ class _AddNewAddressScreenState extends State<AddNewAddressScreen> {
                       )
                     ],
                   );
-                });
               },
             ),
           ],

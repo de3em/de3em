@@ -95,17 +95,9 @@ class TitleRowWidget extends StatelessWidget {
             alignment: Alignment.center,
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Padding(
-                padding: EdgeInsets.only(
-                    left: Provider.of<LocalizationController>(context,
-                                listen: false)
-                            .isLtr
-                        ? Dimensions.homePagePadding
-                        : 0,
-                    right: Provider.of<LocalizationController>(context,
-                                listen: false)
-                            .isLtr
-                        ? 0
-                        : Dimensions.homePagePadding),
+                padding: EdgeInsetsDirectional.only(
+                    start: Dimensions.homePagePadding,
+                    end:Dimensions.homePagePadding),
                 child: Text(title!,
                     style: titleHeader.copyWith(
                         fontSize: Dimensions.fontSizeLarge,

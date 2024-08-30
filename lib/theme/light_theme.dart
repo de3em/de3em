@@ -5,17 +5,17 @@ ThemeData light = ThemeData(
   // primaryColor: Colors.black,
   brightness: Brightness.light,
   // colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
-  colorSchemeSeed: Colors.blueAccent,
+  // colorSchemeSeed: Colors.black,
 
-  // highlightColor: Colors.white,
-  // hintColor: const Color(0xFF9E9E9E),
-  // splashColor: Colors.transparent,
-  // colorScheme:  ColorScheme.light(
-  //   primary: Colors.black,
-  //   onPrimary: Colors.white,
-  //   secondary: Colors.orangeAccent,
-  //   tertiary: Colors.orangeAccent,
-  // ),
+  highlightColor: Colors.white,
+  hintColor: const Color(0xFF9E9E9E),
+  splashColor: Colors.transparent,
+  colorScheme:  ColorScheme.light(
+    primary: Colors.black,
+    onPrimary: Colors.white,
+    secondary: Colors.orangeAccent,
+    tertiary: Colors.orangeAccent,
+  ),
 
   pageTransitionsTheme: const PageTransitionsTheme(builders: {
     TargetPlatform.android: CupertinoPageTransitionsBuilder(),

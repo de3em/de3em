@@ -267,7 +267,7 @@ Future<void> init() async {
   sl.registerFactory(
       () => LoyaltyPointController(loyaltyPointServiceInterface: sl()));
   sl.registerFactory(() => CheckoutController(checkoutServiceInterface: sl()));
-  sl.registerFactory(() => LocationController(locationServiceInterface: sl()));
+  // sl.registerFactory(() => LocationController(locationServiceInterface: sl()));
   sl.registerFactory(() => ShippingController(shippingServiceInterface: sl()));
   sl.registerFactory(
       () => ContactUsController(contactUsServiceInterface: sl()));
