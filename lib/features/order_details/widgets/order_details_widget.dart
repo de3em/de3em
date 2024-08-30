@@ -1,7 +1,7 @@
 import 'dart:isolate';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:da3em/features/order/controllers/order_controller.dart';
 import 'package:da3em/features/order_details/controllers/order_details_controller.dart';
 import 'package:da3em/features/order_details/domain/models/order_details_model.dart';
@@ -60,7 +60,7 @@ class _OrderDetailsWidgetState extends State<OrderDetailsWidget> {
       setState(() {});
     });
 
-    FlutterDownloader.registerCallback(downloadCallback);
+    // FlutterDownloader.registerCallback(downloadCallback);
   }
 
   static void downloadCallback(String id, int status, int progress) {

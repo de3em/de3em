@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter_downloader/flutter_downloader.dart';
+// import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:da3em/data/model/api_response.dart';
 import 'package:da3em/features/order/domain/models/order_model.dart';
 import 'package:da3em/features/order_details/domain/models/order_details_model.dart';
@@ -104,13 +104,13 @@ class OrderDetailsController with ChangeNotifier {
 
 
   void downloadFile(String url, String dir) async {
-    await FlutterDownloader.enqueue(
-      url: url,
-      savedDir: dir,
-      showNotification: true,
-      saveInPublicStorage: true,
-      openFileFromNotification: true,
-    );
+    // await FlutterDownloader.enqueue(
+    //   url: url,
+    //   savedDir: dir,
+    //   showNotification: true,
+    //   saveInPublicStorage: true,
+    //   openFileFromNotification: true,
+    // );
   }
 
 
