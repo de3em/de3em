@@ -117,219 +117,225 @@ class CheckoutScreenState extends State<CheckoutScreen> {
       return Consumer<CheckoutController>(builder: (context, orderProvider, _) {
         return Form(
           key: formKey,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomAppBar(title: getTranslated('checkout', context)),
-              ListTile(
-                leading: Icon(Iconsax.location),
-                title: Text("بيانات التوصيل"),
-                enabled: false,
-              ),
-              CustomTextField(
-                controller: phone,
-                label: 'رقم الهاتف',
-                hintText: 'ادخل رقم الهاتف الذي سيتصل به عامل التوصيل',
-                prefixIcon: const Icon(Icons.phone),
-                validator: (value) {
-                  if (value == '') {
-                    return 'اردخل رقم هاتفك رجاءا';
-                  }
-                  return null;
-                },
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-              ),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: DropdownMenu(
-                  inputDecorationTheme: InputDecorationTheme(
-                    filled: true,
-                    fillColor: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.5),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          child: Container(
+            // handle keyboard view
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomAppBar(title: getTranslated('checkout', context)),
+                  ListTile(
+                    leading: Icon(Iconsax.location),
+                    title: Text("بيانات التوصيل"),
+                    enabled: false,
                   ),
-                  width: double.infinity,
-                  hintText: "الولاية",
-                  leadingIcon: const Icon(Iconsax.location),
-                  enableFilter: true,
-                  menuStyle: MenuStyle(
-                    shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                    // fixedSize: WidgetStatePropertyAll(
-                    //     Size(MediaQuery.of(context).size.width * 0.15, 300)),
-                    padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 3)),
+                  CustomTextField(
+                    controller: phone,
+                    label: 'رقم الهاتف',
+                    hintText: 'ادخل رقم الهاتف الذي سيتصل به عامل التوصيل',
+                    prefixIcon: const Icon(Icons.phone),
+                    validator: (value) {
+                      if (value == '') {
+                        return 'اردخل رقم هاتفك رجاءا';
+                      }
+                      return null;
+                    },
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                   ),
-                  onSelected: (value) {
-                    state.text = value.toString();
-                    setState(() {});
-                  },
-                  dropdownMenuEntries: AlgerWilayas.state
-                      .map((e) => DropdownMenuEntry(
-                          style: const ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.all(1))),
-                          value: e['id'],
-                          label: "${e['ar_name']} ${e['id']}",
-                          labelWidget: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${e['ar_name']} ${e['id']}",
-                                overflow: TextOverflow.clip,
-                                maxLines: 1,
-                              ),
-                            ],
-                          ),
-                          leadingIcon: const CircleAvatar(child: Icon(Iconsax.location))))
-                      .toList(),
-                ),
-              ),
-              ListTile(
-                title: Text(getTranslated('order_summary', context) ?? '', style: textMedium.copyWith(fontSize: 15, fontWeight: FontWeight.bold)),
-                subtitle: Consumer<CheckoutController>(builder: (context, checkoutController, child) {
-                  _couponDiscount = Provider.of<CouponController>(context).discount ?? 0;
-
-                  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    widget.quantity > 1 ? AmountWidget(title: '${getTranslated('sub_total', context)} ${' (${widget.quantity} ${getTranslated('items', context)}) '}', amount: PriceConverter.convertPrice(context, _order)) : AmountWidget(title: '${getTranslated('sub_total', context)} ${'(${widget.quantity} ${getTranslated('item', context)})'}', amount: PriceConverter.convertPrice(context, _order)),
-                    // AmountWidget(
-                    //     title: getTranslated('shipping_fee', context),
-                    //     amount: PriceConverter.convertPrice(
-                    //         context, widget.shippingFee)), //TODO RECHECK
-                    AmountWidget(title: getTranslated('discount', context), amount: PriceConverter.convertPrice(context, widget.discount)),
-                    AmountWidget(title: getTranslated('coupon_voucher', context), amount: PriceConverter.convertPrice(context, _couponDiscount)),
-                    AmountWidget(title: getTranslated('tax', context), amount: PriceConverter.convertPrice(context, widget.tax)),
-                    Divider(height: 5, color: Theme.of(context).hintColor),
-                    // AmountWidget(
-                    //     title: getTranslated('total_payable', context),
-                    //     amount: PriceConverter.convertPrice(
-                    //         context,
-                    //         (_order +
-                    //             widget.shippingFee -
-                    //             widget.discount -
-                    //             _couponDiscount! +
-                    //             widget.tax))), //TODO RECHEK THIS
-                  ]);
-                }),
-              ),
-              Consumer<AddressController>(builder: (context, locationProvider, _) {
-                return Consumer<CheckoutController>(builder: (context, orderProvider, child) {
-                  return Consumer<CouponController>(builder: (context, couponProvider, _) {
-                    return Consumer<CartController>(builder: (context, cartProvider, _) {
-                      return Consumer<ProfileController>(builder: (context, profileProvider, _) {
-                        return orderProvider.isLoading
-                            ? const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: DropdownMenu(
+                      inputDecorationTheme: InputDecorationTheme(
+                        filled: true,
+                        fillColor: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.5),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                        errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                        focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                        hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                      ),
+                      width: double.infinity,
+                      hintText: "الولاية",
+                      leadingIcon: const Icon(Iconsax.location),
+                      enableFilter: true,
+                      menuStyle: MenuStyle(
+                        shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                        // fixedSize: WidgetStatePropertyAll(
+                        //     Size(MediaQuery.of(context).size.width * 0.15, 300)),
+                        padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 3)),
+                      ),
+                      onSelected: (value) {
+                        state.text = value.toString();
+                        setState(() {});
+                      },
+                      dropdownMenuEntries: AlgerWilayas.state
+                          .map((e) => DropdownMenuEntry(
+                              style: const ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.all(1))),
+                              value: e['id'],
+                              label: "${e['ar_name']} ${e['id']}",
+                              labelWidget: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(width: 30, height: 30, child: CircularProgressIndicator())
+                                  Text(
+                                    "${e['ar_name']} ${e['id']}",
+                                    overflow: TextOverflow.clip,
+                                    maxLines: 1,
+                                  ),
                                 ],
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-                                child: CustomButton(
-                                  onTap: () async {
-                                    if (!formKey.currentState!.validate()) {
-                                      showCustomSnackBar('الرجاء ادخال البيانات', context);
-                                      return;
-                                    }
-                                    if (state.text.isEmpty) {
-                                      showCustomSnackBar('الرجاء اختيار الولاية', context);
-                                      return;
-                                    }
-                                    // if (orderProvider.addressIndex == null &&
-                                    //     widget.hasPhysical) {
-                                    //   log("message");
-                                    //   showCustomSnackBar(
-                                    //       getTranslated(
-                                    //           'select_a_shipping_address', context),
-                                    //       context,
-                                    //       isToaster: true);
-                                    // } else
-                                    // if ((orderProvider.billingAddressIndex == null && !widget.hasPhysical && !orderProvider.sameAsBilling) || (orderProvider.billingAddressIndex == null && _billingAddress && !orderProvider.sameAsBilling)) {
-                                    //   showCustomSnackBar(getTranslated('select_a_billing_address', context), context, isToaster: true);
-                                    // } else if (orderProvider.isCheckCreateAccount && orderProvider.passwordController.text.isEmpty) {
-                                    //   showCustomSnackBar(getTranslated('password_is_required', context), context);
-                                    // } else if (orderProvider.isCheckCreateAccount && orderProvider.passwordController.text.length < 8) {
-                                    //   showCustomSnackBar(getTranslated('minimum_password_is_8_character', context), context);
-                                    // } else if (orderProvider.isCheckCreateAccount && orderProvider.confirmPasswordController.text.isEmpty) {
-                                    //   showCustomSnackBar(getTranslated('confirm_password_must_be_required', context), context);
-                                    // } else if (orderProvider.isCheckCreateAccount && (orderProvider.passwordController.text != orderProvider.confirmPasswordController.text)) {
-                                    //   showCustomSnackBar(getTranslated('confirm_password_not_matched', context), context);
-                                    // } else 
-                                    if (true)
-                                    {
-                                      String orderNote = orderProvider.orderNoteController.text.trim();
-                                      String couponCode = couponProvider.discount != null && couponProvider.discount != 0 ? couponProvider.couponCode : '';
-                                      String couponCodeAmount = couponProvider.discount != null && couponProvider.discount != 0 ? couponProvider.discount.toString() : '0';
-
-                                      // String addressId = !widget.onlyDigital? locationProvider.addressList![orderProvider.addressIndex!].id.toString():'';
-                                      // String billingAddressId = (_billingAddress)? orderProvider.sameAsBilling? addressId:
-                                      // locationProvider.addressList![orderProvider.billingAddressIndex!].id.toString() : '';
-
-                                      String addressId = orderProvider.addressIndex != null ? locationProvider.addressList![orderProvider.addressIndex!].id.toString() : '';
-
-                                      String billingAddressId;
-                                      if (_billingAddress && orderProvider.addressIndex != null) {
-                                        if (!orderProvider.sameAsBilling) {
-                                          billingAddressId = locationProvider.addressList![orderProvider.billingAddressIndex!].id.toString();
-                                        } else {
-                                          billingAddressId = locationProvider.addressList![orderProvider.addressIndex!].id.toString();
+                              ),
+                              leadingIcon: const CircleAvatar(child: Icon(Iconsax.location))))
+                          .toList(),
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(getTranslated('order_summary', context) ?? '', style: textMedium.copyWith(fontSize: 15, fontWeight: FontWeight.bold)),
+                    subtitle: Consumer<CheckoutController>(builder: (context, checkoutController, child) {
+                      _couponDiscount = Provider.of<CouponController>(context).discount ?? 0;
+              
+                      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        widget.quantity > 1 ? AmountWidget(title: '${getTranslated('sub_total', context)} ${' (${widget.quantity} ${getTranslated('items', context)}) '}', amount: PriceConverter.convertPrice(context, _order)) : AmountWidget(title: '${getTranslated('sub_total', context)} ${'(${widget.quantity} ${getTranslated('item', context)})'}', amount: PriceConverter.convertPrice(context, _order)),
+                        // AmountWidget(
+                        //     title: getTranslated('shipping_fee', context),
+                        //     amount: PriceConverter.convertPrice(
+                        //         context, widget.shippingFee)), //TODO RECHECK
+                        AmountWidget(title: getTranslated('discount', context), amount: PriceConverter.convertPrice(context, widget.discount)),
+                        AmountWidget(title: getTranslated('coupon_voucher', context), amount: PriceConverter.convertPrice(context, _couponDiscount)),
+                        AmountWidget(title: getTranslated('tax', context), amount: PriceConverter.convertPrice(context, widget.tax)),
+                        Divider(height: 5, color: Theme.of(context).hintColor),
+                        // AmountWidget(
+                        //     title: getTranslated('total_payable', context),
+                        //     amount: PriceConverter.convertPrice(
+                        //         context,
+                        //         (_order +
+                        //             widget.shippingFee -
+                        //             widget.discount -
+                        //             _couponDiscount! +
+                        //             widget.tax))), //TODO RECHEK THIS
+                      ]);
+                    }),
+                  ),
+                  Consumer<AddressController>(builder: (context, locationProvider, _) {
+                    return Consumer<CheckoutController>(builder: (context, orderProvider, child) {
+                      return Consumer<CouponController>(builder: (context, couponProvider, _) {
+                        return Consumer<CartController>(builder: (context, cartProvider, _) {
+                          return Consumer<ProfileController>(builder: (context, profileProvider, _) {
+                            return orderProvider.isLoading
+                                ? const Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: 30, height: 30, child: CircularProgressIndicator())
+                                    ],
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                                    child: CustomButton(
+                                      onTap: () async {
+                                        if (!formKey.currentState!.validate()) {
+                                          showCustomSnackBar('الرجاء ادخال البيانات', context);
+                                          return;
                                         }
-                                      } else {
-                                        billingAddressId = '';
-                                      }
-
-                                      if (orderProvider.paymentMethodIndex != -1) {
-                                        orderProvider.digitalPaymentPlaceOrder(orderNote: orderNote, customerId: Provider.of<AuthController>(context, listen: false).isLoggedIn() ? profileProvider.userInfoModel?.id.toString() : Provider.of<AuthController>(context, listen: false).getGuestToken(), addressId: addressId, billingAddressId: billingAddressId, couponCode: couponCode, couponDiscount: couponCodeAmount, paymentMethod: orderProvider.selectedDigitalPaymentMethodName);
-                                      } else if (orderProvider.codChecked && !widget.onlyDigital) {
-                                        orderProvider.placeOrder(
-                                          callback: _callback,
-                                          addressID: addressId,
-
-                                          name: name.text,
-                                          phone: phone.text,
-                                          state:state.text,
-
-                                          couponCode: couponCode,
-                                          couponAmount: couponCodeAmount,
-                                          billingAddressId: billingAddressId,
-                                          orderNote: orderNote,
-                                        );
-                                      } else if (orderProvider.offlineChecked) {
-                                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => OfflinePaymentScreen(payableAmount: _order, callback: _callback)));
-                                      } else if (orderProvider.walletChecked) {
-                                        showAnimatedDialog(
-                                            context,
-                                            WalletPaymentWidget(
-                                                currentBalance: profileProvider.balance ?? 0,
-                                                orderAmount: _order + widget.shippingFee - widget.discount - _couponDiscount! + widget.tax,
-                                                onTap: () {
-                                                  if (profileProvider.balance! < (_order + widget.shippingFee - widget.discount - _couponDiscount! + widget.tax)) {
-                                                    showCustomSnackBar(getTranslated('insufficient_balance', context), context, isToaster: true);
-                                                  } else {
-                                                    Navigator.pop(context);
-                                                    orderProvider.placeOrder(callback: _callback, wallet: true, addressID: addressId, couponCode: couponCode, couponAmount: couponCodeAmount, billingAddressId: billingAddressId, orderNote: orderNote);
-                                                  }
-                                                }),
-                                            dismissible: false,
-                                            willFlip: true);
-                                      } else {
-                                        showCustomSnackBar('${getTranslated('select_payment_method', context)}', context);
-                                      }
-                                    }
-                                  },
-                                  buttonText: '${getTranslated('proceed', context)}',
-                                ),
-                              );
+                                        if (state.text.isEmpty) {
+                                          showCustomSnackBar('الرجاء اختيار الولاية', context);
+                                          return;
+                                        }
+                                        // if (orderProvider.addressIndex == null &&
+                                        //     widget.hasPhysical) {
+                                        //   log("message");
+                                        //   showCustomSnackBar(
+                                        //       getTranslated(
+                                        //           'select_a_shipping_address', context),
+                                        //       context,
+                                        //       isToaster: true);
+                                        // } else
+                                        // if ((orderProvider.billingAddressIndex == null && !widget.hasPhysical && !orderProvider.sameAsBilling) || (orderProvider.billingAddressIndex == null && _billingAddress && !orderProvider.sameAsBilling)) {
+                                        //   showCustomSnackBar(getTranslated('select_a_billing_address', context), context, isToaster: true);
+                                        // } else if (orderProvider.isCheckCreateAccount && orderProvider.passwordController.text.isEmpty) {
+                                        //   showCustomSnackBar(getTranslated('password_is_required', context), context);
+                                        // } else if (orderProvider.isCheckCreateAccount && orderProvider.passwordController.text.length < 8) {
+                                        //   showCustomSnackBar(getTranslated('minimum_password_is_8_character', context), context);
+                                        // } else if (orderProvider.isCheckCreateAccount && orderProvider.confirmPasswordController.text.isEmpty) {
+                                        //   showCustomSnackBar(getTranslated('confirm_password_must_be_required', context), context);
+                                        // } else if (orderProvider.isCheckCreateAccount && (orderProvider.passwordController.text != orderProvider.confirmPasswordController.text)) {
+                                        //   showCustomSnackBar(getTranslated('confirm_password_not_matched', context), context);
+                                        // } else 
+                                        if (true)
+                                        {
+                                          String orderNote = orderProvider.orderNoteController.text.trim();
+                                          String couponCode = couponProvider.discount != null && couponProvider.discount != 0 ? couponProvider.couponCode : '';
+                                          String couponCodeAmount = couponProvider.discount != null && couponProvider.discount != 0 ? couponProvider.discount.toString() : '0';
+              
+                                          // String addressId = !widget.onlyDigital? locationProvider.addressList![orderProvider.addressIndex!].id.toString():'';
+                                          // String billingAddressId = (_billingAddress)? orderProvider.sameAsBilling? addressId:
+                                          // locationProvider.addressList![orderProvider.billingAddressIndex!].id.toString() : '';
+              
+                                          String addressId = orderProvider.addressIndex != null ? locationProvider.addressList![orderProvider.addressIndex!].id.toString() : '';
+              
+                                          String billingAddressId;
+                                          if (_billingAddress && orderProvider.addressIndex != null) {
+                                            if (!orderProvider.sameAsBilling) {
+                                              billingAddressId = locationProvider.addressList![orderProvider.billingAddressIndex!].id.toString();
+                                            } else {
+                                              billingAddressId = locationProvider.addressList![orderProvider.addressIndex!].id.toString();
+                                            }
+                                          } else {
+                                            billingAddressId = '';
+                                          }
+              
+                                          if (orderProvider.paymentMethodIndex != -1) {
+                                            orderProvider.digitalPaymentPlaceOrder(orderNote: orderNote, customerId: Provider.of<AuthController>(context, listen: false).isLoggedIn() ? profileProvider.userInfoModel?.id.toString() : Provider.of<AuthController>(context, listen: false).getGuestToken(), addressId: addressId, billingAddressId: billingAddressId, couponCode: couponCode, couponDiscount: couponCodeAmount, paymentMethod: orderProvider.selectedDigitalPaymentMethodName);
+                                          } else if (orderProvider.codChecked && !widget.onlyDigital) {
+                                            orderProvider.placeOrder(
+                                              callback: _callback,
+                                              addressID: addressId,
+              
+                                              name: name.text,
+                                              phone: phone.text,
+                                              state:state.text,
+              
+                                              couponCode: couponCode,
+                                              couponAmount: couponCodeAmount,
+                                              billingAddressId: billingAddressId,
+                                              orderNote: orderNote,
+                                            );
+                                          } else if (orderProvider.offlineChecked) {
+                                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => OfflinePaymentScreen(payableAmount: _order, callback: _callback)));
+                                          } else if (orderProvider.walletChecked) {
+                                            showAnimatedDialog(
+                                                context,
+                                                WalletPaymentWidget(
+                                                    currentBalance: profileProvider.balance ?? 0,
+                                                    orderAmount: _order + widget.shippingFee - widget.discount - _couponDiscount! + widget.tax,
+                                                    onTap: () {
+                                                      if (profileProvider.balance! < (_order + widget.shippingFee - widget.discount - _couponDiscount! + widget.tax)) {
+                                                        showCustomSnackBar(getTranslated('insufficient_balance', context), context, isToaster: true);
+                                                      } else {
+                                                        Navigator.pop(context);
+                                                        orderProvider.placeOrder(callback: _callback, wallet: true, addressID: addressId, couponCode: couponCode, couponAmount: couponCodeAmount, billingAddressId: billingAddressId, orderNote: orderNote);
+                                                      }
+                                                    }),
+                                                dismissible: false,
+                                                willFlip: true);
+                                          } else {
+                                            showCustomSnackBar('${getTranslated('select_payment_method', context)}', context);
+                                          }
+                                        }
+                                      },
+                                      buttonText: '${getTranslated('proceed', context)}',
+                                    ),
+                                  );
+                          });
+                        });
                       });
                     });
-                  });
-                });
-              })
-            ],
+                  })
+                ],
+              ),
+            ),
           ),
         );
       });

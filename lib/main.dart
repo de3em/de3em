@@ -156,30 +156,33 @@ class MyApp extends StatelessWidget {
     for (var language in AppConstants.languages) {
       locals.add(Locale(language.languageCode!, language.countryCode));
     }
-    return SafeArea(
-      child: MaterialApp(
-        title: AppConstants.appName,
-        navigatorKey: navigatorKey,
-        debugShowCheckedModeBanner: false,
-        theme: Provider.of<ThemeController>(context).darkTheme ? dark : light,
-        locale: Locale("ar"),
-        // Provider.of<LocalizationController>(context).locale,
-        localizationsDelegates: [
-          AppLocalization.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          FallbackLocalizationDelegate()
-        ],
-        builder: (context, child) {
-          return MediaQuery(
-              data: MediaQuery.of(context)
-                  .copyWith(textScaler: TextScaler.noScaling),
-              child: child!);
-        },
-        supportedLocales: locals,
-        home: SplashScreen(
-          body: body,
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        child: MaterialApp(
+          title: AppConstants.appName,
+          navigatorKey: navigatorKey,
+          debugShowCheckedModeBanner: false,
+          theme: Provider.of<ThemeController>(context).darkTheme ? dark : light,
+          locale: Locale("ar"),
+          // Provider.of<LocalizationController>(context).locale,
+          localizationsDelegates: [
+            AppLocalization.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            FallbackLocalizationDelegate()
+          ],
+          builder: (context, child) {
+            return MediaQuery(
+                data: MediaQuery.of(context)
+                    .copyWith(textScaler: TextScaler.noScaling),
+                child: child!);
+          },
+          supportedLocales: locals,
+          home: SplashScreen(
+            body: body,
+          ),
         ),
       ),
     );
