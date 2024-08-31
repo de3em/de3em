@@ -125,7 +125,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CustomAppBar(title: getTranslated('checkout', context)),
-                  ListTile(
+                  const ListTile(
                     leading: Icon(Iconsax.location),
                     title: Text("بيانات التوصيل"),
                     enabled: false,
