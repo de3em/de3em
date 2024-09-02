@@ -129,52 +129,20 @@ class ShopInfoWidget extends StatelessWidget {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(children: [
-                                    Expanded(
-                                      child: Text(
-                                        sellerName,
-                                        style: textMedium.copyWith(),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    InkWell(
-                                        onTap: () {
-                                          if (vacationIsOn || temporaryClose) {
-                                            showCustomSnackBar(
-                                                "${getTranslated("this_shop_is_close_now", context)}",
-                                                context);
-                                          } else {
-                                            if (!Provider.of<AuthController>(
-                                                    context,
-                                                    listen: false)
-                                                .isLoggedIn()) {
-                                              showModalBottomSheet(
-                                                  context: context,
-                                                  builder: (_) =>
-                                                      const NotLoggedInBottomSheetWidget());
-                                            } else {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          ChatScreen(
-                                                              id: sellerId,
-                                                              name:
-                                                                  sellerName)));
-                                            }
-                                          }
-                                        },
-                                        child: Image.asset(Images.chatImage,
-                                            height:
-                                                ResponsiveHelper.isTab(context)
-                                                    ? Dimensions.iconSizeLarge
-                                                    : Dimensions
-                                                        .iconSizeDefault))
-                                  ]),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
+                                  // Row(children: [
+                                  //   // Expanded(
+                                  //     // child: Text(
+                                  //     //   sellerName,
+                                  //     //   style: textMedium.copyWith(),
+                                  //     //   maxLines: 2,
+                                  //     //   overflow: TextOverflow.ellipsis,
+                                  //     // ),
+                                  //   // ),
+                                  //   Spacer(),
+                                  // ]),
+                                  // SizedBox(
+                                  //   height: 10,
+                                  // ),
                                   sellerProvider.sellerInfoModel != null
                                       ? Row(
                                           mainAxisAlignment:
@@ -244,6 +212,38 @@ class ShopInfoWidget extends StatelessWidget {
                                                   ]),
                                             ),
                                             Column(children: [
+
+                                    OutlinedButton.icon(
+                                        onPressed: () {
+                                          if (vacationIsOn || temporaryClose) {
+                                            showCustomSnackBar(
+                                                "${getTranslated("this_shop_is_close_now", context)}",
+                                                context);
+                                          } else {
+                                            if (!Provider.of<AuthController>(
+                                                    context,
+                                                    listen: false)
+                                                .isLoggedIn()) {
+                                              showModalBottomSheet(
+                                                  context: context,
+                                                  builder: (_) =>
+                                                      const NotLoggedInBottomSheetWidget());
+                                            } else {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (_) =>
+                                                          ChatScreen(
+                                                              id: sellerId,
+                                                              name:
+                                                                  sellerName)));
+                                            }
+                                          }
+                                        },
+                                        label: Text("مراسلة"),
+                                        icon: const Icon(Icons.chat),
+                                    ),
+                                  
                                               Row(
                                                 children: [
                                                   const Icon(
@@ -317,11 +317,11 @@ class ShopInfoWidget extends StatelessWidget {
                 ),
               ],
             ),
-            Positioned(
-              top: 90,
-              left: 20,
+            PositionedDirectional(
+              top: 50,
+              start: 20,
               child: Container(
-                  height: 65,
+                  height: 80,
                   width: 80,
                   decoration: BoxDecoration(
                       // border
