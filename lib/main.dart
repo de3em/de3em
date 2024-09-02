@@ -164,7 +164,7 @@ class MyApp extends StatelessWidget {
           navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           theme: Provider.of<ThemeController>(context).darkTheme ? dark : light,
-          locale: Locale("ar"),
+          locale: const Locale("ar"),
           // Provider.of<LocalizationController>(context).locale,
           localizationsDelegates: [
             AppLocalization.delegate,
@@ -177,7 +177,7 @@ class MyApp extends StatelessWidget {
             return MediaQuery(
                 data: MediaQuery.of(context)
                     .copyWith(textScaler: TextScaler.noScaling),
-                child: child!);
+                child: child ?? SizedBox());
           },
           supportedLocales: locals,
           home: SplashScreen(
