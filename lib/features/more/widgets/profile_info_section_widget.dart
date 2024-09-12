@@ -92,7 +92,7 @@ class ProfileInfoSectionWidget extends StatelessWidget {
                     //         : 'Guest',
                     //     style: robotoBold.copyWith(
                     //         fontSize: Dimensions.fontSizeExtraLarge)),
-                    Text( 'user#${profile.userInfoModel?.id ?? ''}',
+                    Text( 'مرحبا #${profile.userInfoModel?.id ?? ''}',
                         style: robotoBold.copyWith(
                             fontSize: Dimensions.fontSizeExtraLarge)),
                     // if (!isGuestMode &&

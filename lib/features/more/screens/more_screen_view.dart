@@ -345,6 +345,15 @@ class _MoreScreenState extends State<MoreScreen> {
                                     const LogoutCustomBottomSheetWidget());
                           }
                         }),
+                    // delete my data
+                    // https://da3em.net/contacts
+                    ListTile(
+                      leading: Icon(Iconsax.trash, color: Colors.red),
+                      title: Text("حذف بياناتي"),
+                      onTap: () {
+                        launchUrlString("https://da3em.net/contacts");
+                      },
+                    ),
                     Padding(
                         padding: const EdgeInsets.only(
                             bottom: Dimensions.paddingSizeDefault),
