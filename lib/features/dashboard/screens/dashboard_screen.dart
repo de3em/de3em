@@ -111,12 +111,16 @@ class DashBoardScreenState extends State<DashBoardScreen> {
               _setPage(c);
             },
             curve: Curves.easeInBack,
-            color: Theme.of(context).colorScheme.primary,
+            color: Colors.transparent,
+            gradient: LinearGradient(colors: [
+              Colors.transparent,
+              Colors.transparent,
+            ]),
             durationAnimation: const Duration(milliseconds: 100),
             items: [
               ItemNavigationView(
                   childAfter: Icon(
-                    IconlyBold.more_circle,
+                    IconlyLight.more_circle,
                     color: Theme.of(context).colorScheme.primary,
                     size: 30,
                   ),
@@ -149,7 +153,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
               //     )),
               ItemNavigationView(
                 childAfter: Icon(
-                  IconlyBold.chat,
+                  IconlyLight.chat,
                   color: Theme.of(context).colorScheme.primary,
                   size: 30,
                 ),
@@ -161,7 +165,7 @@ class DashBoardScreenState extends State<DashBoardScreen> {
               ),
               ItemNavigationView(
                   childAfter: Icon(
-                    IconlyBold.home,
+                    IconlyLight.home,
                     color: Theme.of(context).colorScheme.primary,
                     size: 30,
                   ),

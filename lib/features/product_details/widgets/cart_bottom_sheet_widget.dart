@@ -57,7 +57,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
             child: Consumer<ProductDetailsController>(
               builder: (ctx, details, child) {
                 String? colorWiseSelectedImage = '';
-      
+
                 if (widget.product != null && widget.product!.colorImage != null && widget.product!.colorImage!.isNotEmpty) {
                   for (int i = 0; i < widget.product!.colorImage!.length; i++) {
                     if (widget.product!.colorImage![i].color == '${widget.product!.colors?[details.variantIndex ?? 0].code?.substring(1, 7)}') {
@@ -65,7 +65,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                     }
                   }
                 }
-      
+
                 Variation? variation;
                 String? variantName = (widget.product!.colors != null && widget.product!.colors!.isNotEmpty) ? widget.product!.colors![details.variantIndex!].name : null;
                 List<String> variationList = [];
@@ -100,19 +100,19 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                     break;
                   }
                 }
-      
+
                 double priceWithDiscount = PriceConverter.convertWithDiscount(context, price, widget.product!.discount, widget.product!.discountType)!;
                 double priceWithQuantity = priceWithDiscount * details.quantity!;
-      
+
                 double total = 0, avg = 0;
                 for (var review in widget.product!.reviews!) {
                   total += review.rating!;
                 }
                 avg = total / widget.product!.reviews!.length;
                 String ratting = widget.product!.reviews != null && widget.product!.reviews!.isNotEmpty ? avg.toString() : "0";
-      
+
                 CartModelBody cart = CartModelBody(productId: widget.product!.id, variant: (widget.product!.colors != null && widget.product!.colors!.isNotEmpty) ? widget.product!.colors![details.variantIndex!].name : '', color: (widget.product!.colors != null && widget.product!.colors!.isNotEmpty) ? widget.product!.colors![details.variantIndex!].code : '', variation: variation, quantity: details.quantity);
-      
+
                 return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   // Container(
                   //   height: 100,
@@ -140,7 +140,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                             child: Row(
                               children: [
                                 if (widget.product!.images!.length == 1) ...[
-                                    if (widget.product?.colorImage?.firstOrNull?.imageName != null)
+                                  if (widget.product?.colorImage?.firstOrNull?.imageName != null)
                                     Container(
                                       height: 100,
                                       constraints: BoxConstraints(maxWidth: 400),
@@ -169,56 +169,73 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: InkWell(
-                                onTap: () => Navigator.pop(context),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                                  child: Icon(
-                                    Icons.cancel_outlined,
-                                    color: Theme.of(context).primaryColor,
-                                    size: 25,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                // visit store button
+                                // InkWell(
+                                //   onTap: () {
+                                //     Navigator.pop(context);
+                                //     Navigator.push(context, MaterialPageRoute(builder: (_) => CartScreen()));
+                                //   },
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                                //     child: Icon(
+                                //       Iconsax.shopping_bag,
+                                //       color: Theme.of(context).primaryColor,
+                                //       size: 25,
+                                //     ),
+                                //   ),
+                                // ),
+                                InkWell(
+                                  onTap: () => Navigator.pop(context),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                                    child: Icon(
+                                      Icons.cancel_outlined,
+                                      color: Theme.of(context).primaryColor,
+                                      size: 25,
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                       if (widget.product != null)
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          children: [
-                            ProductImageWidget(productModel: widget.product),
-                            // title
-                            Text(
-                              widget.product?.name ?? '',
-                              style: titilliumSemiBold.copyWith(fontSize: 17, fontWeight: FontWeight.w500),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "${(widget.product!.unitPrice! - (widget.product!.discount ?? 0))} " + " DA",
-                                  style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeLarge),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(width: 20),
-                                widget.product!.discount! > 0 ? Text(PriceConverter.convertPrice(context, widget.product!.unitPrice) + " DA", style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10, color: Theme.of(context).hintColor.withOpacity(0.5), decoration: TextDecoration.lineThrough)) : const SizedBox(),
-                                const SizedBox(width: 5),
-                                Text("${((((widget.product!.discount) ?? 0 * 100) / widget.product!.unitPrice!) * 100).toStringAsFixed(0)}% off", style: titilliumRegular.copyWith(color: Colors.red, fontWeight: FontWeight.bold, fontSize: Dimensions.fontSizeExtraLarge))
-                              ],
-                            )
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            children: [
+                              ProductImageWidget(productModel: widget.product),
+                              // title
+                              Text(
+                                widget.product?.name ?? '',
+                                style: titilliumSemiBold.copyWith(fontSize: 17, fontWeight: FontWeight.w500),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "${(widget.product!.unitPrice! - (widget.product!.discount ?? 0))} " + " DA",
+                                    style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeLarge),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(width: 20),
+                                  widget.product!.discount! > 0 ? Text(PriceConverter.convertPrice(context, widget.product!.unitPrice) + " DA", style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 10, color: Theme.of(context).hintColor.withOpacity(0.5), decoration: TextDecoration.lineThrough)) : const SizedBox(),
+                                  const SizedBox(width: 5),
+                                  Text("${((((widget.product!.discount) ?? 0 * 100) / widget.product!.unitPrice!) * 100).toStringAsFixed(0)}% off", style: titilliumRegular.copyWith(color: Colors.red, fontWeight: FontWeight.bold, fontSize: Dimensions.fontSizeExtraLarge))
+                                ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
                     ],
                   ),
-      
+
                   // widget.product!.discount! > 0
                   //     ? Container(
                   //         width: 100,
@@ -243,11 +260,11 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                   //                     fontSize: Dimensions.fontSizeDefault))),
                   //       )
                   //     : const SizedBox(width: 93),
-      
+
                   // Product details
-      
+
                   //
-      
+
                   // Padding(
                   //     padding: const EdgeInsets.symmetric(
                   //         horizontal: Dimensions.homePagePadding),
@@ -401,16 +418,16 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                   //                 ]))
                   //           ])
                   //     ])),
-      
+
                   // const SizedBox(height: Dimensions.paddingSizeDefault),
-      
+
                   (widget.product!.colors != null && widget.product!.colors!.isNotEmpty) ? ColorSelectionWidget(product: widget.product!, detailsController: details) : const SizedBox(),
-      
+
                   // (widget.product!.colors != null &&
                   //         widget.product!.colors!.isNotEmpty)
                   //     ? const SizedBox(height: Dimensions.paddingSizeSmall)
                   //     : const SizedBox(),
-      
+
                   // Variation
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding),
@@ -473,7 +490,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                   //   padding: EdgeInsets.only(left: 12, right: 12),
                   //   child: Divider(),
                   // ),
-      //TODO i don't know how colors looks like in the app so i will just add a container with a border
+                  //TODO i don't know how colors looks like in the app so i will just add a container with a border
                   // Padding(
                   //   padding: const EdgeInsets.only(left: 12),
                   //   child: Column(
@@ -531,7 +548,7 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                   // SizedBox(
                   //   height: 10,
                   // ),
-      
+
                   Padding(
                     padding: const EdgeInsets.only(left: 12, right: 12),
                     child: Row(
@@ -562,23 +579,9 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12),
-                    child: Row(
-                      children: [
-                        Text(getTranslated('total_price', context)!, style: textMedium.copyWith(fontWeight: FontWeight.bold, fontSize: 12)),
-                        const SizedBox(width: Dimensions.paddingSizeSmall),
-                        Text(PriceConverter.convertPrice(context, priceWithQuantity), style: titilliumBold.copyWith(color: ColorResources.getPrimary(context), fontSize: 12)),
-                        // widget.product!.taxModel == 'exclude' ? Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall), child: Text('(${getTranslated('tax', context)} : ${widget.product?.tax}%)', style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault))) : Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall), child: Text('(${getTranslated('tax', context)} ${widget.product!.taxModel})', style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault)))
-                      ],
-                    ),
-                  ),
-      
+
                   // const SizedBox(height: Dimensions.paddingSizeSmall),
-      
+
                   (stock! == 0 && widget.product!.productType == "physical")
                       ? CustomButton(backgroundColor: Theme.of(context).colorScheme.error.withOpacity(.10), textColor: Theme.of(context).colorScheme.error, buttonText: getTranslated('out_of_stock', context))
                       : Provider.of<CartController>(context).addToCartLoading
@@ -615,24 +618,42 @@ class CartBottomSheetWidgetState extends State<CartBottomSheetWidget> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Expanded(
-                                      child: OutlinedButton.icon(
-                                        style: OutlinedButton.styleFrom(
-                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                      child: SizedBox(
+                                        height: 50,
+                                        child: OutlinedButton.icon(
+                                          style: OutlinedButton.styleFrom(
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                          ),
+                                          label: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                getTranslated(stock == 0 && widget.product!.productType == "physical" ? 'out_of_stock' : 'buy_now', context) ?? "BUY",
+                                              ),
+                                              Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(getTranslated('total_price', context)!, style: textMedium.copyWith(fontWeight: FontWeight.bold, fontSize: 12)),
+                                                  const SizedBox(width: Dimensions.paddingSizeSmall),
+                                                  Text(PriceConverter.convertPrice(context, priceWithQuantity), style: titilliumBold.copyWith(color: ColorResources.getPrimary(context), fontSize: 12)),
+                                                  // widget.product!.taxModel == 'exclude' ? Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall), child: Text('(${getTranslated('tax', context)} : ${widget.product?.tax}%)', style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault))) : Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall), child: Text('(${getTranslated('tax', context)} ${widget.product!.taxModel})', style: titilliumRegular.copyWith(color: ColorResources.hintTextColor, fontSize: Dimensions.fontSizeDefault)))
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          onPressed: () {
+                                            if (stock! < widget.product!.minimumOrderQty! && widget.product!.productType == "physical") {
+                                              showCustomSnackBar(getTranslated('out_of_stock', context), context);
+                                            } else if (stock >= widget.product!.minimumOrderQty! || widget.product!.productType == "digital") {
+                                              Provider.of<CartController>(context, listen: false).addToCartAPI(cart, context, widget.product!.choiceOptions!, details.variationIndex, buyNow: 1).then((value) {
+                                                if (value.response!.statusCode == 200) {
+                                                  _buyNow(cart, context, widget.product!.choiceOptions!, details.variationIndex, value.response);
+                                                }
+                                              });
+                                            }
+                                          },
                                         ),
-                                        label: Text(
-                                          getTranslated(stock == 0 && widget.product!.productType == "physical" ? 'out_of_stock' : 'buy_now', context) ?? "BUY",
-                                        ),
-                                        onPressed: () {
-                                          if (stock! < widget.product!.minimumOrderQty! && widget.product!.productType == "physical") {
-                                            showCustomSnackBar(getTranslated('out_of_stock', context), context);
-                                          } else if (stock >= widget.product!.minimumOrderQty! || widget.product!.productType == "digital") {
-                                            Provider.of<CartController>(context, listen: false).addToCartAPI(cart, context, widget.product!.choiceOptions!, details.variationIndex, buyNow: 1).then((value) {
-                                              if (value.response!.statusCode == 200) {
-                                                _buyNow(cart, context, widget.product!.choiceOptions!, details.variationIndex, value.response);
-                                              }
-                                            });
-                                          }
-                                        },
                                       ),
                                     ),
                                     // const SizedBox(width: Dimensions.paddingSizeDefault),

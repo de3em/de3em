@@ -26,7 +26,14 @@ class BannersWidget extends StatelessWidget {
                 if (bannerProvider.mainBannerList != null && bannerProvider.mainBannerList!.isNotEmpty)
                 SizedBox(width: width,
                   child: Column(children: [
-                      SizedBox(height: width * 0.33, width: width,
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8),
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Theme.of(context).primaryColor.withOpacity(.05),
+                        ),
+                        height: width * 0.33, width: width,
                         child: CarouselSlider.builder(
                           options: CarouselOptions(
                             aspectRatio: 4/1,

@@ -31,10 +31,7 @@ class MoreHorizontalSection extends StatelessWidget {
       return SizedBox(
         height: ResponsiveHelper.isTab(context) ? 135 : 90,
         child: Center(
-          child: ListView(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
+          child: Row(
               children: [
                 if (Provider.of<SplashController>(context, listen: false)
                         .configModel!

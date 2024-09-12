@@ -9,6 +9,7 @@ import 'package:da3em/utill/dimensions.dart';
 import 'package:da3em/utill/images.dart';
 import 'package:da3em/features/cart/screens/cart_screen.dart';
 import 'package:da3em/features/notification/screens/notification_screen.dart';
+import 'package:iconly/iconly.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +24,7 @@ class CartHomePageWidget extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (_) => const SearchScreen()));
             },
-            icon: Icon(Icons.search,
+            icon: Icon(IconlyLight.search,
                 color: ColorResources.getPrimary(context), size: 25)),
         Consumer<NotificationController>(
             builder: (context, notificationProvider, _) {

@@ -43,7 +43,7 @@ class ProductImageWidget extends StatelessWidget {
                                       decoration: BoxDecoration(color: Theme.of(context).cardColor, border: Border.all(color: Provider.of<ThemeController>(context, listen: false).darkTheme ? Theme.of(context).hintColor.withOpacity(.25) : Theme.of(context).primaryColor.withOpacity(.25)), borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall)),
                                       child: Stack(children: [
                                         SizedBox(
-                                            height: MediaQuery.of(context).size.width,
+                                            height: 200,
                                             child: productModel!.images != null
                                                 ? PageView.builder(
                                                     controller: _controller,
@@ -51,7 +51,10 @@ class ProductImageWidget extends StatelessWidget {
                                                     itemBuilder: (context, index) {
                                                       return ClipRRect(
                                                         borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                                        child: CustomImageWidget(height: MediaQuery.of(context).size.width, width: MediaQuery.of(context).size.width, image: '${splashController.baseUrls!.productImageUrl}/${productModel!.images![index]}'),
+                                                        child: CustomImageWidget(
+                                                          height: MediaQuery.of(context).size.width, width: MediaQuery.of(context).size.width, image: '${splashController.baseUrls!.productImageUrl}/${productModel!.images![index]}',
+                                                          fit: BoxFit.contain,
+                                                          ),
                                                       );
                                                     },
                                                     onPageChanged: (index) => productController.setImageSliderSelectedIndex(index),

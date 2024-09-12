@@ -67,9 +67,11 @@ class _ProductDetailsState extends State<ProductDetails> {
     // ScrollController scrollController = ScrollController();
     return Consumer<ProductDetailsController>(
         builder: (context, details, child) {
-      return !details.isDetails
+      return 
+      !details.isDetails
           ? BottomCartWidget(product: details.productDetailsModel)
-          : const ProductDetailsShimmer();
+          : 
+          const ProductDetailsShimmer();
     });
 
     //  Scaffold(

@@ -16,7 +16,7 @@ class ProductDetailsController extends ChangeNotifier {
 
 
   int? _imageSliderIndex;
-  int? _quantity = 0;
+  int? _quantity = 1;
   int? _variantIndex;
   List<int>? _variationIndex;
   int? _orderCount;

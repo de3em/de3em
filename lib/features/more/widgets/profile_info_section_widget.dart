@@ -86,10 +86,13 @@ class ProfileInfoSectionWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                        !isGuestMode
-                            ? '${profile.userInfoModel?.fName ?? ''} ${profile.userInfoModel?.lName ?? ''}'
-                            : 'Guest',
+                    // Text(
+                    //     !isGuestMode
+                    //         ? '${profile.userInfoModel?.fName ?? ''} ${profile.userInfoModel?.lName ?? ''}'
+                    //         : 'Guest',
+                    //     style: robotoBold.copyWith(
+                    //         fontSize: Dimensions.fontSizeExtraLarge)),
+                    Text( 'user#${profile.userInfoModel?.id ?? ''}',
                         style: robotoBold.copyWith(
                             fontSize: Dimensions.fontSizeExtraLarge)),
                     // if (!isGuestMode &&

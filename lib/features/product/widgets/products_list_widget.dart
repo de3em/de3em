@@ -115,10 +115,14 @@ class ProductListWidget extends StatelessWidget {
               : ProductShimmer(
                   isHomePage: isHomePage, isEnabled: prodProvider.firstLoading),
           prodProvider.filterIsLoading
-              ? Center(
-                  child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          Theme.of(context).primaryColor)))
+              ? Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Center(
+                    child: CircularProgressIndicator(
+                      strokeCap: StrokeCap.round,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Theme.of(context).primaryColor))),
+              )
               : const SizedBox.shrink()
         ]);
       },

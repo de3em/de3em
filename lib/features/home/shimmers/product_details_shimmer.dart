@@ -20,11 +20,10 @@ class ProductDetailsShimmer extends StatelessWidget {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(Images.logoWithNameImage, height: 35),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.4),
-            child: LinearProgressIndicator(),
+          Image.asset(Images.logoWithNameImage, height: 30,color: Colors.black),
+          Container(
+            padding: EdgeInsets.symmetric(vertical:24),
+            child: CircularProgressIndicator(strokeCap: StrokeCap.round),
           )
         ],
       )),
