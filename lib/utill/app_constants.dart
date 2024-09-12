@@ -4,7 +4,8 @@ import 'package:da3em/utill/images.dart';
 class AppConstants {
   static const String appName = 'Da3em';
   static const String slogan = 'Da3em Marketplace';
-  static const String appVersion = '14.6';
+  // static const String appVersion = '14.6';
+  static const String appVersion = '1.0';
   static const String baseUrl = 'https://da3em.net';
   static const String userId = 'userId';
   static const String name = 'name';
