@@ -114,12 +114,31 @@ class RefundBottomSheetState extends State<RefundBottomSheet> {
                       ])):const SizedBox();})):const SizedBox();}),
 
 
-              Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                  child: InkWell(onTap: () => refundReq.pickImage(false), child: SizedBox(height: 30,
-                      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                        Text(getTranslated('upload_image', context)!),
-                        const SizedBox(width: Dimensions.paddingSizeDefault),
-                        Image.asset(Images.uploadImage)])))),
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  border: Border.all(color: Theme.of(context).hintColor.withOpacity(0.5)),
+                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall)
+                ),
+                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                child: InkWell(
+                  onTap: () => refundReq.pickImage(false),
+                  child: SizedBox(height: 30, child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Text(
+                        getTranslated('upload_image', context)!,
+                        style: textRegular.copyWith(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      const SizedBox(width: Dimensions.paddingSizeDefault),
+                      Image.asset(Images.uploadImage, color: Theme.of(context).primaryColor,),
+                  ],
+                  )),
+                ),
+
+              ),
 
 
               refundReq.isLoading? const Center(child: CircularProgressIndicator()):

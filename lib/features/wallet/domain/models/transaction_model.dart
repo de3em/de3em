@@ -1,54 +1,32 @@
 class TransactionModel {
-  int? _limit;
-  int? _offset;
-  double? _totalWalletBalance;
-  int? _totalWalletTransactio;
-  List<WalletTransactioList>? _walletTransactioList;
+  int? limit;
+  int? offset;
+  double? totalWalletBalance;
+  int? totalWalletTransactio;
+  List<WalletTransactioList>? walletTransactioList;
 
-  TransactionModel(
-      {int? limit,
-        int? offset,
-        double? totalWalletBalance,
-        int? totalWalletTransactio,
-        List<WalletTransactioList>? walletTransactioList}) {
-    if (limit != null) {
-      _limit = limit;
-    }
-    if (offset != null) {
-      _offset = offset;
-    }
-    if (totalWalletBalance != null) {
-      _totalWalletBalance = totalWalletBalance;
-    }
-    if (totalWalletTransactio != null) {
-      _totalWalletTransactio = totalWalletTransactio;
-    }
-    if (walletTransactioList != null) {
-      _walletTransactioList = walletTransactioList;
-    }
-  }
+  TransactionModel({this.limit,
+        this.offset,
+        this.totalWalletBalance,
+        this.totalWalletTransactio,
+        this.walletTransactioList});
 
-  int? get limit => _limit;
-  int? get offset => _offset;
-  double? get totalWalletBalance => _totalWalletBalance;
-  int? get totalWalletTransactio => _totalWalletTransactio;
-  List<WalletTransactioList>? get walletTransactioList => _walletTransactioList;
 
 
   TransactionModel.fromJson(Map<String, dynamic> json) {
-    _limit = json['limit'];
-    _offset = json['offset'];
+    limit = json['limit'];
+    offset = json['offset'];
     if(json['total_wallet_balance'] != null){
-      _totalWalletBalance = json['total_wallet_balance'].toDouble( );
+      totalWalletBalance = json['total_wallet_balance'].toDouble( );
     }else{
-      _totalWalletBalance = 0.0;
+      totalWalletBalance = 0.0;
     }
 
-    _totalWalletTransactio = json['total_wallet_transactio'];
+    totalWalletTransactio = json['total_wallet_transactio'];
     if (json['wallet_transactio_list'] != null) {
-      _walletTransactioList = <WalletTransactioList>[];
+      walletTransactioList = <WalletTransactioList>[];
       json['wallet_transactio_list'].forEach((v) {
-        _walletTransactioList!.add(WalletTransactioList.fromJson(v));
+        walletTransactioList!.add(WalletTransactioList.fromJson(v));
       });
     }
   }

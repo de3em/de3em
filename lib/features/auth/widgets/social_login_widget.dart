@@ -114,14 +114,14 @@ class SocialLoginWidgetState extends State<SocialLoginWidget> {
                   await Provider.of<FacebookLoginController>(context, listen: false).login();
                   String? id,token,email, medium;
                   if(Provider.of<FacebookLoginController>(Get.context!,listen: false).userData != null){
-                    // id = Provider.of<FacebookLoginController>(Get.context!,listen: false).result.accessToken!.uesrId;
+                  //  id = Provider.of<FacebookLoginController>(Get.context!,listen: false).result.accessToken!.userId;
                     email = Provider.of<FacebookLoginController>(Get.context!,listen: false).userData!['email'];
-                    token = Provider.of<FacebookLoginController>(Get.context!,listen: false).result.accessToken!.tokenString;
+                   // token = Provider.of<FacebookLoginController>(Get.context!,listen: false).result.accessToken!.token;
                     medium = 'facebook';
                     socialLogin.email = email;
                     socialLogin.medium = medium;
                     socialLogin.token = token;
-                    socialLogin.uniqueId = null; //id;
+                    socialLogin.uniqueId = id;
                     await Provider.of<AuthController>(Get.context!, listen: false).socialLogin(socialLogin, route);
                   }
                 },

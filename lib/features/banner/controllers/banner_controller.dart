@@ -22,11 +22,14 @@ class BannerController extends ChangeNotifier {
   BannerModel? sideBarBanner;
   Product? _product;
   int? _currentIndex;
+  int? _footerBannerIndex;
   List<BannerModel>? get mainBannerList => _mainBannerList;
   List<BannerModel>? get footerBannerList => _footerBannerList;
 
   Product? get product => _product;
   int? get currentIndex => _currentIndex;
+  int? get footerBannerIndex => _footerBannerIndex;
+
   BannerModel? promoBannerMiddleTop;
   BannerModel? promoBannerRight;
   BannerModel? promoBannerMiddleBottom;
@@ -81,6 +84,10 @@ class BannerController extends ChangeNotifier {
     _currentIndex = index;
     notifyListeners();
   }
+  void onChangeFooterBannerIndex(int index) {
+    _footerBannerIndex = index;
+    notifyListeners();
+  }
 
 
   void clickBannerRedirect(BuildContext context, int? id, Product? product,  String? type){
@@ -120,8 +127,8 @@ class BannerController extends ChangeNotifier {
           vacationEndDate: Provider.of<ShopController>(context,listen: false).sellerModel?.sellers?[tIndex].shop?.vacationEndDate,
           vacationStartDate: Provider.of<ShopController>(context,listen: false).sellerModel?.sellers?[tIndex].shop?.vacationStartDate,
           name: Provider.of<ShopController>(context,listen: false).sellerModel?.sellers?[tIndex].shop?.name,
-          banner: Provider.of<ShopController>(context,listen: false).sellerModel?.sellers?[tIndex].shop?.banner,
-          image: Provider.of<ShopController>(context,listen: false).sellerModel?.sellers?[tIndex].shop?.image)));
+          banner: Provider.of<ShopController>(context,listen: false).sellerModel?.sellers?[tIndex].shop?.bannerFullUrl?.path,
+          image: Provider.of<ShopController>(context,listen: false).sellerModel?.sellers?[tIndex].shop?.imageFullUrl?.path)));
       }
 
     }

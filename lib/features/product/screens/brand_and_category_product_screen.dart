@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:da3em/features/product/controllers/product_controller.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
-import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
 import 'package:da3em/utill/images.dart';
 import 'package:da3em/common/basewidget/custom_app_bar_widget.dart';
-import 'package:da3em/common/basewidget/custom_image_widget.dart';
 import 'package:da3em/common/basewidget/no_internet_screen_widget.dart';
 import 'package:da3em/common/basewidget/product_shimmer_widget.dart';
 import 'package:da3em/common/basewidget/product_widget.dart';
@@ -14,7 +11,7 @@ import 'package:provider/provider.dart';
 
 class BrandAndCategoryProductScreen extends StatefulWidget {
   final bool isBrand;
-  final String? id;
+  final String id;
   final String? name;
   final String? image;
   const BrandAndCategoryProductScreen({super.key, required this.isBrand, required this.id, required this.name, this.image});
@@ -26,8 +23,7 @@ class BrandAndCategoryProductScreen extends StatefulWidget {
 class _BrandAndCategoryProductScreenState extends State<BrandAndCategoryProductScreen> {
   @override
   void initState() {
-    if (widget.id!=null)
-    Provider.of<ProductController>(context, listen: false).initBrandOrCategoryProductList(widget.isBrand, widget.id!, context);
+    Provider.of<ProductController>(context, listen: false).initBrandOrCategoryProductList(widget.isBrand, widget.id, context);
     super.initState();
   }
   @override
@@ -38,24 +34,7 @@ class _BrandAndCategoryProductScreenState extends State<BrandAndCategoryProductS
       body: Consumer<ProductController>(
         builder: (context, productController, child) {
           return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-
-
-
-            widget.isBrand ? Container(height: 100,
-              padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
-              margin: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-              color: Theme.of(context).highlightColor,
-              child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                CustomImageWidget(image: '${Provider.of<SplashController>(context,listen: false).baseUrls!.brandImageUrl}/${widget.image}',
-                  width: 80, height: 80, fit: BoxFit.cover,),
-                const SizedBox(width: Dimensions.paddingSizeSmall),
-
-
-                Expanded(child: Text(widget.name??'',maxLines: 2,overflow: TextOverflow.ellipsis, style: textRegular.copyWith(fontSize: Dimensions.fontSizeLarge))),
-              ]),
-            ) : const SizedBox.shrink(),
-
-            const SizedBox(height: Dimensions.paddingSizeSmall),
+            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
             // Products
             productController.brandOrCategoryProductList.isNotEmpty ?

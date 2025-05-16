@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:da3em/common/basewidget/no_internet_screen_widget.dart';
 import 'package:da3em/features/product/controllers/seller_product_controller.dart';
 import 'package:da3em/helper/responsive_helper.dart';
 import 'package:da3em/common/basewidget/paginated_list_view_widget.dart';
@@ -24,7 +25,7 @@ class _ShopProductViewListState extends State<ShopProductViewList> {
         return productController.sellerProduct != null ? (productController.sellerProduct!.products != null &&
             productController.sellerProduct!.products!.isNotEmpty)?
         PaginatedListView(scrollController: widget.scrollController,
-            onPaginate: (offset) async=> await productController.getSellerProductList(widget.sellerId.toString(), offset!, ""),
+            onPaginate: (offset) async=> await productController.getSellerProductList(widget.sellerId.toString(), offset!, "", reload: false),
             totalSize: productController.sellerProduct?.totalSize,
             offset: productController.sellerProduct?.offset,
             itemView: MasonryGridView.count(
@@ -36,7 +37,7 @@ class _ShopProductViewListState extends State<ShopProductViewList> {
               itemBuilder: (BuildContext context, int index) {
                 return ProductWidget(productModel: productController.sellerProduct!.products![index]);
               },
-            )): const SizedBox():
+            )) : const NoInternetOrDataScreenWidget(isNoInternet: false):
         const ProductShimmer(isEnabled: true, isHomePage: false);
       }
     );

@@ -1,3 +1,4 @@
+import 'package:da3em/data/model/image_full_url.dart';
 import 'package:da3em/features/product/domain/models/product_model.dart';
 
 class BannerModel {
@@ -15,6 +16,7 @@ class BannerModel {
   String? subTitle;
   String? buttonText;
   String? backgroundColor;
+  ImageFullUrl? photoFullUrl;
 
   BannerModel(
       {this.id,
@@ -31,6 +33,7 @@ class BannerModel {
         this.subTitle,
         this.buttonText,
         this.backgroundColor,
+        this.photoFullUrl
       });
 
   BannerModel.fromJson(Map<String, dynamic> json) {
@@ -48,6 +51,8 @@ class BannerModel {
     buttonText = json['button_text'];
     backgroundColor = json['background_color'];
     product = json['product'] != null ? Product.fromJson(json['product']) : null;
+    photoFullUrl = json['photo_full_url'] != null
+      ? ImageFullUrl.fromJson(json['photo_full_url']) : null;
   }
 
 }

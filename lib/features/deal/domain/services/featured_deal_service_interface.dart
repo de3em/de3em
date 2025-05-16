@@ -1,3 +1,3 @@
 abstract class FeaturedDealServiceInterface{
-  Future<dynamic> getFeaturedDeal();
+  Future<dynamic> getFeaturedDeal(String id);
 }

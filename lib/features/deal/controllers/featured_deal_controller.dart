@@ -17,10 +17,15 @@ class FeaturedDealController extends ChangeNotifier {
 
   Future<void> getFeaturedDealList(bool reload) async {
     _featuredDealProductList =[];
-      ApiResponse apiResponse = await featuredDealServiceInterface.getFeaturedDeal();
+    //moh get list
+
+      ApiResponse apiResponse = await featuredDealServiceInterface.getFeaturedDeal('35');
       if (apiResponse.response != null && apiResponse.response!.statusCode == 200 && apiResponse.response!.data.toString() != '{}') {
         _featuredDealProductList =[];
-        apiResponse.response!.data.forEach((fDeal) => _featuredDealProductList?.add(Product.fromJson(fDeal)));
+        print(apiResponse.response!.data["data"]["products"]);
+        apiResponse.response!.data["data"]["products"].forEach((key, products) =>
+        products != null ?
+            _featuredDealProductList?.add(Product.fromJson(products)) : null);
         _featuredDealSelectedIndex = 0;
       } else {
         ApiChecker.checkApi( apiResponse);

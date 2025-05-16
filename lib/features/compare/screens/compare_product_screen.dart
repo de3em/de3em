@@ -4,7 +4,6 @@ import 'package:da3em/features/compare/controllers/compare_controller.dart';
 import 'package:da3em/features/search_product/widgets/partial_matched_widget.dart';
 import 'package:da3em/helper/price_converter.dart';
 import 'package:da3em/localization/language_constrants.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:da3em/theme/controllers/theme_controller.dart';
 import 'package:da3em/utill/color_resources.dart';
 import 'package:da3em/utill/custom_themes.dart';
@@ -53,7 +52,7 @@ class _CompareProductScreenState extends State<CompareProductScreen> {
                   child: Row(crossAxisAlignment: CrossAxisAlignment.start,children: [
                       Column(mainAxisSize: MainAxisSize.min,mainAxisAlignment: MainAxisAlignment.start, children: [
                         const SizedBox(height: 260),
-                        Container(width: 80,height: 48, decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),
+                        Container(width: 80,height: 48, decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
                           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                             Text('${getTranslated('price', context)}')])),
                         Container(width: 80,height: 48,
@@ -70,7 +69,7 @@ class _CompareProductScreenState extends State<CompareProductScreen> {
                                 itemBuilder: (context, index){
                               return Container(height: 48,
                                 decoration: BoxDecoration(color: index.isOdd? Theme.of(context).cardColor:
-                                Theme.of(context).colorScheme.background),
+                                Theme.of(context).colorScheme.surface),
                                 child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                                   Text('${compareProvider.attributeList?[index].name}')]),
                               );
@@ -80,7 +79,7 @@ class _CompareProductScreenState extends State<CompareProductScreen> {
 
 
                         Container(width: 80,height: 48,
-                          decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),
+                          decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
                           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                             Text('${getTranslated('brand', context)}')])),
 
@@ -157,7 +156,7 @@ class CompareCard extends StatelessWidget {
                               color: Provider.of<ThemeController>(context, listen: false).darkTheme? Theme.of(context).hintColor.withOpacity(.5) : ColorResources.getIconBg(context),
                               borderRadius: const BorderRadius.all(Radius.circular(10))),
                             child: ClipRRect(borderRadius: const BorderRadius.all( Radius.circular(Dimensions.paddingSizeSmall)),
-                              child: CustomImageWidget(image: '${Provider.of<SplashController>(context, listen: false).baseUrls!.productThumbnailUrl}/${product?.thumbnail}',
+                              child: CustomImageWidget(image: '${product?.thumbnailFullUrl?.path}',
                                   height: 180,width: 200, placeholder: Images.emptyProduct)
 
                             ),
@@ -186,7 +185,7 @@ class CompareCard extends StatelessWidget {
                             ))
                       ],
                     ),
-                  Container(height: 48, decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),
+                  Container(height: 48, decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
                     child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                         Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
                           child: Text(product != null ? PriceConverter.convertPrice(context , product!.unitPrice) : ''),
@@ -247,7 +246,7 @@ class CompareCard extends StatelessWidget {
 
                             return (product != null && product!.choiceOptions != null &&  product!.choiceOptions!.isNotEmpty)?
                             Container(height: 48,width: 200,
-                              decoration: BoxDecoration(color: index.isOdd? Theme.of(context).cardColor:Theme.of(context).colorScheme.background),
+                              decoration: BoxDecoration(color: index.isOdd? Theme.of(context).cardColor:Theme.of(context).colorScheme.surface),
                               child: variation.isNotEmpty?
                               Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
                                 child: Center(
@@ -260,7 +259,7 @@ class CompareCard extends StatelessWidget {
                                       return Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                         child: Container(height: 48,
-                                          decoration: BoxDecoration(color: index.isOdd? Theme.of(context).cardColor:Theme.of(context).colorScheme.background),
+                                          decoration: BoxDecoration(color: index.isOdd? Theme.of(context).cardColor:Theme.of(context).colorScheme.surface),
                                           child: Text(variation[index][varIndex].trim()),
                                         ),
                                       );
@@ -274,7 +273,7 @@ class CompareCard extends StatelessWidget {
 
 
 
-                  Container(height: 48, decoration: BoxDecoration(color: Theme.of(context).colorScheme.background),
+                  Container(height: 48, decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
                     child:  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
                         child: Text(product?.brand?.name??''))])),

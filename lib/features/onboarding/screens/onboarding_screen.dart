@@ -77,7 +77,6 @@ class OnBoardingScreen extends StatelessWidget {
                         if(onBoardingList.onBoardingList.isNotEmpty)
                         Center(child: SizedBox(height: 50, width: 50,
                             child: CircularProgressIndicator(
-                              strokeWidth: 2,
                               valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor.withOpacity(.6)),
                               value: (onBoardingList.selectedIndex + 1) / onBoardingList.onBoardingList.length,
                               backgroundColor: Theme.of(context).primaryColor.withOpacity(.125)))),

@@ -32,7 +32,7 @@ class DeliveryChatItemWidgetState extends State<DeliveryChatItemWidget> {
     Provider.of<SplashController>(context, listen: false).baseUrls!.deliveryManImageUrl;
 
     image = widget.chatProvider.userTypeIndex == 0 ?
-    widget.chat!.sellerInfo != null? widget.chat!.sellerInfo?.shops![0].image :'' : widget.chat!.deliveryMan?.image??'';
+    widget.chat!.sellerInfo != null? widget.chat!.sellerInfo?.shops![0].imageFullUrl?.path :'' : widget.chat!.deliveryMan?.imageFullUrl?.path ??'';
 
     call = widget.chatProvider.userTypeIndex == 0 ?
     '' : '${widget.chat!.deliveryMan?.code}${widget.chat!.deliveryMan?.phone}';
@@ -79,7 +79,7 @@ class DeliveryChatItemWidgetState extends State<DeliveryChatItemWidget> {
               showCustomSnackBar(getTranslated('this_shop_is_close_now', context), context);
             }else{
               Navigator.push(Get.context!, MaterialPageRoute(builder: (_) =>
-                  ChatScreen(id: id, name: name, image: '$baseUrl/$image',
+                  ChatScreen(id: id, name: name, image: '$image',
                       isDelivery: widget.chatProvider.userTypeIndex == 1, phone: call)));
             }
           },
@@ -95,7 +95,7 @@ class DeliveryChatItemWidgetState extends State<DeliveryChatItemWidget> {
                         border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.25),width: .5),
                         borderRadius: BorderRadius.circular(100)),
                         child: ClipRRect(borderRadius: BorderRadius.circular(100),
-                            child: CustomImageWidget(image: '$baseUrl/$image',
+                            child: CustomImageWidget(image: '$image',
                                 height: 50,width: 50, fit: BoxFit.cover))),
 
                     if(vacationIsOn)

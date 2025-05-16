@@ -1,3 +1,4 @@
+import 'package:da3em/data/model/image_full_url.dart';
 import 'package:da3em/features/product/domain/models/product_model.dart';
 import 'package:da3em/features/shop/domain/models/seller_model.dart';
 class CartModel {
@@ -6,6 +7,7 @@ class CartModel {
   String? image;
   String? name;
   String? thumbnail;
+  ImageFullUrl? thumbnailFullUrl;
   int? sellerId;
   String? sellerIs;
   String? seller;
@@ -49,6 +51,7 @@ class CartModel {
       this.id,
       this.productId,
       this.thumbnail,
+      this.thumbnailFullUrl,
       this.name,
       this.seller,
       this.price,
@@ -148,6 +151,9 @@ class CartModel {
     } else {
       isChecked = false;
     }
+    thumbnailFullUrl = json['thumbnail_full_url'] != null
+        ? ImageFullUrl.fromJson(json['thumbnail_full_url'])
+        : null;
     isGroupChecked = false;
     isGroupItemChecked = false;
   }
@@ -158,6 +164,7 @@ class CartModel {
 class ProductInfo {
   int? minimumOrderQty;
   int? totalCurrentStock;
+  ImageFullUrl? thumbnailFullUrl;
 
   ProductInfo({ this.minimumOrderQty, this.totalCurrentStock});
 
@@ -170,6 +177,9 @@ class ProductInfo {
       }
     }
     totalCurrentStock = json['total_current_stock'];
+    thumbnailFullUrl = json['thumbnail_full_url'] != null
+        ? ImageFullUrl.fromJson(json['thumbnail_full_url'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -227,11 +237,15 @@ class CartModelBody{
   String? color;
   Variation? variation;
   int? quantity;
+  String? variantKey;
+  double? digitalVariantPrice;
 
   CartModelBody(
-      {this.productId,
-        this.variant,
-        this.color,
-        this.variation,
-        this.quantity});
+    {this.productId,
+      this.variant,
+      this.color,
+      this.variation,
+      this.quantity,
+      this.variantKey,
+      this.digitalVariantPrice});
 }

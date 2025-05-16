@@ -20,6 +20,17 @@ class SearchSuggestion extends StatefulWidget{
 
 class _SearchSuggestionState extends State<SearchSuggestion> {
   @override
+  void initState() {
+    super.initState();
+
+    Future.delayed((const Duration(milliseconds: 500))).then((_){
+      FocusScope.of(context).requestFocus(Provider.of<SearchProductController>(context, listen: false).searchFocusNode);
+
+    });
+  }
+
+
+  @override
   Widget build(BuildContext context) {
 
     return Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
@@ -79,72 +90,77 @@ class _SearchSuggestionState extends State<SearchSuggestion> {
                 },
                 fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
                   searchProvider.searchController = controller;
+                  searchProvider.searchFocusNode = focusNode;
 
-                  return TextFormField(
-                    controller: controller,
-                    focusNode: focusNode,
-                    textInputAction: TextInputAction.search,
-                    onChanged: (val){
-                      if(val.isNotEmpty){
-                        searchProvider.getSuggestionProductName(searchProvider.searchController.text.trim());
-                      }
-                    },
-                    onFieldSubmitted: (value) {
-                      if(controller.text.trim().isNotEmpty) {
-                        searchProvider.saveSearchAddress( controller.text.toString());
-                        searchProvider.searchProduct(query : controller.text.toString(), offset: 1);
-                      }else{
-                        showCustomSnackBar(getTranslated('enter_somethings', context), context);
-                      }
-                    },
+                  return Hero(
+                    tag: 'search',
+                    child: Material(child: TextFormField(
+                        controller: controller,
+                        focusNode: searchProvider.searchFocusNode,
+                        textInputAction: TextInputAction.search,
+                        onChanged: (val){
+                          if(val.isNotEmpty){
+                            searchProvider.getSuggestionProductName(searchProvider.searchController.text.trim());
+                          }
+                        },
+                        onFieldSubmitted: (value) {
+                          if(controller.text.trim().isNotEmpty) {
+                            searchProvider.saveSearchAddress( controller.text.toString());
+                            searchProvider.searchProduct(query : controller.text.toString(), offset: 1);
+                          }else{
+                            showCustomSnackBar(getTranslated('enter_somethings', context), context);
+                          }
+                        },
 
-                    style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
-                    decoration: InputDecoration(
-                      isDense: true,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                        borderSide: BorderSide(color: Colors.grey[300]!)),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                        borderSide: BorderSide(color: Colors.grey[300]!)),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                        borderSide: BorderSide(color: Colors.grey[300]!)),
-                      hintText: "Search Product",
-                     suffixIcon: SizedBox(width: controller.text.isNotEmpty? 70 : 50,
-                       child: Row(children: [
-                           if(controller.text.isNotEmpty)
-                           InkWell(onTap: (){
-                             setState(() {
-                               controller.clear();
-                               searchProvider.cleanSearchProduct(notify: true);
-                             });
-                           }, child: const Icon(Icons.clear, size: 20,)),
+                        style: textMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
+                        decoration: InputDecoration(
+                          isDense: true,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                            borderSide: BorderSide(color: Colors.grey[300]!)),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                            borderSide: BorderSide(color: Colors.grey[300]!)),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
+                            borderSide: BorderSide(color: Colors.grey[300]!)),
+                          hintText: getTranslated('search_product', context),
+                         suffixIcon: SizedBox(width: controller.text.isNotEmpty? 70 : 50,
+                           child: Row(children: [
+                               if(controller.text.isNotEmpty)
+                               InkWell(onTap: (){
+                                 setState(() {
+                                   controller.clear();
+                                   searchProvider.cleanSearchProduct(notify: true);
+                                 });
+                               }, child: const Icon(Icons.clear, size: 20,)),
 
 
-                           InkWell(onTap: (){
-                               if(controller.text.trim().isNotEmpty) {
-                                 focusNode.unfocus();
-                                   searchProvider.saveSearchAddress( controller.text.toString());
-                                   searchProvider.searchProduct( query : controller.text.toString(), offset: 1);
+                               InkWell(onTap: (){
+                                   if(controller.text.trim().isNotEmpty) {
+                                     focusNode.unfocus();
+                                       searchProvider.saveSearchAddress( controller.text.toString());
+                                       searchProvider.searchProduct( query : controller.text.toString(), offset: 1);
 
-                               }else{
-                                 showCustomSnackBar(getTranslated('enter_somethings', context), context);
-                               }
-                             },
-                             child: Padding(padding: const EdgeInsets.all(5),
-                               child: Container(width: 40, height: 50,decoration: BoxDecoration(color: Theme.of(context).primaryColor,
-                                   borderRadius: const BorderRadius.all( Radius.circular(Dimensions.paddingSizeSmall))),
-                                   child: SizedBox(width : 18,height: 18, child: Padding(
-                                     padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                     child: Image.asset(Images.search, color: Colors.white),
-                                   ))),
-                             ),
+                                   }else{
+                                     showCustomSnackBar(getTranslated('enter_somethings', context), context);
+                                   }
+                                 },
+                                 child: Padding(padding: const EdgeInsets.all(5),
+                                   child: Container(width: 40, height: 50,decoration: BoxDecoration(color: Theme.of(context).primaryColor,
+                                       borderRadius: const BorderRadius.all( Radius.circular(Dimensions.paddingSizeSmall))),
+                                       child: SizedBox(width : 18,height: 18, child: Padding(
+                                         padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                         child: Image.asset(Images.search, color: Colors.white),
+                                       ))),
+                                 ),
+                               ),
+                             ],
                            ),
-                         ],
-                       ),
-                     )
+                         )
+                        ),
+                      ),
                     ),
                   );
                 },

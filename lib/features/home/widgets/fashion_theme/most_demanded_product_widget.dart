@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:da3em/features/product/controllers/product_controller.dart';
 import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/theme/controllers/theme_controller.dart';
-import 'package:da3em/utill/app_constants.dart';
 import 'package:da3em/utill/color_resources.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
@@ -22,8 +21,9 @@ class MostDemandedProductView extends StatelessWidget {
                 decoration: BoxDecoration(
                  color: Theme.of(context).primaryColor.withOpacity(0.125),
                   borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall)),
-                child: CustomImageWidget(image: '${AppConstants.baseUrl}/storage/app/public/most-demanded/${mostDemandedProduct.mostDemandedProductModel?.banner}',),)),
-            const SizedBox(height: Dimensions.paddingSizeSmall),
+                child: CustomImageWidget(image: '${mostDemandedProduct.mostDemandedProductModel?.bannerFullUrl?.path}'
+                ))),
+            const SizedBox(height: Dimensions.paddingSizeDefault),
 
 
             Container(height: 108, width: MediaQuery.of(context).size.width,
@@ -58,7 +58,11 @@ class MostDemandedProductView extends StatelessWidget {
                         title: getTranslated('wishes', context)!,
                         textColor: ColorResources.green)]),
 
-              ]))]);
+              ])),
+
+
+
+        ]);
       }
     );
   }

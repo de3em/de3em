@@ -48,7 +48,7 @@ class _ChatSearchWidgetState extends State<ChatSearchWidget> {
                       closeSearchOnSuffixTap: true,
                       onChanged: (value){
                         if(value != null){
-                          chat.searchChat(context, value);
+                          //chat.searchChat(context, value, 0);
                         }
                       },
                       animationDurationInMilli: 200,

@@ -29,67 +29,51 @@ class TopSellerProductScreen extends StatefulWidget {
   final String? name;
   final String? banner;
   final String? image;
+  final String? phone;
+  final String? follow;
+
   final bool fromMore;
-  const TopSellerProductScreen(
-      {super.key,
-      this.sellerId,
-      this.temporaryClose,
-      this.vacationStatus,
-      this.vacationEndDate,
-      this.vacationStartDate,
-      this.name,
-      this.banner,
-      this.image,
-      this.fromMore = false});
+  const TopSellerProductScreen({super.key, this.sellerId, this.temporaryClose, this.vacationStatus, this.vacationEndDate,
+    this.vacationStartDate, this.name, this.banner, this.image, this.fromMore = false, this.phone, this.follow});
 
   @override
   State<TopSellerProductScreen> createState() => _TopSellerProductScreenState();
 }
 
-class _TopSellerProductScreenState extends State<TopSellerProductScreen>
-    with TickerProviderStateMixin {
+class _TopSellerProductScreenState extends State<TopSellerProductScreen> with TickerProviderStateMixin{
   final ScrollController _scrollController = ScrollController();
   TextEditingController searchController = TextEditingController();
   bool vacationIsOn = false;
   TabController? _tabController;
   int selectedIndex = 0;
 
-  void _load() async {
-    await Provider.of<SellerProductController>(context, listen: false)
-        .getSellerProductList(widget.sellerId.toString(), 1, "");
-    await Provider.of<ShopController>(Get.context!, listen: false)
-        .getSellerInfo(widget.sellerId.toString());
-    await Provider.of<SellerProductController>(Get.context!, listen: false)
-        .getSellerWiseBestSellingProductList(widget.sellerId.toString(), 1);
-    await Provider.of<SellerProductController>(Get.context!, listen: false)
-        .getSellerWiseFeaturedProductList(widget.sellerId.toString(), 1);
-    await Provider.of<SellerProductController>(Get.context!, listen: false)
-        .getSellerWiseRecommandedProductList(widget.sellerId.toString(), 1);
-    await Provider.of<CouponController>(Get.context!, listen: false)
-        .getSellerWiseCouponList(widget.sellerId!, 1);
-    await Provider.of<CategoryController>(Get.context!, listen: false)
-        .getSellerWiseCategoryList(widget.sellerId!);
-    await Provider.of<BrandController>(Get.context!, listen: false)
-        .getSellerWiseBrandList(widget.sellerId!);
+  void _load() async{
+    await Provider.of<SellerProductController>(context, listen: false).getSellerProductList(widget.sellerId.toString(), 1, "");
+    await Provider.of<ShopController>(Get.context!, listen: false).getSellerInfo(widget.sellerId.toString());
+    await Provider.of<SellerProductController>(Get.context!, listen: false).getSellerWiseBestSellingProductList(widget.sellerId.toString(), 1);
+    await Provider.of<SellerProductController>(Get.context!, listen: false).getSellerWiseFeaturedProductList(widget.sellerId.toString(), 1);
+    await Provider.of<SellerProductController>(Get.context!, listen: false).getSellerWiseRecommandedProductList(widget.sellerId.toString(), 1);
+    await Provider.of<CouponController>(Get.context!, listen: false).getSellerWiseCouponList(widget.sellerId!, 1);
+    await Provider.of<CategoryController>(Get.context!, listen: false).getSellerWiseCategoryList(widget.sellerId!);
+    await Provider.of<BrandController>(Get.context!, listen: false).getSellerWiseBrandList(widget.sellerId!);
   }
 
   @override
   void initState() {
     super.initState();
-    // if (widget.fromMore) {
-    Provider.of<ShopController>(context, listen: false)
-        .setMenuItemIndex(1, notify: false);
-    // } else {
-    //   Provider.of<ShopController>(context, listen: false).setMenuItemIndex(0, notify: false);
-    // }
-
+    if(widget.fromMore){
+      Provider.of<ShopController>(context, listen: false).setMenuItemIndex(1, notify: false);
+    }else{
+      Provider.of<ShopController>(context, listen: false).setMenuItemIndex(0, notify: false);
+    }
     searchController.clear();
     _load();
-    // if (widget.fromMore) {
-    _tabController = TabController(length: 2, initialIndex: 1, vsync: this);
-    // } else {
-    //   _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
-    // }
+    if(widget.fromMore){
+      _tabController = TabController(length: 2, initialIndex: 1, vsync: this);
+    }else{
+      _tabController = TabController(length: 2, initialIndex: 0, vsync: this);
+    }
+
   }
 
   @override
@@ -111,107 +95,95 @@ class _TopSellerProductScreenState extends State<TopSellerProductScreen>
     return PopScope(
       canPop: true,
       onPopInvoked: (value) {
-        Provider.of<SellerProductController>(context, listen: false)
-            .clearSellerProducts();
+        Provider.of<SellerProductController>(context, listen: false).clearSellerProducts();
+        Provider.of<CategoryController>(Get.context!, listen: false);
+        Provider.of<CategoryController>(Get.context!, listen: false).getCategoryList(true);
       },
       child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: CustomAppBar(title: widget.name),
-          body: Consumer<ShopController>(builder: (context, sellerProvider, _) {
+        resizeToAvoidBottomInset: false,
+        appBar: CustomAppBar(title: widget.name),
+        body: Consumer<ShopController>(
+          builder: (context, sellerProvider, _) {
             return CustomScrollView(
-              controller: _scrollController,
-              slivers: [
-                SliverToBoxAdapter(
-                    child: ShopInfoWidget(
-                        vacationIsOn: vacationIsOn,
-                        sellerName: widget.name ?? "",
-                        sellerId: widget.sellerId!,
-                        banner: widget.banner ?? '',
-                        shopImage: widget.image ?? '',
-                        temporaryClose: widget.temporaryClose!)),
-                SliverPersistentHeader(
-                  pinned: true,
+                controller: _scrollController, slivers: [
+                  ///---------------------------------------------------------------------
+
+              SliverToBoxAdapter(
+                  child: ShopInfoWidget(
+                    vacationIsOn: vacationIsOn,
+                    sellerName: widget.name ?? "",
+                    sellerId: widget.sellerId!,
+                    banner: widget.banner ?? '',
+                    shopImage: widget.image ?? '',
+                    temporaryClose: widget.temporaryClose!,
+                  phone: widget.phone??"07",
+                  follow: widget.follow?? "0",)),
+
+
+              ///*************************************************************************
+              SliverPersistentHeader(pinned: true,
                   delegate: SliverDelegate(
-                    height: sellerProvider.shopMenuIndex == 1 ? 50 : 40,
-                    child: Container(
-                      color: Theme.of(context).canvasColor,
-                      child: Column(
-                        children: [
+                      height: sellerProvider.shopMenuIndex == 1? 110: 40,
+                      child: Container(color: Theme.of(context).canvasColor,
+                        child: Column(children: [
                           Row(children: [
-                            // Expanded(
-                            //   child: Container(
-                            //     height: 40,
-                            //     color: Theme.of(context).canvasColor,
-                            //     child: TabBar(
-                            //       physics: const NeverScrollableScrollPhysics(),
-                            //       isScrollable: true,
-                            //       dividerColor: Colors.transparent,
-                            //       padding: const EdgeInsets.all(0),
-                            //       controller: _tabController,
-                            //       labelColor: Theme.of(context).primaryColor,
-                            //       unselectedLabelColor: Theme.of(context).hintColor,
-                            //       indicatorColor: Theme.of(context).primaryColor,
-                            //       indicatorWeight: 1,
-                            //       onTap: (value) {
-                            //         sellerProvider.setMenuItemIndex(value);
-                            //         searchController.clear();
-                            //       },
-                            //       indicatorPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-                            //       unselectedLabelStyle: textRegular.copyWith(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w400),
-                            //       labelStyle: textRegular.copyWith(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w700),
-                            //       tabs: [
-                            //         Tab(text: getTranslated("overview", context)),
-                            //         Tab(text: getTranslated("all_products", context)),
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ),
-                            // Padding(
-                            //   padding: EdgeInsets.only(right: Provider.of<LocalizationController>(context, listen: false).isLtr ? Dimensions.paddingSizeDefault : 0, left: Provider.of<LocalizationController>(context, listen: false).isLtr ? 0 : Dimensions.paddingSizeDefault),
-                            //   child: InkWell(
-                            //     onTap: () => showModalBottomSheet(context: context, isScrollControlled: true, backgroundColor: Colors.transparent, builder: (c) => ProductFilterDialog(sellerId: widget.sellerId!)),
-                            //     child: Container(
-                            //       decoration: BoxDecoration(color: Provider.of<ThemeController>(context, listen: false).darkTheme ? Colors.white : Theme.of(context).cardColor, border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.5)), borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
-                            //       width: 30,
-                            //       height: 30,
-                            //       child: Padding(
-                            //         padding: const EdgeInsets.all(5.0),
-                            //         child: Image.asset(
-                            //           Images.filterImage,
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                          ]),
-                          Container(
-                            color: Theme.of(context).canvasColor,
-                            child: SearchWidget(
-                                hintText:
-                                    '${getTranslated('search_hint', context)}',
-                                sellerId: widget.sellerId!),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(
-                        Dimensions.paddingSizeSmall,
-                        Dimensions.paddingSizeSmall,
-                        Dimensions.paddingSizeSmall,
-                        0),
-                    child: ShopProductViewList(
-                      scrollController: _scrollController,
-                      sellerId: widget.sellerId!,
-                    ),
-                  ),
-                ),
-              ],
-            );
-          })),
+                            Expanded(child: Container(height: 40,
+                                color: Theme.of(context).canvasColor,
+                                child: TabBar(physics: const NeverScrollableScrollPhysics(),
+                                  isScrollable: true,
+                                  dividerColor: Colors.transparent,
+                                  padding: const EdgeInsets.all(0),
+                                  controller: _tabController,
+                                  labelColor: Theme.of(context).primaryColor,
+                                  unselectedLabelColor: Theme.of(context).hintColor,
+                                  indicatorColor: Theme.of(context).primaryColor,
+                                  indicatorWeight: 1,
+                                  onTap: (value){
+                                    sellerProvider.setMenuItemIndex(value);
+                                    searchController.clear();},
+                                  indicatorPadding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                                  unselectedLabelStyle: textRegular.copyWith(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w400),
+                                  labelStyle: textRegular.copyWith(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w700),
+                                  tabs: [
+                                    Tab(text: getTranslated("overview", context)),
+                                    Tab(text: getTranslated("all_products", context)),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+
+                            if(sellerProvider.shopMenuIndex == 1)
+                              Padding(padding:  EdgeInsets.only(right: Provider.of<LocalizationController>(context, listen: false).isLtr ?Dimensions.paddingSizeDefault: 0,
+                                  left: Provider.of<LocalizationController>(context, listen: false).isLtr ? 0 : Dimensions.paddingSizeDefault),
+                                child: InkWell(onTap: () => showModalBottomSheet(context: context,
+                                    isScrollControlled: true, backgroundColor: Colors.transparent,
+                                    builder: (c) =>  ProductFilterDialog(sellerId: widget.sellerId!)),
+
+                                  child: Container(decoration: BoxDecoration(
+                                      color: Provider.of<ThemeController>(context, listen: false).darkTheme? Colors.white: Theme.of(context).cardColor,
+                                      border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.5)),
+                                      borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
+                                      width: 30,height: 30,
+                                      child: Padding(padding: const EdgeInsets.all(5.0),
+                                          child: Image.asset(Images.filterImage)))))]),
+
+
+                          if(sellerProvider.shopMenuIndex == 1)
+                            Container(color: Theme.of(context).canvasColor,
+                              child: SearchWidget(hintText: '${getTranslated('search_hint', context)}', sellerId: widget.sellerId!))
+                        ])))),
+
+              SliverToBoxAdapter(child: sellerProvider.shopMenuIndex == 0? ShopOverviewScreen(sellerId: widget.sellerId!, scrollController: _scrollController,):
+
+                Padding(padding: const EdgeInsets.fromLTRB( Dimensions.paddingSizeSmall,  Dimensions.paddingSizeSmall,  Dimensions.paddingSizeSmall,0),
+                  child: ShopProductViewList(scrollController: _scrollController, sellerId: widget.sellerId!))),
+
+            ]);
+          }
+        )
+
+      ),
     );
   }
 }

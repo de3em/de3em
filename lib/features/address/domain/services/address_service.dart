@@ -41,8 +41,9 @@ import 'package:da3em/features/address/domain/services/address_service_interface
   }
 
   @override
-  Future<void> delete(int id) async {
-     await addressRepoInterface.delete(id);
+  Future<ApiResponse> delete(int id) async {
+    ApiResponse response = await addressRepoInterface.delete(id);
+    return response;
   }
 
   @override

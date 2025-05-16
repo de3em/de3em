@@ -1,3 +1,5 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
 class SupportReplyModel {
   int? id;
   String? customerMessage;
@@ -5,6 +7,7 @@ class SupportReplyModel {
   String? createdAt;
   String? updatedAt;
   List<String>? attachment;
+  List<ImageFullUrl>? attachmentFullUrl;
   String? adminId;
 
   SupportReplyModel(
@@ -15,6 +18,7 @@ class SupportReplyModel {
         this.updatedAt,
         this.attachment,
         this.adminId,
+        this.attachmentFullUrl
       });
 
   SupportReplyModel.fromJson(Map<String, dynamic> json) {
@@ -24,10 +28,16 @@ class SupportReplyModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     adminId = json['admin_id'].toString();
-    if(json['attachment'] != null){
+    if(json['attachment'] != null && json['attachment'] is !String){
       attachment = json['attachment'].cast<String>();
     }else{
       attachment = [];
+    }
+    if (json['attachment_full_url'] != null) {
+      attachmentFullUrl = <ImageFullUrl>[];
+      json['attachment_full_url'].forEach((v) {
+        attachmentFullUrl!.add(ImageFullUrl.fromJson(v));
+      });
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:da3em/data/model/image_full_url.dart';
 import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:da3em/main.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +50,7 @@ class Seller {
   int? ratingCount;
   double? averageRating;
   Shop? shop;
+  ImageFullUrl? imageFullUrl;
 
   Seller(
       {this.id,
@@ -74,7 +76,9 @@ class Seller {
         this.totalRating,
         this.ratingCount,
         this.averageRating,
-        this.shop});
+        this.shop,
+        this.imageFullUrl
+      });
 
   Seller.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -106,6 +110,9 @@ class Seller {
     }
 
     shop = json['shop'] != null ? Shop.fromJson(json['shop']) : null;
+    imageFullUrl = json['image_full_url'] != null
+        ? ImageFullUrl.fromJson(json['image_full_url'])
+        : null;
   }
 
 }
@@ -117,6 +124,7 @@ class Shop {
   String? address;
   String? contact;
   String? image;
+  ImageFullUrl? imageFullUrl;
   String? bottomBanner;
   String? offerBanner;
   String? vacationStartDate;
@@ -127,6 +135,7 @@ class Shop {
   String? createdAt;
   String? updatedAt;
   String? banner;
+  ImageFullUrl? bannerFullUrl;
 
   Shop(
       {this.id,
@@ -135,6 +144,7 @@ class Shop {
         this.address,
         this.contact,
         this.image,
+        this.imageFullUrl,
         this.bottomBanner,
         this.offerBanner,
         this.vacationStartDate,
@@ -144,7 +154,9 @@ class Shop {
         this.temporaryClose,
         this.createdAt,
         this.updatedAt,
-        this.banner});
+        this.banner,
+        this.bannerFullUrl
+      });
 
   Shop.fromJson(Map<String, dynamic> json, {bool isAdminProduct = false}) {
     id = isAdminProduct ? 0 : json['id'];
@@ -183,6 +195,14 @@ class Shop {
         temporaryClose = json['temporary_close']== 1?true : false;
       }
     }
+
+    imageFullUrl = json['image_full_url'] != null
+      ? ImageFullUrl.fromJson(json['image_full_url'])
+      : null;
+
+    bannerFullUrl = json['banner_full_url'] != null
+        ? ImageFullUrl.fromJson(json['banner_full_url'])
+        : null;
 
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

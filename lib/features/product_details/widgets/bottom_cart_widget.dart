@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:da3em/features/product_details/domain/models/product_details_model.dart';
 import 'package:da3em/features/product_details/widgets/cart_bottom_sheet_widget.dart';
 import 'package:da3em/features/splash/controllers/splash_controller.dart';
@@ -12,8 +13,11 @@ import 'package:da3em/utill/dimensions.dart';
 import 'package:da3em/utill/images.dart';
 import 'package:da3em/common/basewidget/show_custom_snakbar_widget.dart';
 import 'package:da3em/features/cart/screens/cart_screen.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../more/screens/html_screen_view.dart';
+import '../controllers/WebViewScreen.dart';
 
 class BottomCartWidget extends StatefulWidget {
   final ProductDetailsModel? product;
@@ -29,119 +33,153 @@ class _BottomCartWidgetState extends State<BottomCartWidget> {
 
   @override
   void initState() {
+
     super.initState();
 
     final today = DateTime.now();
 
-    if (widget.product != null && widget.product!.addedBy == 'admin') {
-      DateTime vacationDate =
-          Provider.of<SplashController>(context, listen: false)
-                      .configModel
-                      ?.inhouseVacationAdd
-                      ?.vacationEndDate !=
-                  null
-              ? DateTime.parse(
-                  Provider.of<SplashController>(context, listen: false)
-                      .configModel!
-                      .inhouseVacationAdd!
-                      .vacationEndDate!)
-              : DateTime.now();
 
-      DateTime vacationStartDate =
-          Provider.of<SplashController>(context, listen: false)
-                      .configModel
-                      ?.inhouseVacationAdd
-                      ?.vacationStartDate !=
-                  null
-              ? DateTime.parse(
-                  Provider.of<SplashController>(context, listen: false)
-                      .configModel!
-                      .inhouseVacationAdd!
-                      .vacationStartDate!)
-              : DateTime.now();
+    if(widget.product!.addedBy == 'admin'){
+      DateTime vacationDate = Provider.of<SplashController>(context, listen: false).configModel?.inhouseVacationAdd?.vacationEndDate != null ?
+      DateTime.parse(Provider.of<SplashController>(context, listen: false).configModel!.inhouseVacationAdd!.vacationEndDate!) : DateTime.now();
+
+      DateTime vacationStartDate = Provider.of<SplashController>(context, listen: false).configModel?.inhouseVacationAdd?.vacationStartDate != null ?
+      DateTime.parse(Provider.of<SplashController>(context, listen: false).configModel!.inhouseVacationAdd!.vacationStartDate!)  : DateTime.now();
 
       final difference = vacationDate.difference(today).inDays;
       final startDate = vacationStartDate.difference(today).inDays;
 
-      if (difference >= 0 &&
-          (Provider.of<SplashController>(context, listen: false)
-                  .configModel
-                  ?.inhouseVacationAdd
-                  ?.status ==
-              1) &&
-          startDate <= 0) {
+      if(difference >= 0 && (Provider.of<SplashController>(context, listen: false).configModel?.inhouseVacationAdd?.status == 1) && startDate <= 0){
         vacationIsOn = true;
-      } else {
+      } else{
         vacationIsOn = false;
       }
-    } else if (widget.product != null &&
-        widget.product!.seller != null &&
-        widget.product!.seller!.shop!.vacationEndDate != null) {
-      DateTime vacationDate =
-          DateTime.parse(widget.product!.seller!.shop!.vacationEndDate!);
-      DateTime vacationStartDate =
-          DateTime.parse(widget.product!.seller!.shop!.vacationStartDate!);
+
+    } else if(widget.product != null && widget.product!.seller != null && widget.product!.seller!.shop!.vacationEndDate != null){
+      DateTime vacationDate = DateTime.parse(widget.product!.seller!.shop!.vacationEndDate!);
+      DateTime vacationStartDate = DateTime.parse(widget.product!.seller!.shop!.vacationStartDate!);
       final difference = vacationDate.difference(today).inDays;
       final startDate = vacationStartDate.difference(today).inDays;
 
-      if (difference >= 0 &&
-          widget.product!.seller!.shop!.vacationStatus! &&
-          startDate <= 0) {
+      if(difference >= 0 && widget.product!.seller!.shop!.vacationStatus! && startDate <= 0){
         vacationIsOn = true;
-      } else {
+      }
+
+      else{
         vacationIsOn = false;
       }
     }
 
-    if (widget.product != null && widget.product!.addedBy == 'admin') {
-      if (widget.product != null &&
-          (Provider.of<SplashController>(context, listen: false)
-                  .configModel
-                  ?.inhouseTemporaryClose
-                  ?.status ==
-              1)) {
+
+    if(widget.product!.addedBy == 'admin'){
+      if(widget.product != null && (Provider.of<SplashController>(context, listen: false).configModel?.inhouseTemporaryClose?.status == 1)){
         temporaryClose = true;
-      } else {
+      }else{
         temporaryClose = false;
       }
     } else {
-      if (widget.product != null &&
-          widget.product!.seller != null &&
-          widget.product!.seller!.shop!.temporaryClose!) {
+      if(widget.product != null && widget.product!.seller != null && widget.product!.seller!.shop!.temporaryClose!){
         temporaryClose = true;
-      } else {
+      }else{
         temporaryClose = false;
       }
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
-    return CartBottomSheetWidget(
-      product: widget.product,
-      callback: () {
-        showCustomSnackBar(getTranslated('added_to_cart', context), context,
-            isError: false);
-      },
+    return Container(height: 60,
+      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+      decoration: BoxDecoration(color: Theme.of(context).highlightColor,
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+        boxShadow: [BoxShadow(color: Theme.of(context).hintColor, blurRadius: .5, spreadRadius: .1)]),
+      child: Row(children: [
+       /* Padding(
+          padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+          child: Stack(children: [
+            GestureDetector(onTap: ()  =>Navigator.of(context).push(MaterialPageRoute(builder:
+                (context)=>const CartScreen())),
+                child: Image.asset(Images.cartArrowDownImage, color: ColorResources.getPrimary(context))),
+            Positioned.fill(
+              child: Container(
+                transform: Matrix4.translationValues(10, -3, 0),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Consumer<CartController>(builder: (context, cart, child) {
+                    return Container(height: ResponsiveHelper.isTab(context)? 25 : 17, width: ResponsiveHelper.isTab(context)? 25 :17,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: ColorResources.getPrimary(context)),
+                      child: Center(
+                        child: Text(cart.cartList.length.toString(),
+                          style: textRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall,
+                              color:Theme.of(context).highlightColor)),
+                      ),
+                    );}),
+                ),
+              ))])),
+        */
+        InkWell(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (_) => WebViewScreen(
+                title: "Da3em",
+                url: 'https://tally.so/r/3qOkg5',
+              ),
+            ));
+          },
+          child: Container(
+            width: 130, // Set your custom width here
+            margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).unselectedWidgetColor,
+            ),
+            child: Text(
+              getTranslated('Sell', context)!,
+              style: titilliumSemiBold.copyWith(
+                fontSize: Dimensions.fontSizeLarge,
+                color: Provider.of<ThemeController>(context, listen: false).darkTheme
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).highlightColor,
+              ),
+            ),
+          ),
+
+
+        ),
+
+        const SizedBox(width: 5),
+
+        Expanded(child: InkWell(onTap: () {
+            if(vacationIsOn || temporaryClose ){
+              showCustomSnackBar(getTranslated('this_shop_is_close_now', context), context, isToaster: true);
+            }else{
+
+              showModalBottomSheet(context: context, isScrollControlled: true,
+                  backgroundColor: Theme.of(context).primaryColor.withOpacity(0),
+                  builder: (con) => CartBottomSheetWidget(product: widget.product, callback: (){
+                    showCustomSnackBar(getTranslated('buy', context), context, isError: false);
+                  },));
+
+            }},
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+              color: Theme.of(context).primaryColor),
+            child: Text(getTranslated('buy', context)!,
+              style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeLarge,
+                  color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+                  Theme.of(context).hintColor : Theme.of(context).highlightColor),),
+          ),
+        )),
+      ]),
     );
-    // if (vacationIsOn || temporaryClose) {
-    //   return showCustomSnackBar(
-    //       getTranslated('this_shop_is_close_now', context), context,
-    //       isToaster: true);
-    // } else {
-    //   showModalBottomSheet(
-    //       context: context,
-    //       isScrollControlled: true,
-    //       backgroundColor: Theme.of(context).primaryColor.withOpacity(0),
-    //       builder: (con) => CartBottomSheetWidget(
-    //             product: widget.product,
-    //             callback: () {
-    //               showCustomSnackBar(
-    //                   getTranslated('added_to_cart', context), context,
-    //                   isError: false);
-    //             },
-    //           ));
-    //   return SizedBox();
-    // }
   }
 }
+
+
+
+

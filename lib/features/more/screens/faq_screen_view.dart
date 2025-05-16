@@ -4,6 +4,7 @@ import 'package:da3em/utill/color_resources.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/common/basewidget/custom_app_bar_widget.dart';
 import 'package:da3em/common/basewidget/no_internet_screen_widget.dart';
+import 'package:da3em/utill/dimensions.dart';
 import 'package:provider/provider.dart';
 class FaqScreen extends StatefulWidget {
   final String? title;
@@ -29,13 +30,15 @@ class FaqScreenState extends State<FaqScreen> {
                 return  Consumer<SplashController>(
                   builder: (ctx, faq, child){
                     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Row(children: [
-                            Flexible(child: ExpansionTile(iconColor: Theme.of(context).primaryColor,
+                        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Flexible(child: ExpansionTile(
+                              expandedAlignment: Alignment.topLeft,
+                              iconColor: Theme.of(context).primaryColor,
                               title: Text(faq.configModel!.faq![index].question!,
-                                style: robotoBold.copyWith(color: ColorResources.getTextTitle(context))),
+                                  style: robotoBold.copyWith(color: ColorResources.getTextTitle(context))),
                               leading: Icon(Icons.collections_bookmark_outlined,color:ColorResources.getTextTitle(context)),
-                              children: <Widget>[
-                                Padding(padding: const EdgeInsets.all(8.0),
+                              children: [
+                                Padding(padding: const EdgeInsets.symmetric(horizontal: 40, vertical: Dimensions.paddingSizeSmall),
                                   child: Text(faq.configModel!.faq![index].answer!,style: textRegular, textAlign: TextAlign.justify))])),
                           ]),
                       ],);

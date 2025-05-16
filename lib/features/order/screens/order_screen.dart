@@ -14,7 +14,6 @@ import 'package:da3em/common/basewidget/not_loggedin_widget.dart';
 import 'package:da3em/common/basewidget/paginated_list_view_widget.dart';
 import 'package:provider/provider.dart';
 
-
 class OrderScreen extends StatefulWidget {
   final bool isBacButtonExist;
   const OrderScreen({super.key, this.isBacButtonExist = true});
@@ -39,7 +38,7 @@ class _OrderScreenState extends State<OrderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
      appBar: CustomAppBar(title: getTranslated('order', context), isBackButtonExist: widget.isBacButtonExist),
-      body: isGuestMode ? const NotLoggedInWidget() :
+      body: isGuestMode ? NotLoggedInWidget(message: getTranslated('to_view_the_order_history', context)) :
 
       Consumer<OrderController>(
         builder: (context, orderController, child) {

@@ -1,8 +1,12 @@
+
 import 'package:flutter/material.dart';
+import 'package:da3em/common/basewidget/custom_directionality_widget.dart';
 import 'package:da3em/features/product_details/controllers/product_details_controller.dart';
 import 'package:da3em/features/product_details/domain/models/product_details_model.dart';
 import 'package:da3em/features/review/controllers/review_controller.dart';
+import 'package:da3em/helper/color_helper.dart';
 import 'package:da3em/helper/price_converter.dart';
+import 'package:da3em/helper/product_helper.dart';
 import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/theme/controllers/theme_controller.dart';
 import 'package:da3em/utill/color_resources.dart';
@@ -20,22 +24,9 @@ class ProductTitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    double? startingPrice = 0;
-    double? endingPrice;
-    if(productModel != null && productModel!.variation != null && productModel!.variation!.isNotEmpty) {
-      List<double?> priceList = [];
-      for (var variation in productModel!.variation!) {
-        priceList.add(variation.price);
-      }
-      priceList.sort((a, b) => a!.compareTo(b!));
-      startingPrice = priceList[0];
-      if(priceList[0]! < priceList[priceList.length-1]!) {
-        endingPrice = priceList[priceList.length-1];
-      }
-    }else {
-      if (productModel != null)
-      startingPrice = productModel!.unitPrice;
-    }
+    ({double? end, double? start})? priceRange = ProductHelper.getProductPriceRange(productModel);
+    double? startingPrice = priceRange.start;
+    double? endingPrice = priceRange.end;
 
     return productModel != null? Container(
       padding: const EdgeInsets.symmetric(horizontal : Dimensions.homePagePadding),
@@ -44,46 +35,41 @@ class ProductTitleWidget extends StatelessWidget {
           return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
             Text(productModel!.name ?? '',
-                style: titleRegular.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: Dimensions.fontSizeLarge), maxLines: 2),
+                style: titleRegular.copyWith(fontSize: Dimensions.fontSizeLarge), maxLines: 2),
             const SizedBox(height: Dimensions.paddingSizeDefault),
 
 
-            Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
-              child: Row(children: [
-
-
-                Text('${startingPrice != null ?PriceConverter.convertPrice(context, startingPrice,
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              CustomDirectionalityWidget(
+                child: Text('${startingPrice != null ? PriceConverter.convertPrice(context, startingPrice,
                     discount: productModel!.discount, discountType: productModel!.discountType):''}'
                     '${endingPrice !=null ? ' - ${PriceConverter.convertPrice(context, endingPrice,
                     discount: productModel!.discount, discountType: productModel!.discountType)}' : ''}',
-                  style: titilliumBold.copyWith(color: ColorResources.getPrimary(context),
-                      fontSize: Dimensions.fontSizeLarge)),
+                    style: titilliumBold.copyWith(color: ColorResources.getPrimary(context),
+                        fontSize: Dimensions.fontSizeLarge)),
+              ),
 
-                productModel!.discount != null && productModel!.discount! > 0 ?
-                Flexible(child: Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                    child: Text('${PriceConverter.convertPrice(context, startingPrice)}'
-                        '${endingPrice!= null ? ' - ${PriceConverter.convertPrice(context, endingPrice)}' : ''}',
+              if(productModel!.discount != null && productModel!.discount! > 0)...[
+                const SizedBox(width: Dimensions.paddingSizeSmall),
+
+                CustomDirectionalityWidget(
+                  child: Text('${PriceConverter.convertPrice(context, startingPrice)}'
+                      '${endingPrice!= null ? ' - ${PriceConverter.convertPrice(context, endingPrice)}' : ''}',
                       style: titilliumRegular.copyWith(color: Theme.of(context).hintColor,
-                          decoration: TextDecoration.lineThrough)))):const SizedBox(),
-
-                  if(productModel != null && productModel!.discount != null && productModel!.discount! > 0)
-                  Container(padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Theme.of(context).colorScheme.error.withOpacity(.20),
-                        borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
-                    child: Text(PriceConverter.percentageCalculation(context, productModel!.unitPrice,
-                        productModel!.discount, productModel!.discountType),
-                      style: textRegular.copyWith(color:Theme.of(context).colorScheme.error,
-                          fontSize: Dimensions.fontSizeLarge)))])),
+                          decoration: TextDecoration.lineThrough,
+                        )),
+                ),
+              ],
+            ]),
+            const SizedBox(height: Dimensions.paddingSizeSmall),
 
 
-            Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
-              child: Row(children: [
-                 RatingBar(rating: productModel!.reviews != null ? productModel!.reviews!.isNotEmpty ?
-                 double.parse(averageRatting!) : 0.0 : 0.0),
-                Text('(${productModel?.reviewsCount})')])),
+            Row(children: [
+               RatingBar(rating: productModel!.reviews != null ? productModel!.reviews!.isNotEmpty ?
+               double.parse(averageRatting!) : 0.0 : 0.0),
+              Text('(${productModel?.reviewsCount})')]),
+            const SizedBox(height: Dimensions.paddingSizeSmall),
+
 
 
             Consumer<ReviewController>(
@@ -130,16 +116,20 @@ class ProductTitleWidget extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
 
                     itemBuilder: (context, index) {
-                      String colorString = '0xff${productModel!.colors![index].code!.substring(1, 7)}';
                       return Center(child: Container(
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)),
                           child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                            child: Container(height: 20, width: 20,
+                            child: Container(
+                              height: 20, width: 20,
                               padding: const EdgeInsets.all( Dimensions.paddingSizeExtraSmall),
                               alignment: Alignment.center,
-                              decoration: BoxDecoration(color: Color(int.parse(colorString)),
-                                borderRadius: BorderRadius.circular(30))))));
-                      },))),
+                              decoration: BoxDecoration(
+                                color: ColorHelper.hexCodeToColor(productModel?.colors?[index].code),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ))));
+                      },
+                  ))),
             ]) : const SizedBox(),
           productModel!.colors != null &&  productModel!.colors!.isNotEmpty ?
           const SizedBox(height: Dimensions.paddingSizeSmall) : const SizedBox(),

@@ -29,8 +29,8 @@ class WalletCardWidget extends StatelessWidget {
                 const SizedBox(height: Dimensions.paddingSizeSmall),
                 Row(children: [
                     Text(PriceConverter.convertPrice(context,
-                        (profile.walletBalance != null && profile.walletBalance!.totalWalletBalance != null) ?
-                        profile.walletBalance!.totalWalletBalance ?? 0 : 0),
+                        (profile.walletTransactionModel != null && profile.walletTransactionModel!.totalWalletBalance != null) ?
+                        profile.walletTransactionModel!.totalWalletBalance ?? 0 : 0),
                         style:  textBold.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeOverLarge)),
 
                   const SizedBox(width: Dimensions.paddingSizeExtraSmall),

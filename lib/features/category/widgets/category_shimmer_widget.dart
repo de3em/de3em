@@ -3,63 +3,48 @@ import 'package:da3em/utill/color_resources.dart';
 import 'package:da3em/utill/dimensions.dart';
 import 'package:shimmer/shimmer.dart';
 
+
 class CategoryShimmerWidget extends StatelessWidget {
   const CategoryShimmerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: SizedBox(
-        height: 220,
-        child: ListView.builder(
-          itemCount: 10,
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemBuilder: (BuildContext context, int index) {
-            return Column(
-              children: [
-                for (int i in [
-                  0,
-                  1
-                ]) ...[
-                  Container(
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      enabled: true,
-                      child: Container(
-                        margin: EdgeInsets.only(right: Dimensions.paddingSizeSmall),
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 70,
-                              width: 70,
-                              decoration: BoxDecoration(
-                                color: ColorResources.white,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            SizedBox(height: Dimensions.paddingSizeSmall),
-                            Container(
-                              height: 10,
-                              width: 70,
-                              decoration: BoxDecoration(
-                                color: ColorResources.white,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+    return SizedBox(height: 100,
+      child: ListView.builder(
+        itemCount: 4,
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index) {
+
+          return Padding(padding: const EdgeInsets.only(left: Dimensions.homePagePadding),
+            child: SizedBox(height: 50,
+              child: Container(width: 100,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+                    color: ColorResources.iconBg(),
+                    boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), spreadRadius: 1, blurRadius: 5)]),
+                child: Shimmer.fromColors(
+                  baseColor: Theme.of(context).cardColor,
+                  highlightColor: Colors.grey[300]!,
+                  enabled: true,
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+
+                    Container(height: 70, padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(color: ColorResources.iconBg(),
+                            borderRadius: BorderRadius.circular(10))),
+
+                    Padding(padding: const EdgeInsets.all(10),
+                      child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                            Container(height: 5, color: Theme.of(context).cardColor)]),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                ],
-              ],
-            );
-          },
-        ),
+                  ]),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

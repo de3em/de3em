@@ -3,12 +3,17 @@ import 'package:da3em/utill/images.dart';
 
 class AppConstants {
   static const String appName = 'Da3em';
-  static const String slogan = 'Da3em Marketplace';
-  // static const String appVersion = '14.6';
+  static const String slogan = 'Da3em - داعــم';
+  //static const String appVersion = '14.7';
   static const String appVersion = '1.0';
   static const String baseUrl = 'https://da3em.net';
+  //static const String baseUrl = 'http://51.158.72.128';
   static const String userId = 'userId';
   static const String name = 'name';
+  // belguidoum
+  static const String m_get_seller_list='/api/v1/customer/actions/get_top_shops_and_favorite_shops-action';
+  static const String m_point_action='/api/v1/customer/actions/point-action';
+  //
   static const String categoriesUri = '/api/v1/categories/simple';
   static const String brandUri = '/api/v1/brands?guest_id=1';
   static const String brandProductUri = '/api/v1/brands/products/';
@@ -134,6 +139,7 @@ class AppConstants {
   static const String otpVResendForDigitalProduct = '/api/v1/customer/order/digital-product-download-otp-resend';
   static const String otpVerificationForDigitalProduct = '/api/v1/customer/order/digital-product-download-otp-verify';
   static const String selectCartItemsUri = '/api/v1/cart/select-cart-items';
+  static const String generateInvoice = '/api/v1/customer/order/generate-invoice?order_id=';
 
 
 
@@ -149,6 +155,7 @@ class AppConstants {
 
 
   // sharePreference
+
   static const String userLoginToken = 'user_login_token';
   static const String guestId = 'guestId';
   static const String user = 'user';
@@ -191,4 +198,11 @@ class AppConstants {
     LanguageModel(imageUrl: Images.bn, languageName: 'Bangla', countryCode: 'BD', languageCode: 'bn'),
     LanguageModel(imageUrl: Images.es, languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
   ];
+
+
+  static const double maxSizeOfASingleFile = 10;
+  static const double maxLimitOfTotalFileSent = 5;
+  static const double maxLimitOfFileSentINConversation = 25;
+
+
 }

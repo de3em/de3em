@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:da3em/features/checkout/controllers/checkout_controller.dart';
 import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:da3em/features/wallet/controllers/wallet_controller.dart';
@@ -60,17 +61,21 @@ class AddFundDialogueWidget extends StatelessWidget {
                                         style: textBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge,
                                             color:  Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(.75) )),
                                   ),
-                                  IntrinsicWidth(
-                                    child: TextField(
-                                      controller: inputAmountController,
-                                      keyboardType: TextInputType.number,
-                                      textInputAction: TextInputAction.done,
-                                      textAlign: TextAlign.center,
-                                      style: textBold.copyWith(fontSize: Dimensions.fontSizeLarge),
-                                      decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.zero,
-                                        border: InputBorder.none,
-                                        hintText: 'Ex: 500')))]))),
+
+                                IntrinsicWidth(child: TextField(
+                                  controller: inputAmountController,
+                                  keyboardType: TextInputType.number,
+                                  inputFormatters: [FilteringTextInputFormatter.allow(RegExp('[0-9.]+'))],
+                                  textInputAction: TextInputAction.done,
+                                  textAlign: TextAlign.center,
+                                  style: textBold.copyWith(fontSize: Dimensions.fontSizeLarge),
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.zero,
+                                    border: InputBorder.none,
+                                    hintText: 'Ex: 500',
+                                  ),
+                                )),
+                              ]))),
 
 
                           Padding(padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall,

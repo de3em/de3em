@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:da3em/features/notification/domain/models/notification_model.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
 import 'package:da3em/common/basewidget/custom_image_widget.dart';
-import 'package:provider/provider.dart';
 
 class NotificationDialogWidget extends StatelessWidget {
   final NotificationItem notificationModel;
@@ -12,7 +10,6 @@ class NotificationDialogWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var splashController = Provider.of<SplashController>(context, listen: false);
     return Material(child: Column(mainAxisSize: MainAxisSize.min, children: [
         const SizedBox(height: Dimensions.paddingSizeDefault,),
 
@@ -27,7 +24,7 @@ class NotificationDialogWidget extends StatelessWidget {
           Container(height: MediaQuery.of(context).size.width-130, width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
             decoration: BoxDecoration( color: Theme.of(context).primaryColor.withOpacity(0.20)),
-            child: CustomImageWidget(image: '${splashController.baseUrls!.notificationImageUrl}/${notificationModel.image}',
+            child: CustomImageWidget(image: '${notificationModel.imageFullUrl?.path}',
               height: MediaQuery.of(context).size.width-130, width: MediaQuery.of(context).size.width)):
           const SizedBox(),
           const SizedBox(height: Dimensions.paddingSizeLarge),

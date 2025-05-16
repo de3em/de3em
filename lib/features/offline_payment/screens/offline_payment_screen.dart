@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:da3em/common/basewidget/custom_button_widget.dart';
 import 'package:da3em/features/address/controllers/address_controller.dart';
 import 'package:da3em/features/checkout/controllers/checkout_controller.dart';
+import 'package:da3em/features/offline_payment/domain/models/offline_payment_model.dart';
 import 'package:da3em/features/profile/controllers/profile_contrroller.dart';
 import 'package:da3em/helper/price_converter.dart';
+import 'package:da3em/helper/velidate_check.dart';
 import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/features/coupon/controllers/coupon_controller.dart';
 import 'package:da3em/features/splash/controllers/splash_controller.dart';
@@ -11,8 +14,6 @@ import 'package:da3em/utill/dimensions.dart';
 import 'package:da3em/utill/images.dart';
 import 'package:da3em/common/basewidget/custom_app_bar_widget.dart';
 import 'package:da3em/common/basewidget/custom_textfield_widget.dart';
-import 'package:da3em/common/basewidget/show_custom_snakbar_widget.dart';
-import 'package:da3em/features/checkout/widgets/proced_button_widget.dart';
 import 'package:da3em/features/checkout/widgets/shipping_details_widget.dart';
 import 'package:da3em/features/offline_payment/widgets/offline_card_widget.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,12 @@ class OfflinePaymentScreen extends StatefulWidget {
 
 class _OfflinePaymentScreenState extends State<OfflinePaymentScreen> {
    TextEditingController paymentController = TextEditingController();
-  @override
+   final GlobalKey<FormState> offlineFormKey = GlobalKey<FormState>();
+
+
+
+
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: getTranslated('offline_payment', context)),
@@ -70,17 +76,35 @@ class _OfflinePaymentScreenState extends State<OfflinePaymentScreen> {
 
 
                 Text('${getTranslated('payment_info', context)}', style: textBold.copyWith(fontSize: Dimensions.fontSizeLarge),),
-                ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: checkoutProvider.offlinePaymentModel!.offlineMethods![checkoutProvider.offlineMethodSelectedIndex].methodInformations?.length,
-                    itemBuilder: (context, index){
-                      return Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
-                        child: CustomTextFieldWidget(
-                          controller: checkoutProvider.inputFieldControllerList[index],
-                          required: checkoutProvider.offlinePaymentModel!.offlineMethods![checkoutProvider.offlineMethodSelectedIndex].methodInformations?[index].isRequired == 1,
-                          labelText: '${checkoutProvider.offlinePaymentModel!.offlineMethods![checkoutProvider.offlineMethodSelectedIndex].methodInformations?[index].customerInput}'.replaceAll('_', ' ').capitalize(),
-                          hintText: '${checkoutProvider.offlinePaymentModel!.offlineMethods![checkoutProvider.offlineMethodSelectedIndex].methodInformations?[index].customerPlaceholder}'.replaceAll('_', ' ').capitalize(),),);}),
+
+                Form(
+                  key: offlineFormKey,
+                  child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: checkoutProvider.offlinePaymentModel!.offlineMethods![checkoutProvider.offlineMethodSelectedIndex].methodInformations?.length,
+                      itemBuilder: (context, index){
+                        MethodInformations? methodInformation = checkoutProvider.offlinePaymentModel!.offlineMethods![checkoutProvider.offlineMethodSelectedIndex].methodInformations?[index];
+
+                        return Padding(
+                          padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
+                          child: CustomTextFieldWidget(
+                            controller: checkoutProvider.inputFieldControllerList[index],
+                            required: methodInformation?.isRequired == 1,
+                            labelText: '${methodInformation?.customerInput}'.replaceAll('_', ' ').capitalize(),
+                            hintText: '${methodInformation?.customerPlaceholder}'.replaceAll('_', ' ').capitalize(),
+                            validator: (value) {
+                              if(methodInformation?.isRequired == 1) {
+                                return ValidateCheck.validateEmptyText(value, '${methodInformation?.customerInput}'.replaceAll('_', ' ').capitalize());
+
+                              }else{
+                                return null;
+                              }
+                            },
+                          ),
+                        );
+                      }),
+                ),
 
 
                 const SizedBox(height: 20,),
@@ -99,38 +123,42 @@ class _OfflinePaymentScreenState extends State<OfflinePaymentScreen> {
                 builder: (context, couponProvider,_) {
                   return Consumer<AddressController>(
                     builder: (context, locationProvider,_) {
-                      return InkWell(onTap: (){bool emptyRequiredField = false;
-                          for(int i = 0; i< checkoutProvider.offlinePaymentModel!.offlineMethods![checkoutProvider.offlineMethodSelectedIndex].methodInformations!.length; i++){
-                            if(checkoutProvider.offlinePaymentModel!.offlineMethods![checkoutProvider.offlineMethodSelectedIndex].methodInformations![i].isRequired == 1 && checkoutProvider.inputFieldControllerList[i].text.isEmpty){
-                              emptyRequiredField = true;
-                              break;
+                      return Padding(
+                        padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                        child: CustomButton(
+                          isLoading: checkoutProvider.isLoading,
+                          onTap: (){
+                            if(offlineFormKey.currentState?.validate() ?? false){
+
+                              String paymentNote = paymentController.text.trim();
+                              String orderNote = checkoutProvider.orderNoteController.text.trim();
+                              String couponCode = couponProvider.discount != null && couponProvider.discount != 0? couponProvider.couponCode : '';
+                              String couponCodeAmount = couponProvider.discount != null && couponProvider.discount != 0?
+                              couponProvider.discount.toString() : '0';
+                              String addressId = checkoutProvider.addressIndex != null ? locationProvider.addressList![checkoutProvider.addressIndex!].id.toString() : '';
+
+                              String billingAddressId =  (Provider.of<SplashController>(context, listen: false).configModel!.billingInputByCustomer == 1)
+                                  ? !checkoutProvider.sameAsBilling ? locationProvider.addressList![checkoutProvider.billingAddressIndex!].id.toString()
+                                  : locationProvider.addressList![checkoutProvider.addressIndex!].id.toString() : '';
+
+
+
+                              checkoutProvider.placeOrder(
+                                callback: widget.callback,
+                                paymentNote: paymentNote,
+                                addressID: addressId,
+                                billingAddressId: billingAddressId,
+                                orderNote: orderNote,
+                                couponCode: couponCode,
+                                couponAmount: couponCodeAmount,
+                                isfOffline: true,
+                              );
                             }
-                          }
-                          if(emptyRequiredField){
-                            showCustomSnackBar('${getTranslated('fill_all_required_fill', context)}', context);
-                          }
-                          else{
-                            String paymentNote = paymentController.text.trim();
-                            String orderNote = checkoutProvider.orderNoteController.text.trim();
-                            String couponCode = couponProvider.discount != null && couponProvider.discount != 0? couponProvider.couponCode : '';
-                            String couponCodeAmount = couponProvider.discount != null && couponProvider.discount != 0?
-                            couponProvider.discount.toString() : '0';
-                            String addressId = checkoutProvider.addressIndex != null ?
-                            locationProvider.addressList![checkoutProvider.addressIndex!].id.toString() : '';
-                            String billingAddressId =  (Provider.of<SplashController>(context, listen: false).configModel!.billingInputByCustomer == 1)?
-                            !checkoutProvider.sameAsBilling ?
-                             locationProvider.addressList![checkoutProvider.billingAddressIndex!].id.toString() : locationProvider.addressList![checkoutProvider.addressIndex!].id.toString() : '';
+                          },
+                          buttonText: getTranslated('proceed', context),
 
-
-                            print('====AddressID=========>>${addressId}');
-                            print('====billingAddressID=======>>${billingAddressId}');
-
-
-                            checkoutProvider.placeOrder(callback: widget.callback, paymentNote: paymentNote,
-                                addressID: addressId, billingAddressId: billingAddressId,
-                                orderNote: orderNote, couponCode: couponCode, couponAmount: couponCodeAmount, isfOffline: true);
-                          }
-                        }, child: const ProceedButtonWidget());
+                        ),
+                      );
                     }
                   );
                 }

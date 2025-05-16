@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:da3em/features/wallet/domain/models/transaction_model.dart';
 import 'package:da3em/helper/date_converter.dart';
 import 'package:da3em/helper/price_converter.dart';
+import 'package:da3em/localization/controllers/localization_controller.dart';
+import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/utill/color_resources.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
 import 'package:da3em/utill/images.dart';
+import 'package:provider/provider.dart';
 
 
 class TransactionWidget extends StatelessWidget {
   final WalletTransactioList? transactionModel;
-  const TransactionWidget({super.key, this.transactionModel});
+  final bool isLastIndex;
+  const TransactionWidget({super.key, this.transactionModel, required this.isLastIndex});
 
   @override
   Widget build(BuildContext context) {
-    String type = transactionModel!.transactionType!;
-    String? reformatType;
-    if (type.contains('_')){
-      reformatType = type.replaceAll('_', ' ');
-    }
+    final bool isLtr = Provider.of<LocalizationController>(context, listen: false).isLtr;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding,vertical: Dimensions.paddingSizeSmall),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +64,7 @@ class TransactionWidget extends StatelessWidget {
                 Image(image: AssetImage(transactionModel!.credit! > 0 ? Images.coinDebit: Images.coinCredit), width: 25,height: 25,),
               const SizedBox(width: Dimensions.paddingSizeSmall,),
 
-              Text( transactionModel!.credit! > 0 ? '+': '-',
+             if(isLtr) Text( transactionModel!.credit! > 0 ? '+': '-',
                 style: robotoBold.copyWith(color: ColorResources.getTextTitle(context),
                     fontSize: Dimensions.fontSizeLarge),
               ),
@@ -73,6 +74,11 @@ class TransactionWidget extends StatelessWidget {
                   style: robotoBold.copyWith(color: ColorResources.getTextTitle(context),
                       fontSize: Dimensions.fontSizeLarge),
                 ),
+
+              if(!isLtr) Text( transactionModel!.credit! > 0 ? '+': '-',
+                style: robotoBold.copyWith(color: ColorResources.getTextTitle(context),
+                    fontSize: Dimensions.fontSizeLarge),
+              ),
               ],
             ),
             const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
@@ -80,8 +86,8 @@ class TransactionWidget extends StatelessWidget {
 
 
             transactionModel?.paymentMethod != null?
-            Text('$reformatType via ${transactionModel?.paymentMethod??''}', style: textRegular.copyWith(color: ColorResources.getHint(context)),):
-            Text('$reformatType', style: textRegular.copyWith(color: ColorResources.getHint(context)),),
+            Text('${getTranslated(transactionModel?.transactionType, context)} ${getTranslated('via', context)} ${(transactionModel?.paymentMethod??'').replaceAll('_', ' ')}', style: textRegular.copyWith(color: ColorResources.getHint(context)),):
+            Text('${getTranslated(transactionModel?.transactionType, context)}', style: textRegular.copyWith(color: ColorResources.getHint(context)),),
 
 
           ],)),
@@ -96,7 +102,8 @@ class TransactionWidget extends StatelessWidget {
             ),
           ],),
           ],),
-          Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
+
+         if(!isLastIndex) Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
             child: Divider(thickness: .4,color: Theme.of(context).hintColor.withOpacity(.8),),),
         ],
       ),);

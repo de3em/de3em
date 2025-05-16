@@ -41,6 +41,7 @@ class RecentProductProvider with ChangeNotifier {
       }
 
       _recentProducts = removeDuplicates(recentProductsforNow);
+
     }
 
     _isLoading = false;

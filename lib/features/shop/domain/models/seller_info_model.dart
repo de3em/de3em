@@ -1,3 +1,192 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
+
+import 'package:da3em/data/model/image_full_url.dart';
+
+class SellerInfoModel {
+  Seller? seller;
+  String? avgRating;
+  int? totalReview;
+  int? totalOrder;
+  int? totalProduct;
+  double? minimumOrderAmount;
+
+  SellerInfoModel({
+    this.seller,
+    this.avgRating,
+    this.totalReview,
+    this.totalOrder,
+    this.totalProduct,
+    this.minimumOrderAmount,
+  });
+
+  SellerInfoModel.fromJson(Map<String, dynamic> json) {
+    seller = json['seller'] != null ? Seller.fromJson(json['seller']) : null;
+    avgRating = json['avg_rating']?.toString(); // Handle potential null safely.
+    totalReview = json['total_review'] ?? 0;
+    totalOrder = json['total_order'] ?? 0;
+    totalProduct = json['total_product'] ?? 0;
+    minimumOrderAmount = (json['minimum_order_amount'] != null)
+        ? _parseDouble(json['minimum_order_amount'])
+        : 0.0; // Provide default value if null.
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (seller != null) {
+      data['seller'] = seller!.toJson();
+    }
+    data['avg_rating'] = avgRating;
+    data['total_review'] = totalReview;
+    data['total_order'] = totalOrder;
+    data['total_product'] = totalProduct;
+    data['minimum_order_amount'] = minimumOrderAmount;
+    return data;
+  }
+
+  // Helper function to handle parsing strings to double
+  double _parseDouble(dynamic value) {
+    if (value is double) return value;
+    return double.tryParse(value.toString()) ?? 0.0;
+  }
+}
+
+class Seller {
+  int? id;
+  String? fName;
+  String? lName;
+  String? phone;
+  String? image;
+  Shop? shop;
+
+  Seller({
+    this.id,
+    this.fName,
+    this.lName,
+    this.phone,
+    this.image,
+    this.shop,
+  });
+
+  Seller.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    fName = json['f_name'];
+    lName = json['l_name'];
+    phone = json['phone'];
+    image = json['image'];
+    shop = json['shop'] != null ? Shop.fromJson(json['shop']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['f_name'] = fName;
+    data['l_name'] = lName;
+    data['phone'] = phone;
+    data['image'] = image;
+    if (shop != null) {
+      data['shop'] = shop!.toJson();
+    }
+    return data;
+  }
+}
+
+class Shop {
+  int? id;
+  int? sellerId;
+  String? name;
+  String? address;
+  String? contact;
+  String? image;
+  ImageFullUrl? imageFullUrl;
+  String? createdAt;
+  String? updatedAt;
+  String? banner;
+  bool? temporaryClose;
+  String? vacationEndDate;
+  String? vacationStartDate;
+  bool? vacationStatus;
+  ImageFullUrl? bannerFullUrl;
+
+  Shop({
+    this.id,
+    this.sellerId,
+    this.name,
+    this.address,
+    this.contact,
+    this.image,
+    this.imageFullUrl,
+    this.createdAt,
+    this.updatedAt,
+    this.banner,
+    this.temporaryClose,
+    this.vacationEndDate,
+    this.vacationStartDate,
+    this.vacationStatus,
+    this.bannerFullUrl,
+  });
+
+  Shop.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    sellerId = int.tryParse(json['seller_id'].toString()) ?? 0;
+    name = json['name'];
+    address = json['address'];
+    contact = json['contact'];
+    image = json['image'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    banner = json['banner'];
+    temporaryClose = json['temporary_close'] ?? false;
+    vacationEndDate = json['vacation_end_date'];
+    vacationStartDate = json['vacation_start_date'];
+    vacationStatus = json['vacation_status'] ?? false;
+    imageFullUrl = json['image_full_url'] != null
+        ? ImageFullUrl.fromJson(json['image_full_url'])
+        : null;
+    bannerFullUrl = json['banner_full_url'] != null
+        ? ImageFullUrl.fromJson(json['banner_full_url'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['seller_id'] = sellerId;
+    data['name'] = name;
+    data['address'] = address;
+    data['contact'] = contact;
+    data['image'] = image;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['banner'] = banner;
+    data['temporary_close'] = temporaryClose;
+    data['vacation_end_date'] = vacationEndDate;
+    data['vacation_start_date'] = vacationStartDate;
+    data['vacation_status'] = vacationStatus;
+    return data;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 class SellerInfoModel {
   Seller? _seller;
   String? _avgRating;
@@ -7,7 +196,8 @@ class SellerInfoModel {
   double? minimumOrderAmount;
 
   SellerInfoModel(
-      {Seller? seller, String? avgRating, int? totalReview, int? totalOrder, int? totalProduct, double? minimumOrderAmount}) {
+      {Seller? seller, String? avgRating, int? totalReview, int? totalOrder, int? totalProduct,
+        double? minimumOrderAmount}) {
     if (seller != null) {
       _seller = seller;
     }
@@ -139,6 +329,7 @@ class Shop {
   String? _address;
   String? _contact;
   String? _image;
+  ImageFullUrl? _imageFullUrl;
   String? _createdAt;
   String? _updatedAt;
   String? _banner;
@@ -146,6 +337,7 @@ class Shop {
   String? _vacationEndDate;
   String? _vacationStartDate;
   bool? _vacationStatus;
+  ImageFullUrl? _bannerFullUrl;
 
   Shop(
       {int? id,
@@ -154,13 +346,15 @@ class Shop {
         String? address,
         String? contact,
         String? image,
+        ImageFullUrl? imageFullUrl,
         String? createdAt,
         String? updatedAt,
         String? banner,
         bool? temporaryClose,
         String? vacationEndDate,
         String? vacationStartDate,
-        bool? vacationStatus
+        bool? vacationStatus,
+        ImageFullUrl? bannerFullUrl,
       }) {
     if (id != null) {
       _id = id;
@@ -193,6 +387,8 @@ class Shop {
     _vacationEndDate = vacationEndDate;
     _vacationStartDate = vacationStartDate;
     _vacationStatus = vacationStatus;
+    _imageFullUrl = imageFullUrl;
+    _bannerFullUrl = bannerFullUrl;
   }
 
   int? get id => _id;
@@ -201,6 +397,7 @@ class Shop {
   String? get address => _address;
   String? get contact => _contact;
   String? get image => _image;
+  ImageFullUrl? get imageFullUrl => _imageFullUrl;
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
   String? get banner => _banner;
@@ -208,6 +405,7 @@ class Shop {
   String? get vacationEndDate => _vacationEndDate;
   String? get vacationStartDate => _vacationStartDate;
   bool? get vacationStatus => _vacationStatus;
+  ImageFullUrl? get bannerFullUrl => _bannerFullUrl;
 
 
   Shop.fromJson(Map<String, dynamic> json) {
@@ -224,6 +422,12 @@ class Shop {
     _vacationEndDate = json['vacation_end_date'];
     _vacationStartDate = json['vacation_start_date'];
     _vacationStatus = json['vacation_status']??false;
+    _imageFullUrl = json['image_full_url'] != null
+        ? ImageFullUrl.fromJson(json['image_full_url'])
+        : null;
+    _bannerFullUrl = json['banner_full_url'] != null
+        ? ImageFullUrl.fromJson(json['banner_full_url'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -244,4 +448,4 @@ class Shop {
 
     return data;
   }
-}
+}*/

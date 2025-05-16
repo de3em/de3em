@@ -6,8 +6,9 @@ class FeaturedDealService implements FeaturedDealServiceInterface{
   FeaturedDealService({required this.featuredDealRepositoryInterface});
 
   @override
-  Future getFeaturedDeal() async{
-    return await featuredDealRepositoryInterface.getFeaturedDeal();
+  Future getFeaturedDeal(String id) async{
+
+    return await featuredDealRepositoryInterface.getFeaturedDeal(id);
   }
 
 }

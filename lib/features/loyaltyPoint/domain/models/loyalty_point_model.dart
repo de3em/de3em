@@ -1,54 +1,32 @@
 class LoyaltyPointModel {
-  int? _limit;
-  int? _offset;
-  int? _totalLoyaltyPoint;
-  List<LoyaltyPointList>? _loyaltyPointList;
+  int? limit;
+  int? offset;
+  int? totalLoyaltyPoint;
+  List<LoyaltyPointList>? loyaltyPointList;
 
-  LoyaltyPointModel(
-      {int? limit,
-        int? offset,
-        int? totalLoyaltyPoint,
-        List<LoyaltyPointList>? loyaltyPointList}) {
-    if (limit != null) {
-      _limit = limit;
-    }
-    if (offset != null) {
-      _offset = offset;
-    }
-    if (totalLoyaltyPoint != null) {
-      _totalLoyaltyPoint = totalLoyaltyPoint;
-    }
-    if (loyaltyPointList != null) {
-      _loyaltyPointList = loyaltyPointList;
-    }
-  }
-
-  int? get limit => _limit;
-  int? get offset => _offset;
-  int? get totalLoyaltyPoint => _totalLoyaltyPoint;
-  List<LoyaltyPointList>? get loyaltyPointList => _loyaltyPointList;
+  LoyaltyPointModel({this.limit, this.offset, this.totalLoyaltyPoint, this.loyaltyPointList});
 
 
   LoyaltyPointModel.fromJson(Map<String, dynamic> json) {
-    _limit = json['limit'];
-    _offset = json['offset'];
-    _totalLoyaltyPoint = json['total_loyalty_point'].toInt();
+    limit = json['limit'];
+    offset = json['offset'];
+    totalLoyaltyPoint = json['total_loyalty_point'].toInt();
     if (json['loyalty_point_list'] != null) {
-      _loyaltyPointList = <LoyaltyPointList>[];
+      loyaltyPointList = <LoyaltyPointList>[];
       json['loyalty_point_list'].forEach((v) {
-        _loyaltyPointList!.add(LoyaltyPointList.fromJson(v));
+        loyaltyPointList!.add(LoyaltyPointList.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['limit'] = _limit;
-    data['offset'] = _offset;
-    data['total_loyalty_point'] = _totalLoyaltyPoint;
-    if (_loyaltyPointList != null) {
+    data['limit'] = limit;
+    data['offset'] = offset;
+    data['total_loyalty_point'] = totalLoyaltyPoint;
+    if (loyaltyPointList != null) {
       data['loyalty_point_list'] =
-          _loyaltyPointList!.map((v) => v.toJson()).toList();
+          loyaltyPointList!.map((v) => v.toJson()).toList();
     }
     return data;
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:da3em/features/address/controllers/address_controller.dart';
 import 'package:da3em/features/profile/controllers/profile_contrroller.dart';
 import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/features/auth/controllers/auth_controller.dart';
@@ -47,8 +46,9 @@ class LogoutCustomBottomSheetWidget extends StatelessWidget {
                 Navigator.pop(context);
                 Provider.of<AuthController>(context,listen: false).clearSharedData();
                 Provider.of<ProfileController>(context,listen: false).clearProfileData();
+                Provider.of<AuthController>(context, listen: false).getGuestIdUrl();
                 // Provider.of<AddressController>(context, listen: false).getAddressList();
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const AuthScreen()), (route) => false);
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const AuthScreen(fromLogout: true)), (route) => false);
               });
             })))]))
 

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:da3em/data/model/image_full_url.dart';
 import 'package:da3em/features/product_details/controllers/product_details_controller.dart';
 import 'package:da3em/common/basewidget/custom_app_bar_widget.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
 
 class ProductImageScreen extends StatefulWidget {
   final String? title;
-  final List<String>? imageList;
+  final List<ImageFullUrl>? imageList;
   const ProductImageScreen({super.key, required this.title, required this.imageList});
 
   @override
@@ -40,7 +40,7 @@ class ProductImageScreenState extends State<ProductImageScreen> {
                 scrollPhysics: const BouncingScrollPhysics(),
                 builder: (BuildContext context, int index) {
                   return PhotoViewGalleryPageOptions(
-                    imageProvider: NetworkImage('${Provider.of<SplashController>(context,listen: false).baseUrls!.productImageUrl}/${widget.imageList![index]}'),
+                    imageProvider: NetworkImage('${widget.imageList![index].path}'),
                     initialScale: PhotoViewComputedScale.contained,
                     heroAttributes: PhotoViewHeroAttributes(tag: index.toString()),
                   );

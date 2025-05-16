@@ -1,3 +1,4 @@
+import 'package:da3em/data/model/image_full_url.dart';
 class CategoryModel {
   int? _id;
   String? _name;

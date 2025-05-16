@@ -41,11 +41,10 @@ class _AddressListScreenState extends State<AddressListScreen> {
         builder: (context, locationProvider, child) {
           return  locationProvider.addressList != null? locationProvider.addressList!.isNotEmpty ?
           RefreshIndicator(onRefresh: () async => await locationProvider.getAddressList(),
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Theme.of(context).secondaryHeaderColor,
             child: ListView.builder(padding: const EdgeInsets.all(0),
               itemCount: locationProvider.addressList?.length,
               itemBuilder: (context, index){
-              print('=====Address=====>>${locationProvider.addressList![index].toJson()}');
               return Padding(
                 padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault, Dimensions.paddingSizeDefault, 0),
                 child: Container(padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),

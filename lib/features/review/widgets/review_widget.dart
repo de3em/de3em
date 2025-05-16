@@ -1,14 +1,19 @@
+
+
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:da3em/features/review/domain/models/review_model.dart';
+import 'package:da3em/helper/date_converter.dart';
 import 'package:da3em/localization/language_constrants.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
+import 'package:da3em/main.dart';
 import 'package:da3em/utill/color_resources.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
 import 'package:da3em/utill/images.dart';
 import 'package:da3em/common/basewidget/image_diaglog_widget.dart';
 import 'package:da3em/common/basewidget/rating_bar_widget.dart';
-import 'package:provider/provider.dart';
+import 'package:readmore/readmore.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ReviewWidget extends StatelessWidget {
@@ -23,61 +28,150 @@ class ReviewWidget extends StatelessWidget {
           ClipRRect(borderRadius: BorderRadius.circular(20),
             child: FadeInImage.assetNetwork(placeholder: Images.placeholder, height: Dimensions.chooseReviewImageSize,
               width: Dimensions.chooseReviewImageSize, fit: BoxFit.cover,
-              image: '${Provider.of<SplashController>(context, listen: false).baseUrls!.customerImageUrl}/${
-                  reviewModel.customer != null ? reviewModel.customer!.image : ''
-              }',
+              image: '${reviewModel.customer != null ? reviewModel.customer!.imageFullUrl?.path : '' }',
               imageErrorBuilder: (c, o, s) => Image.asset(Images.placeholder, height: Dimensions.chooseReviewImageSize,
                   width: Dimensions.chooseReviewImageSize, fit: BoxFit.cover))),
           const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
 
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              Text('${reviewModel.customer == null ? getTranslated('user_not_exist', context): reviewModel.customer!.fName ?? ''} ${
-                  reviewModel.customer == null ? '' : reviewModel.customer!.lName ?? ''}',
-                style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
-                maxLines: 1, overflow: TextOverflow.ellipsis),
-              const SizedBox(width: Dimensions.paddingSizeExtraSmall)]),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Text('${reviewModel.customer == null ? getTranslated('user_not_exist', context): reviewModel.customer!.fName ?? ''} ${
+                    reviewModel.customer == null ? '' : reviewModel.customer!.lName ?? ''}',
+                  style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
+                  maxLines: 1, overflow: TextOverflow.ellipsis),
 
-
-            Row(children: [
-              const Icon(Icons.star,color: Colors.orange),
-              Text('${reviewModel.rating!.toDouble()} /5', style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
-                maxLines: 1, overflow: TextOverflow.ellipsis)]),
-          ]),
+                reviewModel.createdAt != null ?
+                Text(DateConverter.dateTimeStringToMonthDateAndTime(reviewModel.createdAt!),
+                    style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).hintColor)) : const SizedBox()
+              ]),
+            
+            
+              Row(children: [
+                const Icon(Icons.star,color: Colors.orange),
+                Text('${reviewModel.rating!.toDouble()} /5', style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
+                  maxLines: 1, overflow: TextOverflow.ellipsis)]),
+            ]),
+          ),
         ]),
-        const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+        const SizedBox(height: Dimensions.paddingSizeSmall),
 
         Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-          child: Text(reviewModel.comment??'', textAlign: TextAlign.left,
-            style: titilliumRegular.copyWith(color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeDefault),
-            maxLines: 3, overflow: TextOverflow.ellipsis)),
-        const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+          child: ReadMoreText(
+            reviewModel.comment ?? '',
+            trimMode: TrimMode.Line,
+            trimLines: 3,
+            textAlign: TextAlign.justify,
+            preDataTextStyle: const TextStyle(fontWeight: FontWeight.w500),
+            // style: const TextStyle(color: Colors.black),
+            colorClickableText: Theme.of(context).primaryColor,
+            trimCollapsedText: getTranslated('view_moree', context)!,
+            trimExpandedText: getTranslated('view_less', context)!,
+          ),
 
-        (reviewModel.attachment != null && reviewModel.attachment!.isNotEmpty) ?
+          // Text(reviewModel.comment ?? '', textAlign: TextAlign.left,
+          //   style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeDefault),
+          //   maxLines: 3, overflow: TextOverflow.ellipsis)
+        ),
+        const SizedBox(height: Dimensions.paddingSizeSmall),
+
+
+        (reviewModel.attachmentFullUrl != null && reviewModel.attachmentFullUrl!.isNotEmpty) ?
         SizedBox(height: 40,
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            itemCount: reviewModel.attachment!.length,
+            itemCount: reviewModel.attachmentFullUrl!.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: (){
                   showDialog(context: context, builder: (_)=> ImageDialog(
-                      imageUrl: '${Provider.of<SplashController>(context, listen: false).baseUrls!.reviewImageUrl}/review/${reviewModel.attachment![index]}'));
+                      imageUrl: '${reviewModel.attachmentFullUrl![index].path}'));
                 },
-                child: Container(
+                child:
+
+
+                Container(
                   margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(5),
                     child: FadeInImage.assetNetwork(
                       placeholder: Images.placeholder, height: Dimensions.chooseReviewImageSize,
                       width: Dimensions.chooseReviewImageSize, fit: BoxFit.cover,
-                      image: '${Provider.of<SplashController>(context, listen: false).baseUrls!.reviewImageUrl}/review/${reviewModel.attachment![index]}',
+                      image: '${reviewModel.attachmentFullUrl![index].path}',
                       imageErrorBuilder: (c, o, s) => Image.asset(Images.placeholder,
                           height: Dimensions.chooseReviewImageSize,
-                          width: Dimensions.chooseReviewImageSize, fit: BoxFit.cover)))));})) :
+                          width: Dimensions.chooseReviewImageSize, fit: BoxFit.cover))))
+
+              );})) :
         const SizedBox(),
+        const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+
+
+
+        reviewModel.reply != null ?
+        Row( mainAxisSize: MainAxisSize.max,  crossAxisAlignment: CrossAxisAlignment.start, children: [
+          CustomPaint(
+            size: const Size(15, 40),
+            painter: DashedLinePainter(),
+          ),
+
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                  color: Theme.of(context).primaryColor.withOpacity(0.05),
+                  border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.10))
+                ),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                      Row(mainAxisAlignment: MainAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
+                        Image.asset(Images.sellerReplyIcon, height: 20, width: 20),
+                        const SizedBox(width: Dimensions.paddingSizeSmall),
+
+                        Text(getTranslated('reply_by_seller', context)!, style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault)),
+                        ],
+                      ),
+
+
+                      Text(DateConverter.dateTimeStringToMonthDateAndTime(reviewModel.reply!.createdAt!),
+                          style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).hintColor)),
+                      ],
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeSmall),
+
+
+                    ReadMoreText(
+                      reviewModel.reply?.replyText ?? '',
+                      trimMode: TrimMode.Line,
+                      trimLines: 3,
+                      textAlign: TextAlign.justify,
+                      preDataTextStyle: const TextStyle(fontWeight: FontWeight.w500),
+                      // style: const TextStyle(color: Colors.black),
+                      colorClickableText: Theme.of(context).primaryColor,
+                      trimCollapsedText: getTranslated('view_moree', context)!,
+                      trimExpandedText: getTranslated('view_less', context)!,
+                    ),
+
+                    //Text(reviewModel.reply?.replyText ?? '', style: textRegular),
+                    const SizedBox(height: Dimensions.paddingSizeSmall),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ) : const SizedBox(),
+
+
+
+
+
+
+
+
       ]),
     );
   }
@@ -105,3 +199,37 @@ class ReviewShimmer extends StatelessWidget {
   }
 }
 
+
+class DashedLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = Theme.of(Get.context!).primaryColor.withOpacity(0.15)
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+
+    double dashWidth = 5, dashSpace = 3;
+    Path path = Path()
+      ..moveTo(size.width / 2, 0)
+      ..lineTo(size.width / 2, size.height - size.width / 2)
+      ..arcToPoint(Offset(size.width, size.height),
+          radius: Radius.circular(size.width / 2), clockwise: false);
+
+    PathMetrics pathMetrics = path.computeMetrics();
+    for (PathMetric pathMetric in pathMetrics) {
+      double distance = 0.0;
+      while (distance < pathMetric.length) {
+        canvas.drawPath(
+          pathMetric.extractPath(distance, distance + dashWidth),
+          paint,
+        );
+        distance += dashWidth + dashSpace;
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
+}

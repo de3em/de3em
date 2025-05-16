@@ -18,6 +18,9 @@ import 'package:da3em/features/chat/screens/chat_screen.dart';
 import 'package:da3em/features/shop/screens/shop_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'favourite_button_widget.dart';
 
 class ShopInfoWidget extends StatefulWidget {
   final String sellerId;
@@ -36,8 +39,6 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
   @override
   Widget build(BuildContext context) {
     double sellerIconSize = 50;
-    var splashController = Provider.of<SplashController>(context,listen: false);
-
 
     return Consumer<ShopController>(
       builder: (context, seller, child) {
@@ -45,15 +46,16 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
         Container(margin: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
           padding: const EdgeInsets.fromLTRB(Dimensions.paddingSizeSmall,
               Dimensions.paddingSizeDefault, Dimensions.paddingSizeSmall, 0),
-          color: Theme.of(context).cardColor,
+          color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+          Theme.of(context).cardColor : Colors.deepPurple[50],
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Container(width: sellerIconSize,height: sellerIconSize,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(sellerIconSize),
                       border: Border.all(width: .5,color: Theme.of(context).hintColor)),
                     child: ClipRRect(borderRadius: BorderRadius.circular(sellerIconSize),
-                      child: CustomImageWidget(image: seller.sellerInfoModel?.seller != null? '${splashController.baseUrls?.shopImageUrl}/${seller.sellerInfoModel?.seller?.shop?.image}':
-                      "${Provider.of<SplashController>(context, listen: false).configModel?.companyIcon}"))),
+                      child: CustomImageWidget(image: seller.sellerInfoModel?.seller != null? '${seller.sellerInfoModel?.seller?.shop?.imageFullUrl?.path}':
+                      "${Provider.of<SplashController>(context, listen: false).configModel?.companyFavIcon?.path}"))),
                   const SizedBox(width: Dimensions.paddingSizeSmall,),
 
 
@@ -71,8 +73,8 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
                                     vacationEndDate: seller.sellerInfoModel?.seller?.shop?.vacationEndDate,
                                     vacationStartDate: seller.sellerInfoModel?.seller?.shop?.vacationStartDate,
                                     name: seller.sellerInfoModel?.seller?.shop?.name,
-                                    banner: seller.sellerInfoModel?.seller?.shop?.banner,
-                                    image: seller.sellerInfoModel?.seller?.shop?.image)));
+                                    banner: seller.sellerInfoModel?.seller?.shop?.bannerFullUrl?.path,
+                                    image: seller.sellerInfoModel?.seller?.shop?.imageFullUrl?.path)));
                               }else{
                                 log("==id22=>${seller.sellerInfoModel?.seller?.toJson()}");
                               Navigator.push(context, MaterialPageRoute(builder: (_) => TopSellerProductScreen(
@@ -82,7 +84,7 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
                               vacationEndDate: Provider.of<SplashController>(context, listen: false).configModel?.inhouseVacationAdd?.vacationEndDate,
                               vacationStartDate: Provider.of<SplashController>(context, listen: false).configModel?.inhouseVacationAdd?.vacationStartDate,
                               name: Provider.of<SplashController>(context, listen: false).configModel?.companyName,
-                              banner: Provider.of<SplashController>(context, listen: false).configModel?.companyCoverImage,
+                              banner: Provider.of<SplashController>(context, listen: false).configModel?.companyLogo?.path,
                               image: Provider.of<SplashController>(context, listen: false).configModel?.companyIcon)));
                               }
                               },
@@ -112,11 +114,15 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
                               if(seller.sellerInfoModel?.seller != null){
                                 Navigator.push(context, MaterialPageRoute(builder: (_) => ChatScreen(
                                     id: seller.sellerInfoModel!.seller!.id,
-                                    name: seller.sellerInfoModel!.seller!.shop!.name)));
+                                    name: seller.sellerInfoModel!.seller!.shop!.name, userType: 1,
+                                    image: seller.sellerInfoModel!.seller!.shop!.imageFullUrl?.path ?? '',
+                                )));
                               }else{
                                 Navigator.push(context, MaterialPageRoute(builder: (_) => ChatScreen(
                                     id: 0,
-                                    name: Provider.of<SplashController>(context, listen: false).configModel?.companyName)));
+                                    name: Provider.of<SplashController>(context, listen: false).configModel?.companyName, userType: 1,
+                                    image: "${Provider.of<SplashController>(context, listen: false).configModel?.companyFavIcon?.path}",
+                                )));
                               }
                             }
                           },
@@ -125,6 +131,65 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
                             borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall)
                           ),
                               child: Image.asset(Images.chatImage, height: Dimensions.iconSizeDefault))),
+                        ///////////----------------------------- mohammed
+                        const SizedBox(width: Dimensions.paddingSizeDefault,),
+// moh follow
+/*
+                        FavouriteButtonWidget(backgroundColor: ColorResources.getImageBg(context),
+                            productId: seller.sellerInfoModel?.seller?.id),
+
+                        const SizedBox(width: Dimensions.paddingSizeDefault,),
+*/
+
+                        InkWell(
+                          onTap: () async {
+                            if (!Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (_) => const NotLoggedInBottomSheetWidget(),
+                              );
+                            } else if (seller.sellerInfoModel != null &&
+                                ((seller.sellerInfoModel?.seller?.shop?.temporaryClose ?? false) ||
+                                    (seller.sellerInfoModel?.seller?.shop?.vacationStatus ?? false))) {
+                              showCustomSnackBar(
+                                "${getTranslated("this_shop_is_close_now", context)}", context,
+                              );
+                            } else if (seller.sellerInfoModel != null) {
+                              String? phoneNumber = seller.sellerInfoModel?.seller?.phone;
+                              final Uri callUri = Uri(scheme: 'tel', path: phoneNumber);
+                              if (await canLaunchUrl(callUri)) {
+                                await launchUrl(callUri);
+                              } else {
+                                showCustomSnackBar(
+                                  "${getTranslated("could_not_launch_phone", context)}", context,
+                                );
+                              }
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).brightness == Brightness.light
+                                  ? Colors.white
+                                  : Colors.grey[900], // White for light theme, dark grey for dark theme
+                              borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 0.0,
+                              ), // Blue border
+                            ),
+                            child: Image.asset(
+                              Images.callIcon,
+                              height: Dimensions.iconSizeDefault,
+                              color: Colors.blue, // Blue icon color
+                            ),
+                          ),
+                          splashColor: Colors.blue.withOpacity(0.2), // Blue splash color
+                          highlightColor: Colors.blue.withOpacity(0.2), // Blue highlight color
+                        ),
+
+
+                        ///////**************************************************************************************
                       ]),
                       const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
 
@@ -154,7 +219,18 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
                     style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge),),
                   const SizedBox(width: Dimensions.paddingSizeSmall,),
                   Text(getTranslated('products', context)!,
-                    style: titleRegular.copyWith(color: Theme.of(context).hintColor))])
+                    style: titleRegular.copyWith(color: Theme.of(context).hintColor))]),
+
+                Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                    child: Container(width: 1, height: 10, color: ColorResources.visitShop(context))),
+      // moh
+                if(seller.view_shop!='0')
+                Row(children: [
+                  Text('${seller.view_shop} ',
+                    style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge),),
+                  const SizedBox(width: Dimensions.paddingSizeSmall,),
+                  Text(getTranslated('views', context)!,
+                      style: titleRegular.copyWith(color: Theme.of(context).hintColor))])
               ]),
             ):const SizedBox(),
 
@@ -170,8 +246,9 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
                       vacationEndDate: seller.sellerInfoModel?.seller?.shop?.vacationEndDate,
                       vacationStartDate: seller.sellerInfoModel?.seller?.shop?.vacationStartDate,
                       name: seller.sellerInfoModel?.seller?.shop?.name,
-                      banner: seller.sellerInfoModel?.seller?.shop?.banner,
-                      image: seller.sellerInfoModel?.seller?.shop?.image)));
+                      banner: seller.sellerInfoModel?.seller?.shop?.bannerFullUrl?.path,
+                      image: seller.sellerInfoModel?.seller?.shop?.image,
+                      phone: seller.sellerInfoModel?.seller?.phone,)));
                 }else{
                   log("==id22=>${seller.sellerInfoModel?.seller?.toJson()}");
                   Navigator.push(context, MaterialPageRoute(builder: (_) => TopSellerProductScreen(
@@ -181,8 +258,9 @@ class _ShopInfoWidgetState extends State<ShopInfoWidget> {
                       vacationEndDate: Provider.of<SplashController>(context, listen: false).configModel?.inhouseVacationAdd?.vacationEndDate,
                       vacationStartDate: Provider.of<SplashController>(context, listen: false).configModel?.inhouseVacationAdd?.vacationStartDate,
                       name: Provider.of<SplashController>(context, listen: false).configModel?.companyName,
-                      banner: Provider.of<SplashController>(context, listen: false).configModel?.companyCoverImage,
-                      image: Provider.of<SplashController>(context, listen: false).configModel?.companyIcon)));
+                      banner: Provider.of<SplashController>(context, listen: false).configModel?.companyLogo?.path,
+                      image: Provider.of<SplashController>(context, listen: false).configModel?.companyIcon,
+                  )));
                 }
               },
                 child: Container(width: MediaQuery.of(context).size.width, height: 40,

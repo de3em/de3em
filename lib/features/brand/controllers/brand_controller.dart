@@ -14,7 +14,6 @@ class BrandController extends ChangeNotifier {
   Future<void> getBrandList(bool reload) async {
     if (_brandList.isEmpty || reload) {
       ApiResponse apiResponse = await brandRepo!.getList();
-      print('===000==>>${apiResponse.response}');
         _originalBrandList.clear();
         apiResponse.response?.data.forEach((brand) => _originalBrandList.add(BrandModel.fromJson(brand)));
         _brandList.clear();
@@ -35,9 +34,21 @@ class BrandController extends ChangeNotifier {
 
   }
 
+  final List<int> _selectedBrandIds = [];
+  List<int> get selectedBrandIds => _selectedBrandIds;
+
 
   void checkedToggleBrand(int index){
     _brandList[index].checked = !_brandList[index].checked!;
+
+    if(_brandList[index].checked ?? false) {
+      if(!_selectedBrandIds.contains(index)) {
+        _selectedBrandIds.add(index);
+      }
+
+    }else {
+      _selectedBrandIds.remove(index);
+    }
     notifyListeners();
   }
 

@@ -53,7 +53,7 @@ class ReviewAndSpecificationSectionWidget extends StatelessWidget {
                   if(productDetailsController.isReviewSelected)
                     Container(width: 60, height: 3,color: Theme.of(context).primaryColor)]),
                 Positioned(top: -10,right: -10, child: Align(alignment: Alignment.topRight,
-                    child: Consumer<ReviewController>(builder: (context, reviewController,_) {
+                    child: Consumer<ReviewController>(builder: (context, reviewController, _) {
                       return Center(child: Container( decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.paddingSizeDefault),
                           color: Theme.of(context).primaryColor),
                           child: Padding(padding: const EdgeInsets.symmetric(vertical : Dimensions.paddingSizeExtraSmall,

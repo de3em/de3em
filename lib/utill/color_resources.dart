@@ -133,6 +133,7 @@ class ColorResources {
   static const Color chatIconColor = Color(0xffD4D4D4);
   static const Color lowGreen = Color(0xffEFF6FE);
   static const Color green = Color(0xff23CB60);
+  static const Color flashDealColor = Color(0xff23CB60);
 
   static const Map<int, Color> colorMap = {
     50: Color(0x101455AC),
@@ -148,4 +149,8 @@ class ColorResources {
   };
 
   static const MaterialColor primaryMaterial = MaterialColor(0xFF1455AC, colorMap);
+  static const flashDealGradientColorList  = [
+    Color(0xff1B84F8), Color(0xff1B84F8), Color(0xff2869BF)
+  ];
+
 }

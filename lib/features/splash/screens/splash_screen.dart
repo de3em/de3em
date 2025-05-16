@@ -71,6 +71,7 @@ class SplashScreenState extends State<SplashScreen> {
       await profileController.getUserInfo(context);
       Navigator.pushAndRemoveUntil(Get.context!, MaterialPageRoute(builder: (_) => const DashBoardScreen()), (route) => false);
     }
+
   }
 
   String randomNumber([int from = 10000, int to = 99999]) {
@@ -81,9 +82,12 @@ class SplashScreenState extends State<SplashScreen> {
   Future<void> _route() async {
     // is logged in
     var isLogged = Provider.of<AuthController>(context, listen: false).isLoggedIn();
+
     if (!isLogged) {
       var authProvider = Provider.of<AuthController>(context, listen: false);
+
       var randomNumberGenerated = randomNumber(0500000000, 0799999999);
+
       var registerModel = RegisterModel();
       registerModel.email = randomNumberGenerated + '@gmail.com';
       registerModel.phone = randomNumberGenerated;
@@ -93,6 +97,7 @@ class SplashScreenState extends State<SplashScreen> {
       await authProvider.registration(registerModel, route);
       print('registration done');
     }
+
     Provider.of<SplashController>(context, listen: false).initConfig(context).then((bool isSuccess) {
       if (isSuccess) {
         Provider.of<SplashController>(Get.context!, listen: false).initSharedPrefData();
@@ -109,8 +114,8 @@ class SplashScreenState extends State<SplashScreen> {
               } else {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (BuildContext context) => const InboxScreen(
-                          isBackButtonExist: true,
-                        )));
+                      isBackButtonExist: true,
+                    )));
               }
             } else {
               Navigator.of(Get.context!).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => const DashBoardScreen()));
@@ -136,19 +141,22 @@ class SplashScreenState extends State<SplashScreen> {
       key: _globalKey,
       body: Provider.of<SplashController>(context).hasConnection
           ? SizedBox(
-            width: double.infinity,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Spacer(),
-              SizedBox(width: 150, child: Image.asset(Images.icon, width: 150.0)),
-              Spacer(),
-              // Text(AppConstants.appName, style: textRegular.copyWith(fontSize: Dimensions.fontSizeOverLarge)),
-              Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall), child: Text(AppConstants.slogan, style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault))),
-              SizedBox(height: 100)
-            ]),
-          )
+        width: double.infinity,
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Spacer(),
+          SizedBox(width: 150, child: Image.asset(Images.icon, width: 150.0)),
+          Spacer(),
+          // Text(AppConstants.appName, style: textRegular.copyWith(fontSize: Dimensions.fontSizeOverLarge)),
+          Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
+              child: Text(AppConstants.slogan,
+                  style: textRegular.copyWith(fontSize: Dimensions.fontSizeDefault))),
+          SizedBox(height: 100)
+        ]),
+      )
           : const NoInternetOrDataScreenWidget(isNoInternet: true, child: SplashScreen()),
     );
   }
+
 }

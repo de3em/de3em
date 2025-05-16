@@ -108,7 +108,7 @@ class FlashDealShimmer extends StatelessWidget {
                 child: Shimmer.fromColors(baseColor: Theme.of(context).cardColor,
                   highlightColor: Colors.grey[100]!,
                   enabled: true,
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                  child: Column( children: [
 
                     Container(height: ResponsiveHelper.isTab(context)? 300 : 120, padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                         decoration: BoxDecoration(color: ColorResources.iconBg(), borderRadius: BorderRadius.circular(10))),

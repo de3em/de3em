@@ -71,8 +71,12 @@ class AddressRepository implements AddressRepoInterface<ApiResponse>{
   @override
   Future<ApiResponse> delete(int? id) async {
     try {
-      final response = await dioClient!.delete('${AppConstants.removeAddressUri}?address_id=$id&guest_id=${Provider.of<AuthController>(Get.context!, listen: false).getGuestToken()}');
-      return ApiResponse.withSuccess(response);
+      final response = await dioClient!.post(
+        '${AppConstants.removeAddressUri}?address_id=$id&guest_id=${Provider.of<AuthController>(Get.context!, listen: false).getGuestToken()}',
+        data: {"_method" : 'delete'}
+      );
+      ApiResponse res = ApiResponse.withSuccess(response);
+      return res;
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }

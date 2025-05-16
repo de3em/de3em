@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'package:da3em/interface/repo_interface.dart';
 
 abstract class OrderDetailsRepositoryInterface<T> extends RepositoryInterface{
 
   Future<dynamic> getOrderFromOrderId(String orderID);
+
+  Future<dynamic> getOrderInvoice(String orderID);
 
   Future<dynamic> downloadDigitalProduct(int orderDetailsId);
 
@@ -11,5 +14,7 @@ abstract class OrderDetailsRepositoryInterface<T> extends RepositoryInterface{
   Future<dynamic> otpVerificationForDigitalProduct(int orderId, String otp);
 
   Future<dynamic> trackYourOrder(String orderId, String phoneNumber);
+
+  Future<HttpClientResponse> productDownload(String url);
 
 }

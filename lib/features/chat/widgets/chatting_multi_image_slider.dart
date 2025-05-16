@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:da3em/common/basewidget/custom_image_widget.dart';
-import 'package:da3em/utill/app_constants.dart';
+import 'package:da3em/features/chat/domain/models/message_model.dart';
 import 'package:da3em/utill/dimensions.dart';
 
 class ChattingMultiImageSlider extends StatefulWidget {
-  final List<String> images;
+  final List<Attachment> images;
   const ChattingMultiImageSlider({super.key, required this.images});
 
   @override
@@ -35,14 +35,13 @@ class _ChattingMultiImageSliderState extends State<ChattingMultiImageSlider> {
                   }),
               itemCount:  widget.images.length,
               itemBuilder: (context, index, _) {
-                String baseUrl ="${AppConstants.baseUrl}/storage/app/public/chatting";
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
                     child: Container(decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall)),
-                        child: CustomImageWidget(image: "$baseUrl/${widget.images[index]}"),
+                        child: CustomImageWidget(image: "${widget.images[index].path}"),
                     ),
                   ),
                 );

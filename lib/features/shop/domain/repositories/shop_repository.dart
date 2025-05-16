@@ -16,11 +16,15 @@ class ShopRepository implements ShopRepositoryInterface{
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
+
+
   }
   @override
   Future<ApiResponse> getMoreStore() async {
     try {
+
       final response = await dioClient!.get(AppConstants.moreStore);
+
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
@@ -32,13 +36,18 @@ class ShopRepository implements ShopRepositoryInterface{
   Future<ApiResponse> getSellerList(String type, int offset) async {
     try {
       final response = await dioClient!.get("${AppConstants.sellerList}$type?limit=10&offset=$offset");
-      print('======SellerResponce======>>${response.statusCode}');
-      print('======SellerResponce======>>${offset}');
-      print('======SellerResponce======>>${type}');
+/*
+      final response = await dioClient!.post(
+          "${AppConstants.m_get_seller_list}",  data: {
+        "userId": 35,
+      });
+*/
       return ApiResponse.withSuccess(response);
+
     } catch (e) {
-      print('======SellerResponce======>>${e}');
+
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+
     }
   }
 

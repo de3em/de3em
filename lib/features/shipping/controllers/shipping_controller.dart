@@ -85,7 +85,6 @@ class ShippingController extends ChangeNotifier {
         ApiChecker.checkApi( apiResponse);
       }
       _isLoading = false;
-      print("==ChoosenShipingList==>>${chosenShippingList.length}");
       notifyListeners();
     }
 

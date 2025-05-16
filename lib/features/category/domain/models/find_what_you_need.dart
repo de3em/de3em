@@ -1,3 +1,5 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
 class FindWhatYouNeedModel {
   List<FindWhatYouNeed>? findWhatYouNeed;
 
@@ -19,6 +21,7 @@ class FindWhatYouNeed {
   String? name;
   String? slug;
   String? icon;
+  ImageFullUrl? iconFullUrl;
   int? parentId;
   int? position;
   String? createdAt;
@@ -40,7 +43,9 @@ class FindWhatYouNeed {
         this.homeStatus,
         this.priority,
         this.productCount,
-        this.childes});
+        this.childes,
+        this.iconFullUrl
+      });
 
   FindWhatYouNeed.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -54,6 +59,9 @@ class FindWhatYouNeed {
     homeStatus = json['home_status'];
     priority = json['priority'];
     productCount = int.parse(json['product_count'].toString());
+    if (json['icon_full_url'] != null) {
+      iconFullUrl = ImageFullUrl.fromJson(json['icon_full_url']);
+    }
     if (json['childes'] != null) {
       childes = <Childes>[];
       json['childes'].forEach((v) {
@@ -70,6 +78,7 @@ class Childes {
   String? name;
   String? slug;
   String? icon;
+  ImageFullUrl? iconFullUrl;
   int? parentId;
   int? position;
   String? createdAt;
@@ -90,7 +99,8 @@ class Childes {
         this.updatedAt,
         this.homeStatus,
         this.priority,
-        this.subCategoryProductCount,});
+        this.subCategoryProductCount,
+        this.iconFullUrl});
 
   Childes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -104,5 +114,8 @@ class Childes {
     homeStatus = json['home_status'];
     priority = json['priority'];
     subCategoryProductCount = int.parse(json['sub_category_product_count'].toString());
+    if (json['icon_full_url'] != null) {
+      iconFullUrl = ImageFullUrl.fromJson(json['icon_full_url']);
+    }
   }
 }

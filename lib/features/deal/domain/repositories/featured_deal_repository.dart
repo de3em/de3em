@@ -9,13 +9,27 @@ class FeaturedDealRepository implements FeaturedDealRepositoryInterface{
   FeaturedDealRepository({required this.dioClient});
 
   @override
-  Future<ApiResponse> getFeaturedDeal() async {
+  Future<ApiResponse> getFeaturedDeal(String id) async {
+    try {
+      // moh
+
+      final response = await dioClient!.post(AppConstants.m_get_seller_list + '?userId=' + id);
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+
+
+/*
     try {
       final response = await dioClient!.get(AppConstants.featuredDealUri);
       return ApiResponse.withSuccess(response);
     } catch (e) {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
+*/
+
+
   }
 
   @override

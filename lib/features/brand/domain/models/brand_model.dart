@@ -1,3 +1,5 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
 class BrandModel {
   int? _id;
   String? _name;
@@ -7,6 +9,7 @@ class BrandModel {
   String? _updatedAt;
   int? _brandProductsCount;
   bool? checked;
+  ImageFullUrl? _imageFullUrl;
 
 
   BrandModel(
@@ -18,7 +21,7 @@ class BrandModel {
         String? updatedAt,
         int? brandProductsCount,
         bool? checked,
-
+        ImageFullUrl? imageFullUrl,
       }) {
     _id = id;
     _name = name;
@@ -27,6 +30,7 @@ class BrandModel {
     _createdAt = createdAt;
     _updatedAt = updatedAt;
     _brandProductsCount = brandProductsCount;
+    _imageFullUrl = imageFullUrl;
     checked = checked;
 
   }
@@ -38,6 +42,7 @@ class BrandModel {
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
   int? get brandProductsCount => _brandProductsCount;
+  ImageFullUrl? get imageFullUrl => _imageFullUrl;
 
 
   BrandModel.fromJson(Map<String, dynamic> json) {
@@ -48,6 +53,9 @@ class BrandModel {
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
     _brandProductsCount = json['brand_products_count'];
+    _imageFullUrl = json['image_full_url'] != null
+        ? ImageFullUrl.fromJson(json['image_full_url'])
+        : null;
     checked = false;
 
   }

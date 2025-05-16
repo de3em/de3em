@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart';
+
+import 'package:flutter/material.dart';
 import 'package:da3em/utill/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -21,4 +22,19 @@ class ThemeController with ChangeNotifier {
     _darkTheme = sharedPreferences!.getBool(AppConstants.theme) ?? false;
     notifyListeners();
   }
+
+  Color? selectedPrimaryColor;
+  Color? selectedSecondaryColor;
+
+
+
+  void setThemeColor({Color? primaryColor, Color? secondaryColor}) {
+    selectedPrimaryColor = primaryColor;
+    selectedPrimaryColor = secondaryColor;
+
+    notifyListeners();
+  }
+
+
+
 }

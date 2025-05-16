@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:da3em/features/chat/domain/models/message_body.dart';
 import 'package:da3em/features/chat/domain/repositories/chat_repository_interface.dart';
 import 'package:da3em/features/chat/domain/services/chat_service_interface.dart';
@@ -28,8 +29,8 @@ class ChatService implements ChatServiceInterface{
   }
 
   @override
-  Future sendMessage(MessageBody messageBody, String type, List<XFile?> file) async{
-    return chatRepositoryInterface.sendMessage(messageBody, type, file);
+  Future sendMessage(MessageBody messageBody, String type, List<XFile?> file, List<PlatformFile>? platformFile) async{
+    return chatRepositoryInterface.sendMessage(messageBody, type, file, platformFile);
   }
 
 }

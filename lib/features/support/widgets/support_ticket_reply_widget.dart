@@ -3,7 +3,6 @@ import 'package:da3em/common/basewidget/custom_image_widget.dart';
 import 'package:da3em/common/basewidget/image_diaglog_widget.dart';
 import 'package:da3em/features/support/domain/models/support_reply_model.dart';
 import 'package:da3em/localization/controllers/localization_controller.dart';
-import 'package:da3em/utill/app_constants.dart';
 import 'package:da3em/utill/color_resources.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
@@ -38,9 +37,9 @@ class SupportTicketReplyWidget extends StatelessWidget {
                 const SizedBox.shrink()])),
 
 
-      if(replyModel.attachment != null && replyModel.attachment!.isNotEmpty)
+      if(replyModel.attachmentFullUrl != null && replyModel.attachmentFullUrl!.isNotEmpty)
         const SizedBox(height: Dimensions.paddingSizeSmall),
-      (replyModel.attachment != null && replyModel.attachment!.isNotEmpty)?
+      (replyModel.attachmentFullUrl != null && replyModel.attachmentFullUrl!.isNotEmpty)?
       Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
         child: Directionality(textDirection:Provider.of<LocalizationController>(context, listen: false).isLtr ? isMe ?
         TextDirection.rtl : TextDirection.ltr : isMe ? TextDirection.ltr : TextDirection.rtl,
@@ -49,15 +48,15 @@ class SupportTicketReplyWidget extends StatelessWidget {
               mainAxisSpacing: Dimensions.paddingSizeSmall, crossAxisSpacing: Dimensions.paddingSizeSmall),
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: replyModel.attachment?.length,
+            itemCount: replyModel.attachmentFullUrl?.length,
             itemBuilder: (BuildContext context, attachmentIndex) {
 
 
             return  InkWell(onTap: () => showDialog(context: context, builder: (ctx)  =>  ImageDialog(
-                imageUrl: '${AppConstants.baseUrl}/storage/app/public/support-ticket/${replyModel.attachment?[attachmentIndex]}')),
+                imageUrl: '${replyModel.attachmentFullUrl?[attachmentIndex].path}')),
               child: ClipRRect(borderRadius: BorderRadius.circular(5),
                   child:CustomImageWidget(height: 100, width: 100, fit: BoxFit.cover,
-                      image: '${AppConstants.baseUrl}/storage/app/public/support-ticket/${replyModel.attachment?[attachmentIndex]}')),);
+                      image: '${replyModel.attachmentFullUrl?[attachmentIndex].path}')),);
 
             },),
         ),

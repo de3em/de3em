@@ -1,4 +1,15 @@
 {
+  "follow": "follow",
+  "Sell": "Sell with US",
+  "buy": "Buy",
+  "info_devliery": "Delivery information",
+  "views ": "vues",
+  "user": "User : ",
+  "phone_nbr": " Phone Number",
+  "enter_u_phone_nbr": "Enter your phone number",
+  "delivery_information": "Delivery information",
+
+
   "on_boarding_title_one": "স্বাগতম",
   "on_boarding_title_two": "বোর্ডিং টাইটেল দুই",
   "on_boarding_title_three": "বোর্ডিং টাইটেল তিন",
@@ -734,5 +745,39 @@
   "choose_shipping_method": "শিপিং পদ্ধতি চয়ন করুন",
   "first_name_is_required": "প্রথম নাম প্রয়োজন",
   "last_name_is_required": "শেষ নাম প্রয়োজন",
-  "in_stock" : "স্টক"
+  "in_stock" : "স্টক",
+
+
+  "vendor": "বিক্রেতা",
+  "my_review": "আমার পর্যালোচনা",
+  "reply_by_seller": "বিক্রেতা দ্বারা উত্তর",
+  "invoice_downloaded_successfully": "চালান সফলভাবে ডাউনলোড হয়েছে",
+  "invoice_download_failed": "চালান ডাউনলোড ব্যর্থ হয়েছে",
+  "update": "হালনাগাদ",
+  "your_app_is_deprecated": "আপনি যে অ্যাপটি ব্যবহার করছেন তা অবমূল্যায়ন করা হয়েছে। এই অ্যাপ্লিকেশনটির একটি নতুন সংস্করণ উপলব্ধ। আপনার অ্যাপ্লিকেশন আপডেট করুন।",
+  "update_now": "এখন হালনাগাদ করুন",
+  "can_not_launch": "লঞ্চ করতে পারে না",
+  "view_moree": "আরো দেখুন",
+  "view_less": "কম দেখুন",
+  "no_review_found": "কোন পর্যালোচনা পাওয়া যায় না",
+  "file_type_should_be": "ফাইলের ধরণটি ডিওসি, ডকেক্স, টিএক্সটি, সিএসভি, এক্সএলএস, এক্সএলএসএক্স, আরআর, টার, টারগজ, জিপ, পিডিএফ হওয়া উচিত",
+  "final_total" : "চূড়ান্ত মোট",
+  "credit" : "জমা",
+  "debit" : "খরচ",
+  "sent_attachment" : "সংযুক্তি পাঠান",
+  "loading" : "লোড হচ্ছে",
+  "refund_order" : "ফেরত আদেশ",
+  "i_agree_with_the": " আমি তার সাথে একমত",
+  "product_downloaded_successfully" : "পণ্য সফলভাবে ডাউনলোড করা হয়েছে",
+  "product_download_failed" : "পণ্য ডাউনলোড ব্যর্থ হয়েছে",
+  "file_already_downloaded" : "ফাইল ইতিমধ্যে ডাউনলোড করা হয়েছে",
+  "to_view_the_order_history" : "অর্ডার ইতিহাস দেখতে আপনাকে আপনার অ্যাকাউন্টে লগ ইন করতে হবে",
+  "to_communicate_with_vendors" : "বিক্রেতা এবং ডেলিভারিম্যানের সাথে যোগাযোগ করতে আপনাকে আপনার অ্যাকাউন্টে লগ ইন করতে হবে",
+  "to_view_the_wishlist" : "ইচ্ছা তালিকা দেখতে আপনাকে লগইন করতে হবে",
+  "reviewed" : "পরিদর্শন করা"
+
+
+
+
+
 }

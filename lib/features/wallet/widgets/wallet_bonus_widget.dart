@@ -22,10 +22,12 @@ class WalletBonusWidget extends StatelessWidget {
           (walletProvider.walletBonusModel!.bonusList != null && walletProvider.walletBonusModel!.bonusList!.isNotEmpty)?
           Stack(clipBehavior: Clip.none, children: [
             ClipRRect(borderRadius: BorderRadius.circular(8),
+
               child: CarouselSlider.builder(options: CarouselOptions(
                   viewportFraction: 1, aspectRatio: 2,
                   autoPlay: true, padEnds: false,
                   onPageChanged: (index, reason) {walletProvider.setCurrentIndex(index);}),
+
                 itemCount: walletProvider.walletBonusModel?.bonusList?.length,
                 itemBuilder: (context, index, _) {
                   return Stack(children: [

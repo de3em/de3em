@@ -18,7 +18,6 @@ class AuthRepository implements AuthRepoInterface{
   final SharedPreferences? sharedPreferences;
   AuthRepository({required this.dioClient, required this.sharedPreferences});
 
-  
 
   @override
   Future<ApiResponse> socialLogin(Map<String, dynamic>  socialLogin) async {

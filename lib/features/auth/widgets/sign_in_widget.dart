@@ -19,7 +19,6 @@ import 'package:da3em/features/auth/screens/mobile_verify_screen.dart';
 import 'package:da3em/features/auth/widgets/social_login_widget.dart';
 import 'package:da3em/features/dashboard/screens/dashboard_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../screens/otp_verification_screen.dart';
 
 class SignInWidget extends StatefulWidget {
@@ -72,6 +71,8 @@ class SignInWidgetState extends State<SignInWidget> {
       loginBody.password = password;
 
       loginBody.guestId = Provider.of<AuthController>(context, listen: false).getGuestToken()??'1';
+
+
       if(email.isEmpty){
         showCustomSnackBar(getTranslated('user_name_is_required', context), context);
       }else if (password.isEmpty){
@@ -118,9 +119,10 @@ class SignInWidgetState extends State<SignInWidget> {
     return Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
       child: Form(key: _formKeyLogin,
         child: Column(children: [
+            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
             Hero(tag: 'user',
               child: CustomTextFieldWidget(
-
                 hintText: getTranslated('enter_email_or_mobile', context),
                 labelText: getTranslated('user_name', context),
                 focusNode: _emailNode,

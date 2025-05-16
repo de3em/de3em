@@ -26,9 +26,9 @@ class SettingsScreen extends StatelessWidget {
       },
       child: CustomExpandedAppBarWidget(title: getTranslated('settings', context),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const SizedBox(height: Dimensions.paddingSizeDefault),
 
-            Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeLarge,
-                left: Dimensions.paddingSizeLarge),
+            Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
               child: Text(getTranslated('settings', context)!,
                   style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeLarge))),
 

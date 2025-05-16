@@ -1,4 +1,15 @@
 {
+  "follow": "follow",
+  "Sell": "Sell with US",
+  "buy": "Buy",
+  "info_devliery": "Delivery information",
+  "views ": "vues",
+  "user": "User : ",
+
+  "phone_nbr": " Phone Number",
+  "enter_u_phone_nbr": "Enter your phone number",
+  "delivery_information": "Delivery information",
+
   "on_boarding_title_one": "आपका स्वागत है",
   "on_boarding_title_two": "आसान और सुरक्षित चेकआउट",
   "on_boarding_title_three": "सबसे तेज़ वितरण",
@@ -736,5 +747,35 @@
   "choose_shipping_method": "शिपिंग विधि चुनें",
   "first_name_is_required": "पहला नाम आवश्यक है",
   "last_name_is_required": "अंतिम नाम आवश्यक है",
-  "in_stock" : "स्टॉक में"
+  "in_stock" : "स्टॉक में",
+
+  "vendor": "विक्रेता",
+  "my_review": "मेरी समीक्षा",
+  "reply_by_seller": "विक्रेता द्वारा उत्तर दें",
+  "invoice_downloaded_successfully": "चालान सफलतापूर्वक डाउनलोड किया गया",
+  "invoice_download_failed": "चालान डाउनलोड विफल",
+  "update": "अद्यतन",
+  "your_app_is_deprecated": "आपके द्वारा उपयोग किए जाने वाले ऐप को पदावनत किया गया है। इस ऐप का एक नया संस्करण उपलब्ध है। कृपया अपना ऐप अपडेट करें।",
+  "update_now": "अभी अद्यतन करें",
+  "can_not_launch": "लॉन्च नहीं कर सकता",
+  "view_moree": "और देखें",
+  "view_less": "कम देखें",
+  "no_review_found": "कोई समीक्षा नहीं मिली",
+  "file_type_should_be": "फ़ाइल प्रकार DOC, DOCX, TXT, CSV, XLS, XLSX, RAR, TAR, TARGZ, ZIP, PDF होना चाहिए",
+  "final_total" : "अंतिम योग",
+  "credit" : "श्रेय",
+  "debit" : "नामे",
+  "sent_attachment" : "अनुलग्नक भेजें",
+  "loading" : "लदान",
+  "refund_order" : "वापसी का आदेश",
+  "i_agree_with_the": " मैं इससे सहमत हूं",
+  "product_downloaded_successfully" : "उत्पाद सफलतापूर्वक डाउनलोड हुआ",
+  "to_view_the_order_history" : "To अपने खाते में लॉग इन करने के लिए आवश्यक ऑर्डर इतिहास देखें",
+  "to_communicate_with_vendors" : "विक्रेताओं और डिलीवरीमैन के साथ संवाद करने के लिए आपको अपने खाते में लॉग इन करना होगा",
+  "to_view_the_wishlist" : "इच्छा सूची देखने के लिए आपको लॉग इन करना होगा",
+  "product_download_failed" : "उत्पाद डाउनलोड विफल रहा",
+  "file_already_downloaded" : "फ़ाइल पहले ही डाउनलोड हो चुकी है",
+  "reviewed" : "दोहराना"
+
+
 }

@@ -1,3 +1,5 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
 class NotificationItemModel {
   int? totalSize;
   int? limit;
@@ -24,8 +26,6 @@ class NotificationItemModel {
       });
     }
   }
-
-
 }
 
 class NotificationItem {
@@ -36,6 +36,7 @@ class NotificationItem {
   String? description;
   int? notificationCount;
   String? image;
+  ImageFullUrl? imageFullUrl;
   int? status;
   String? createdAt;
   String? updatedAt;
@@ -54,6 +55,7 @@ class NotificationItem {
         this.createdAt,
         this.updatedAt,
         this.seen,
+        this.imageFullUrl
       });
 
   NotificationItem.fromJson(Map<String, dynamic> json) {
@@ -64,6 +66,9 @@ class NotificationItem {
     description = json['description'];
     notificationCount = int.parse(json['notification_count'].toString());
     image = json['image'];
+    imageFullUrl = json['image_full_url'] != null
+      ? ImageFullUrl.fromJson(json['image_full_url'])
+      : null;
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

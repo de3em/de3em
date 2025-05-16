@@ -27,10 +27,10 @@ class ApiErrorHandler {
             case DioExceptionType.badResponse:
               switch (error.response!.statusCode) {
                 case 403:
-                  print("====000==>>${error.response!.data}");
                   if(error.response!.data['errors'] != null){
                     ErrorResponse errorResponse = ErrorResponse.fromJson(error.response?.data);
                    errorDescription = errorResponse.errors?[0].message;
+
                   }else{
                     errorDescription = error.response!.data['message'];
                   }
@@ -39,16 +39,18 @@ class ApiErrorHandler {
                   if(error.response!.data['errors'] != null){
                     ErrorResponse errorResponse = ErrorResponse.fromJson(error.response?.data);
                     errorDescription = errorResponse.errors?[0].message;
-                  }else{
+                  } else{
                     errorDescription = error.response!.data['message'];
                   }
                   Provider.of<AuthController>(Get.context!,listen: false).clearSharedData();
                   break;
                 case 404:
                 case 403:
-                  print("======403=======>>${error.response!.data}");
+                   if(error.response!.data['error_type'] != null){
+                    errorDescription = error.response!.data['message'];
+                   }
                 case 500:
-                  print("======500=======>>${error.response!.data}");
+                  errorDescription = 'Internal server error';
                 case 503:
                 case 429:
                   errorDescription = error.response!.statusMessage;

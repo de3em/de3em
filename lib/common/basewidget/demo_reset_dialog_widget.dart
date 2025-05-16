@@ -12,7 +12,6 @@ class DemoResetDialogWidget extends StatefulWidget {
 }
 
 class _DemoResetDialogWidgetState extends State<DemoResetDialogWidget> {
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {

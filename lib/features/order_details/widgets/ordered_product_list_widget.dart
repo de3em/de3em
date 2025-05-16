@@ -3,14 +3,15 @@ import 'package:da3em/features/order_details/controllers/order_details_controlle
 import 'package:da3em/features/order_details/widgets/order_details_widget.dart';
 import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/common/basewidget/show_custom_snakbar_widget.dart';
-
+import 'package:provider/provider.dart';
 class OrderProductListWidget extends StatelessWidget {
   final OrderDetailsController? order;
   final String? orderType;
   final String? orderId;
   final bool fromTrack;
   final int? isGuest;
-  const OrderProductListWidget({super.key, this.order, this.orderType,  this.fromTrack = false, this.isGuest, this.orderId});
+  const OrderProductListWidget({super.key, this.order, this.orderType,
+    this.fromTrack = false, this.isGuest, this.orderId});
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +22,42 @@ class OrderProductListWidget extends StatelessWidget {
       order!.orderDetails!.length,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, i) => OrderDetailsWidget(orderDetailsModel: order!.orderDetails![i],
-          isGuest: isGuest,
-          fromTrack: fromTrack,
-          callback: () {showCustomSnackBar('${getTranslated('review_submitted_successfully', context)}', context, isError: false);},
-          orderType: orderType!, paymentStatus: order!.orders!.paymentStatus!, orderId: orderId!,),
+        isGuest: isGuest,
+        fromTrack: fromTrack,
+        callback: () {showCustomSnackBar('${getTranslated('review_submitted_successfully', context)}', context, isError: false);},
+        orderType: orderType!, paymentStatus: order!.orders!.paymentStatus!, orderId: orderId!,),
     );
   }
 }
+
+/*
+class OrderProductListWidget extends StatelessWidget {
+
+
+  final String? orderType;
+  final String? orderId;
+  final bool fromTrack;
+  final int? isGuest;
+  const OrderProductListWidget({super.key, this.orderType,  this.fromTrack = false, this.isGuest, this.orderId});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Consumer<OrderDetailsController>(
+      builder: (context, orderDetailsController, _) {
+        return ListView.builder(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(0),
+          itemCount:
+          orderDetailsController.orderDetails!.length,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, i) => OrderDetailsWidget(orderDetailsModel: orderDetailsController.orderDetails![i],
+              isGuest: isGuest,
+              fromTrack: fromTrack,
+              callback: () {showCustomSnackBar('${getTranslated('review_submitted_successfully', context)}', context, isError: false);},
+              orderType: orderType!, paymentStatus: orderDetailsController.orders!.paymentStatus!, orderId: orderId!, index: i),
+        );
+      }
+    );
+  }
+}
+*/

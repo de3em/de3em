@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:da3em/common/basewidget/custom_image_widget.dart';
 import 'package:da3em/features/profile/controllers/profile_contrroller.dart';
 import 'package:da3em/features/profile/domain/models/profile_model.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/features/auth/controllers/auth_controller.dart';
 import 'package:da3em/theme/controllers/theme_controller.dart';
@@ -125,7 +124,6 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var splashController = Provider.of<SplashController>(context, listen: false);
     return Scaffold(
       key: _scaffoldKey,
       body: Consumer<ProfileController>(
@@ -184,7 +182,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                         child: Stack(clipBehavior: Clip.none, children: [
                             ClipRRect(borderRadius: BorderRadius.circular(50),
                               child: file == null ?
-                              CustomImageWidget(image: "${splashController.baseUrls!.customerImageUrl}/${profile.userInfoModel!.image}",
+                              CustomImageWidget(image: "${profile.userInfoModel!.imageFullUrl?.path}",
                                 height: Dimensions.profileImageSize, fit: BoxFit.cover,width: Dimensions.profileImageSize,) :
                               Image.file(file!, width: Dimensions.profileImageSize,
                                   height: Dimensions.profileImageSize, fit: BoxFit.fill),),

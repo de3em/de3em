@@ -1,6 +1,9 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
 class MostDemandedProductModel {
   int? id;
   String? banner;
+  ImageFullUrl? bannerFullUrl;
   int? productId;
   int? status;
   String? createdAt;
@@ -14,6 +17,7 @@ class MostDemandedProductModel {
   MostDemandedProductModel(
       {this.id,
         this.banner,
+        this.bannerFullUrl,
         this.productId,
         this.status,
         this.createdAt,
@@ -36,6 +40,9 @@ class MostDemandedProductModel {
     orderCount = json['order_count']?? 0;
     deliveryCount = json['delivery_count']?? 0;
     wishlistCount = json['wishlist_count']?? 0;
+    bannerFullUrl = json['banner_full_url'] != null
+        ? ImageFullUrl.fromJson(json['banner_full_url'])
+        : null;
   }
 
 }

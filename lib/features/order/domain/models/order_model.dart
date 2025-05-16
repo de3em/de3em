@@ -1,5 +1,6 @@
 
 
+import 'package:da3em/data/model/image_full_url.dart';
 import 'package:da3em/features/shop/domain/models/seller_model.dart';
 
 class OrderModel {
@@ -124,11 +125,10 @@ class Orders {
         this.details,
         this.deliveryMan,
         this.seller,
-this.name,
-this.phone,
-this.state,
-this.city,
-        });
+        this.name,
+        this.phone,
+        this.state,
+        this.city,});
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -173,6 +173,7 @@ this.city,
 
     expectedDeliveryDate = json['expected_delivery_date'];
     orderNote = json['order_note'];
+
     name = json['name'];
     phone = json['phone'];
     state = json['state'];
@@ -425,12 +426,26 @@ class Shop {
 
 class Details {
   Product? product;
+  int? qty;
+  double? price;
+  double? tax;
+  double? discount;
 
   Details(
-      {this.product});
+    {
+      this.product,
+      this.qty,
+      this.price,
+      this.tax,
+      this.discount
+    });
 
   Details.fromJson(Map<String, dynamic> json) {
     product = json['product'] != null ? Product.fromJson(json['product']) : null;
+    qty = json['qty'];
+    price = json['price'].toDouble();
+    tax = json['tax'].toDouble();
+    discount = json['discount'].toDouble();
   }
 
 }
@@ -438,14 +453,18 @@ class Details {
 class Product {
   String? thumbnail;
   String? productType;
+  ImageFullUrl? thumbnailFullUrl;
 
 
   Product(
-      {this.thumbnail, this.productType});
+      {this.thumbnail, this.productType, this.thumbnailFullUrl});
 
   Product.fromJson(Map<String, dynamic> json) {
     thumbnail = json['thumbnail'];
     productType = json['product_type'];
+    thumbnailFullUrl = json['thumbnail_full_url'] != null
+      ? ImageFullUrl.fromJson(json['thumbnail_full_url'])
+      : null;
 
   }
 

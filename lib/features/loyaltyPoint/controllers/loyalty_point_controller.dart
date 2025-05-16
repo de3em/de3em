@@ -12,37 +12,32 @@ class LoyaltyPointController extends ChangeNotifier {
   LoyaltyPointController({required this.loyaltyPointServiceInterface});
 
 
-  bool _isLoading = false;
-  bool _firstLoading = false;
   bool _isConvert = false;
   bool get isConvert => _isConvert;
-  bool get isLoading => _isLoading;
-  bool get firstLoading => _firstLoading;
 
-
-  int? _loyaltyPointPageSize;
-  int? get loyaltyPointPageSize=> _loyaltyPointPageSize;
-  List<LoyaltyPointList> _loyaltyPointList = [];
-  List<LoyaltyPointList> get loyaltyPointList => _loyaltyPointList;
+  LoyaltyPointModel? _loyaltyPointModel;
+  LoyaltyPointModel? get loyaltyPointModel => _loyaltyPointModel;
 
 
 
   Future<void> getLoyaltyPointList(BuildContext context, int offset, {bool reload = false}) async {
-    _isLoading = true;
+    if(reload || offset == 1) {
+      _loyaltyPointModel = null;
+    }
+
     ApiResponse apiResponse = await loyaltyPointServiceInterface.getList(offset : offset);
-    if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      if(offset == 1){
-        _loyaltyPointList = [];
-        _loyaltyPointList.addAll(LoyaltyPointModel.fromJson(apiResponse.response!.data).loyaltyPointList!);
-        _loyaltyPointPageSize = LoyaltyPointModel.fromJson(apiResponse.response!.data).totalLoyaltyPoint;
-      }else{
-        _loyaltyPointList.addAll(LoyaltyPointModel.fromJson(apiResponse.response!.data).loyaltyPointList!);
-        _loyaltyPointPageSize = LoyaltyPointModel.fromJson(apiResponse.response!.data).totalLoyaltyPoint;
+    if (apiResponse.response?.data != null && apiResponse.response?.statusCode == 200) {
+      if(offset == 1) {
+        _loyaltyPointModel = LoyaltyPointModel.fromJson(apiResponse.response?.data);
+      }else {
+        _loyaltyPointModel?.offset = LoyaltyPointModel.fromJson(apiResponse.response?.data).offset;
+        _loyaltyPointModel?.totalLoyaltyPoint = LoyaltyPointModel.fromJson(apiResponse.response?.data).totalLoyaltyPoint;
+        _loyaltyPointModel?.loyaltyPointList?.addAll(LoyaltyPointModel.fromJson(apiResponse.response?.data).loyaltyPointList ?? []);
+
       }
 
-      _isLoading = false;
     } else {
-      _isLoading = false;
+      _loyaltyPointModel?.loyaltyPointList = [];
       ApiChecker.checkApi( apiResponse);
     }
     notifyListeners();
@@ -63,15 +58,6 @@ class LoyaltyPointController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void showBottomLoader() {
-    _isLoading = true;
-    notifyListeners();
-  }
-
-  void removeFirstLoading() {
-    _firstLoading = true;
-    notifyListeners();
-  }
 
 
   int currentIndex = 0;

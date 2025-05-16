@@ -36,26 +36,20 @@ class PaymentScreenState extends State<AddFundToWalletScreen> {
 
   void _initData() async {
     browser = MyInAppBrowser(context);
-    if(Platform.isAndroid){
-      await InAppWebViewController.setWebContentsDebuggingEnabled(true);
-      bool swAvailable = await WebViewFeature.isFeatureSupported(WebViewFeature.SERVICE_WORKER_BASIC_USAGE);
-      bool swInterceptAvailable = await WebViewFeature.isFeatureSupported(WebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
-      if (swAvailable && swInterceptAvailable) {
-        ServiceWorkerController serviceWorkerController = ServiceWorkerController.instance();
-        await serviceWorkerController.setServiceWorkerClient(ServiceWorkerClient(
-          shouldInterceptRequest: (request) async {
-            return null;
-          },
-        ));
-      }
+
+    if(!Platform.isIOS){
+      await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
     }
 
+    var options = InAppBrowserClassOptions(
+        crossPlatform: InAppBrowserOptions(hideUrlBar: true, hideToolbarTop: Platform.isAndroid),
+        inAppWebViewGroupOptions: InAppWebViewGroupOptions(
+            crossPlatform: InAppWebViewOptions(useShouldOverrideUrlLoading: true, useOnLoadResource: true, javaScriptEnabled: true)));
 
     await browser.openUrlRequest(
-        urlRequest: URLRequest(url: WebUri(selectedUrl??'')),
-    settings: InAppBrowserClassSettings(
-    webViewSettings: InAppWebViewSettings(useShouldOverrideUrlLoading: true, useOnLoadResource: true),
-    browserSettings: InAppBrowserSettings(hideUrlBar: true, hideToolbarTop: Platform.isAndroid)));
+        urlRequest: URLRequest(url: Uri.parse(selectedUrl ?? '')),
+        options: options);
+
   }
 
 

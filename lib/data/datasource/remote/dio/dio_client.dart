@@ -3,7 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:da3em/data/datasource/remote/dio/logging_interceptor.dart';
 import 'package:da3em/utill/app_constants.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path/path.dart' as path;
 
 class DioClient {
   final String baseUrl;
@@ -58,7 +60,9 @@ class DioClient {
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
   }) async {
+
     try {
+
       var response = await dio!.get(
         uri,
         queryParameters: queryParameters,
@@ -75,6 +79,31 @@ class DioClient {
       rethrow;
     }
   }
+
+
+
+  Future<Response> getDownload(String uri, {
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
+    String? filePath,
+  }) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final filePath = path.join(directory.path, 'order.pdf');
+    try {
+      var response = await dio!.download(uri, filePath);
+      return response;
+    } on SocketException catch (e) {
+      throw SocketException(e.toString());
+    } on FormatException catch (_) {
+      throw const FormatException("Unable to process the data");
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
 
   Future<Response> post(String uri, {
     data,

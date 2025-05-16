@@ -1,5 +1,7 @@
 
+import 'package:da3em/data/model/image_full_url.dart';
 import 'package:da3em/features/product/domain/models/product_model.dart';
+import 'package:da3em/features/product_details/domain/models/product_details_model.dart';
 import 'package:da3em/features/shop/domain/models/seller_model.dart';
 
 class OrderDetailsModel {
@@ -25,6 +27,12 @@ class OrderDetailsModel {
   List<VerificationImages>? verificationImages;
   Order? order;
   Product? product;
+  bool? isExpanded;
+  List<DigitalVariation>? digitalVariation;
+  ImageFullUrl? digitalFileAfterSellFullUrl;
+  ImageFullUrl? digitalFileReadyFullUrl;
+  Review? _reviewData;
+
 
 
   OrderDetailsModel(
@@ -49,7 +57,8 @@ class OrderDetailsModel {
         Seller? seller,
         List<VerificationImages>? verificationImages,
         Order? order,
-        Product? product,
+        Review? review,
+
       }) {
     _id = id;
     _orderId = orderId;
@@ -76,7 +85,12 @@ class OrderDetailsModel {
     }
     this.verificationImages;
     this.order;
-    this.product;
+    product;
+    isExpanded;
+    digitalVariation;
+    digitalFileAfterSellFullUrl;
+    digitalFileReadyFullUrl;
+    _reviewData = review;
 
   }
 
@@ -99,6 +113,8 @@ class OrderDetailsModel {
   String? get variant => _variant;
   int? get refundReq => _refundReq;
   Seller? get seller => _seller;
+  Review? get reviewModel => _reviewData;
+
 
   OrderDetailsModel.fromJson(Map<String, dynamic> json) {
     _id = json['id'];
@@ -134,6 +150,23 @@ class OrderDetailsModel {
     if(json['product'] != null) {
       product = Product.fromJson(json['product']);
     }
+    if (json['digital_variation'] != null) {
+      digitalVariation = <DigitalVariation>[];
+      json['digital_variation'].forEach((v) {
+        digitalVariation!.add(DigitalVariation.fromJson(v));
+      });
+    }
+
+    digitalFileAfterSellFullUrl = json['digital_file_after_sell_full_url'] != null
+        ? ImageFullUrl.fromJson(json['digital_file_after_sell_full_url']) : null;
+
+
+    isExpanded = false;
+
+    if(json['reviewData'] != null) {
+      _reviewData = Review.fromJson(json["reviewData"]);
+
+    }
 
   }
 
@@ -144,16 +177,20 @@ class VerificationImages {
   int? id;
   int? orderId;
   String? image;
+  ImageFullUrl? imageFullUrl;
   String? createdAt;
   String? updatedAt;
 
   VerificationImages(
-      {this.id, this.orderId, this.image, this.createdAt, this.updatedAt});
+      {this.id, this.orderId, this.image, this.imageFullUrl, this.createdAt, this.updatedAt});
 
   VerificationImages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     orderId = json['order_id'];
     image = json['image'];
+    imageFullUrl = json['icon_full_url'] != null
+      ? ImageFullUrl.fromJson(json['icon_full_url'])
+      : null;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -176,4 +213,24 @@ class Order {
   }
 
 
+}
+
+class Review {
+  int id;
+  int productId;
+
+  Review({
+    required this.id,
+    required this.productId,
+  });
+
+  factory Review.fromJson(Map<String, dynamic> json) => Review(
+    id: json["id"],
+    productId: json["product_id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "product_id": productId,
+  };
 }

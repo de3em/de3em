@@ -1,3 +1,5 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
 class ChatModel {
   int? totalSize;
   String? limit;
@@ -107,6 +109,7 @@ class Shops {
   String? address;
   String? contact;
   String? image;
+  ImageFullUrl? imageFullUrl;
   String? bottomBanner;
   String? offerBanner;
   String? vacationStartDate;
@@ -125,6 +128,7 @@ class Shops {
         this.address,
         this.contact,
         this.image,
+        this.imageFullUrl,
         this.bottomBanner,
         this.offerBanner,
         this.vacationStartDate,
@@ -143,6 +147,9 @@ class Shops {
     address = json['address'];
     contact = json['contact'];
     image = json['image'];
+    if (json['image_full_url'] != null) {
+      imageFullUrl = ImageFullUrl.fromJson(json['image_full_url']);
+    }
     bottomBanner = json['bottom_banner'];
     offerBanner = json['offer_banner'];
     vacationStartDate = json['vacation_start_date'];
@@ -177,6 +184,7 @@ class DeliveryMan {
   String? image;
   String? phone;
   String? code;
+  ImageFullUrl? imageFullUrl;
 
 
 
@@ -185,7 +193,8 @@ class DeliveryMan {
     this.lName,
     this.image,
     this.code,
-    this.phone
+    this.phone,
+    this.imageFullUrl
   });
 
   DeliveryMan.fromJson(Map<String, dynamic> json) {
@@ -195,6 +204,9 @@ class DeliveryMan {
     image = json['image'];
     phone = json['phone'];
     code = json['country_code'];
+    imageFullUrl = json['image_full_url'] != null
+      ? ImageFullUrl.fromJson(json['image_full_url'])
+      : null;
 
   }
 }

@@ -82,11 +82,11 @@ class _ParallaxColorState extends State<ParallaxColor> {
 
 class ParallaxColor extends StatefulWidget {
   const ParallaxColor({
-    Key? key,
+    super.key,
     required this.child,
     required this.colors,
     required this.info,
-  }) : super(key: key);
+  });
 
   final Widget child;
 
@@ -102,12 +102,12 @@ class ParallaxColor extends StatefulWidget {
 
 class ParallaxContainer extends StatelessWidget {
   const ParallaxContainer({
-    Key? key,
+    super.key,
     required this.child,
     required this.position,
     this.translationFactor = 100.0,
     this.opacityFactor = 1.0,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final double position;
@@ -129,7 +129,7 @@ class ParallaxContainer extends StatelessWidget {
 class ParallaxImage extends StatelessWidget {
   ParallaxImage.asset(
     String name, {
-    Key? key,
+    super.key,
     required double position,
     this.imageFactor = 0.3,
   })  : image = Image.asset(
@@ -139,8 +139,7 @@ class ParallaxImage extends StatelessWidget {
             0.5 + position * imageFactor,
             0.5,
           ),
-        ),
-        super(key: key);
+        );
 
   final Image image;
   final double imageFactor;

@@ -6,60 +6,47 @@ import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
 import 'package:provider/provider.dart';
 
+import '../../../theme/controllers/theme_controller.dart';
+
 class MenuButtonWidget extends StatelessWidget {
-  final IconData icon;
+  final String image;
   final String? title;
   final Widget navigateTo;
   final bool isNotification;
   final bool isProfile;
-  const MenuButtonWidget(
-      {super.key,
-      required this.icon,
-      required this.title,
-      required this.navigateTo,
-      this.isNotification = false,
-      this.isProfile = false});
+  const MenuButtonWidget({super.key, required this.image, required this.title, required this.navigateTo,
+    this.isNotification = false, this.isProfile = false});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        trailing: isNotification
-            ? Consumer<NotificationController>(
-                builder: (context, notificationController, _) {
-                return CircleAvatar(
-                  radius: 10,
-                  backgroundColor: Theme.of(context).primaryColor,
-                  child: Text(
-                      notificationController
-                              .notificationModel?.newNotificationItem
-                              .toString() ??
-                          '0',
-                      style: textRegular.copyWith(
-                          color: ColorResources.white,
-                          fontSize: Dimensions.fontSizeSmall)),
-                );
-              })
-            : isProfile
-                ? Consumer<ProfileController>(
-                    builder: (context, profileProvider, _) {
-                    return CircleAvatar(
-                        radius: 10,
-                        backgroundColor: Theme.of(context).primaryColor,
-                        child: Text(
-                            profileProvider.userInfoModel?.referCount
-                                    .toString() ??
-                                '0',
-                            style: textRegular.copyWith(
-                                color: ColorResources.white,
-                                fontSize: Dimensions.fontSizeSmall)));
-                  })
-                : const SizedBox(),
-        leading: Icon(icon),
-        title: Text(
-          title!,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        onTap: () => Navigator.push(
-            context, MaterialPageRoute(builder: (_) => navigateTo)));
+        trailing: isNotification? Consumer<NotificationController>(
+            builder: (context, notificationController, _) {
+              return CircleAvatar(radius: 12, backgroundColor: Provider.of<ThemeController>(context).darkTheme ?
+              Colors.white.withOpacity(.8) : Theme.of(context).primaryColor,
+                child: Text(notificationController.notificationModel?.newNotificationItem.toString() ?? '0',
+                    style: textRegular.copyWith(color:Provider.of<ThemeController>(context).darkTheme ?
+                    Colors.black :  Colors.white.withOpacity(.9) , fontSize: Dimensions.fontSizeSmall)),
+              );}):
+
+        isProfile? Consumer<ProfileController>(
+            builder: (context, profileProvider, _) {
+              return CircleAvatar(radius: 12, backgroundColor: Provider.of<ThemeController>(context).darkTheme ?
+              Colors.white.withOpacity(.8) : Theme.of(context).primaryColor
+              ,
+
+                  child: Text(profileProvider.userInfoModel?.referCount.toString() ?? '0',
+                      style: textRegular.copyWith(color:Provider.of<ThemeController>(context).darkTheme ?
+                      Colors.black :  Colors.white.withOpacity(.9) ,
+                          fontSize: Dimensions.fontSizeSmall)));}):
+        const SizedBox(),
+
+
+        leading: Image.asset(image, width: 25, height: 25, fit: BoxFit.fill,
+          color:  Provider.of<ThemeController>(context).darkTheme ?
+          Colors.white.withOpacity(.9) : Theme.of(context).primaryColor.withOpacity(.6),)
+        ,
+        title: Text(title!, style: titilliumRegular.copyWith(fontSize: Dimensions.fontSizeLarge)),
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => navigateTo)));
   }
 }

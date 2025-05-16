@@ -22,26 +22,30 @@ class WalletController extends ChangeNotifier {
   bool get firstLoading => _firstLoading;
   int? _transactionPageSize;
   int? get transactionPageSize=> _transactionPageSize;
-  TransactionModel? _walletBalance;
-  TransactionModel? get walletBalance => _walletBalance;
-  List<WalletTransactioList> _transactionList = [];
-  List<WalletTransactioList> get transactionList => _transactionList;
+  TransactionModel? _walletTransactionModel;
+  TransactionModel? get walletTransactionModel => _walletTransactionModel;
 
 
 
   Future<void> getTransactionList(BuildContext context, int offset, String type, {bool reload = true}) async {
     if(reload || offset == 1){
-      _transactionList = [];
+      _walletTransactionModel = null;
     }
-    _isLoading = true;
     ApiResponse apiResponse = await walletServiceInterface.getWalletTransactionList(offset, type);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      _walletBalance = TransactionModel.fromJson(apiResponse.response!.data);
-      _transactionList.addAll(TransactionModel.fromJson(apiResponse.response!.data).walletTransactioList!);
-      _transactionPageSize = TransactionModel.fromJson(apiResponse.response!.data).totalWalletTransactio;
-      _isLoading = false;
+
+      if(offset == 1) {
+        _walletTransactionModel = TransactionModel.fromJson(apiResponse.response!.data);
+
+      }else {
+        _walletTransactionModel?.offset  = TransactionModel.fromJson(apiResponse.response!.data).offset;
+        _walletTransactionModel?.totalWalletBalance  = TransactionModel.fromJson(apiResponse.response!.data).totalWalletBalance;
+        _walletTransactionModel?.totalWalletTransactio  = TransactionModel.fromJson(apiResponse.response!.data).totalWalletTransactio;
+        _walletTransactionModel?.walletTransactioList?.addAll(TransactionModel.fromJson(apiResponse.response!.data).walletTransactioList ?? []);
+
+      }
+
     } else {
-      _isLoading = false;
       ApiChecker.checkApi( apiResponse);
     }
     notifyListeners();

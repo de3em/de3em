@@ -47,14 +47,15 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
     ApiResponse apiResponse = await profileServiceInterface!.delete(customerId);
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
-      _isLoading = false;
+      _isDeleting = false;
       Map map = apiResponse.response!.data;
       String message = map ['message'];
       showCustomSnackBar(message, Get.context!, isError: false);
 
     } else {
-      _isLoading = false;
-      ApiChecker.checkApi( apiResponse);
+      _isDeleting = false;
+
+      ApiChecker.checkApi(apiResponse);
     }
     notifyListeners();
     return apiResponse;

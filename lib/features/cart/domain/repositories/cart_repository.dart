@@ -47,6 +47,12 @@ class CartRepository implements CartRepositoryInterface<ApiResponse>{
     if(cart.variant!.isNotEmpty) {
       data.addAll({'color': cart.color});
     }
+    if(cart.variantKey != null){
+      data.addAll({
+        'variant_key': cart.variantKey,
+        'digital_variation_price': cart.digitalVariantPrice
+      });
+    }
 
     try {
       final response = await dioClient!.post(AppConstants.addToCartUri, data: data);

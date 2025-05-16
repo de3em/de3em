@@ -1,3 +1,5 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
 class RefundResultModel {
   double? productPrice;
   int? quntity;
@@ -61,6 +63,7 @@ class RefundRequest {
   int? orderId;
   String? refundReason;
   List<String>? images;
+  List<ImageFullUrl>? imagesFullUrl;
   String? createdAt;
   String? updatedAt;
   String? approvedNote;
@@ -83,7 +86,8 @@ class RefundRequest {
         this.approvedNote,
         this.rejectedNote,
         this.paymentInfo,
-        this.changeBy});
+        this.changeBy,
+        this.imagesFullUrl});
 
   RefundRequest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -104,6 +108,13 @@ class RefundRequest {
     rejectedNote = json['rejected_note'];
     paymentInfo = json['payment_info'];
     changeBy = json['change_by'];
+    if (json['images_full_url'] != null) {
+      imagesFullUrl = <ImageFullUrl>[];
+      json['images_full_url'].forEach((v) {
+        imagesFullUrl!.add(ImageFullUrl.fromJson(v));
+      });
+    }
+
   }
 
   Map<String, dynamic> toJson() {

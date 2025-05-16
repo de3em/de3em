@@ -1,3 +1,5 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
 class ReviewModel {
   int? _id;
   int? _productId;
@@ -9,6 +11,8 @@ class ReviewModel {
   String? _createdAt;
   String? _updatedAt;
   Customer? _customer;
+  Reply? _reply;
+  List<ImageFullUrl>? _attachmentFullUrl;
 
   ReviewModel(
       {int? id,
@@ -20,7 +24,9 @@ class ReviewModel {
         int? status,
         String? createdAt,
         String? updatedAt,
-        Customer? customer}) {
+        Customer? customer,
+        Reply? reply,
+        List<ImageFullUrl>? attachmentFullUrl}) {
     _id = id;
     _productId = productId;
     _customerId = customerId;
@@ -31,6 +37,10 @@ class ReviewModel {
     _createdAt = createdAt;
     _updatedAt = updatedAt;
     _customer = customer;
+    _attachmentFullUrl = attachmentFullUrl;
+    if (reply != null) {
+      this._reply = reply;
+    }
   }
 
   int? get id => _id;
@@ -43,16 +53,17 @@ class ReviewModel {
   String? get createdAt => _createdAt;
   String? get updatedAt => _updatedAt;
   Customer? get customer => _customer;
+  Reply? get reply => _reply;
+  List<ImageFullUrl>? get attachmentFullUrl => _attachmentFullUrl;
 
   ReviewModel.fromJson(Map<String, dynamic> json) {
     _id = json['id'];
     _productId = int.parse(json['product_id'].toString());
     _customerId = int.parse(json['customer_id'].toString());
     _comment = json['comment'];
-    if(json['attachment'] != null){
+    if(json['attachment'] != null && json['attachment'] is List){
       _attachment = json['attachment'].cast<String>();
     }
-
     _rating = json['rating'];
     _status = json['status'];
     _createdAt = json['created_at'];
@@ -60,6 +71,13 @@ class ReviewModel {
     _customer = json['customer'] != null
         ? Customer.fromJson(json['customer'])
         : null;
+    _reply = json['reply'] != null ? new Reply.fromJson(json['reply']) : null;
+    if (json['attachment_full_url'] != null) {
+      _attachmentFullUrl = <ImageFullUrl>[];
+      json['attachment_full_url'].forEach((v) {
+        _attachmentFullUrl!.add(ImageFullUrl.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -77,6 +95,9 @@ class ReviewModel {
     data['updated_at'] = _updatedAt;
     if (_customer != null) {
       data['customer'] = _customer!.toJson();
+    }
+    if (this._reply != null) {
+      data['reply'] = this._reply!.toJson();
     }
     return data;
   }
@@ -99,6 +120,7 @@ class Customer {
   String? _zip;
   String? _houseNo;
   String? _apartmentNo;
+  ImageFullUrl? _imageFullUrl;
 
   Customer(
       {int? id,
@@ -116,7 +138,8 @@ class Customer {
         String? city,
         String? zip,
         String? houseNo,
-        String? apartmentNo}) {
+        String? apartmentNo,
+        ImageFullUrl? imageFullUrl}) {
     _id = id;
     _name = name;
     _fName = fName;
@@ -133,6 +156,7 @@ class Customer {
     _zip = zip;
     _houseNo = houseNo;
     _apartmentNo = apartmentNo;
+    _imageFullUrl = imageFullUrl;
   }
 
   int? get id => _id;
@@ -151,6 +175,7 @@ class Customer {
   String? get zip => _zip;
   String? get houseNo => _houseNo;
   String? get apartmentNo => _apartmentNo;
+  ImageFullUrl? get imageFullUrl => _imageFullUrl;
 
   Customer.fromJson(Map<String, dynamic> json) {
     _id = json['id'];
@@ -169,6 +194,9 @@ class Customer {
     _zip = json['zip'];
     _houseNo = json['house_no'];
     _apartmentNo = json['apartment_no'];
+    _imageFullUrl = json['image_full_url'] != null
+        ? ImageFullUrl.fromJson(json['image_full_url'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -189,6 +217,86 @@ class Customer {
     data['zip'] = _zip;
     data['house_no'] = _houseNo;
     data['apartment_no'] = _apartmentNo;
+    return data;
+  }
+}
+
+
+
+class Reply {
+  int? _id;
+  int? _reviewId;
+  int? _addedById;
+  String? _addedBy;
+  String? _replyText;
+  String? _createdAt;
+  String? _updatedAt;
+
+  Reply(
+      {int? id,
+        int? reviewId,
+        int? addedById,
+        String? addedBy,
+        String? replyText,
+        String? createdAt,
+        String? updatedAt}) {
+    if (id != null) {
+      this._id = id;
+    }
+    if (reviewId != null) {
+      this._reviewId = reviewId;
+    }
+    if (addedById != null) {
+      this._addedById = addedById;
+    }
+    if (addedBy != null) {
+      this._addedBy = addedBy;
+    }
+    if (replyText != null) {
+      this._replyText = replyText;
+    }
+    if (createdAt != null) {
+      this._createdAt = createdAt;
+    }
+    if (updatedAt != null) {
+      this._updatedAt = updatedAt;
+    }
+  }
+
+  int? get id => _id;
+  set id(int? id) => _id = id;
+  int? get reviewId => _reviewId;
+  set reviewId(int? reviewId) => _reviewId = reviewId;
+  int? get addedById => _addedById;
+  set addedById(int? addedById) => _addedById = addedById;
+  String? get addedBy => _addedBy;
+  set addedBy(String? addedBy) => _addedBy = addedBy;
+  String? get replyText => _replyText;
+  set replyText(String? replyText) => _replyText = replyText;
+  String? get createdAt => _createdAt;
+  set createdAt(String? createdAt) => _createdAt = createdAt;
+  String? get updatedAt => _updatedAt;
+  set updatedAt(String? updatedAt) => _updatedAt = updatedAt;
+
+  Reply.fromJson(Map<String, dynamic> json) {
+    _id = json['id'];
+    _reviewId = json['review_id'];
+    _addedById = json['added_by_id'];
+    _addedBy = json['added_by'];
+    _replyText = json['reply_text'];
+    _createdAt = json['created_at'];
+    _updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this._id;
+    data['review_id'] = this._reviewId;
+    data['added_by_id'] = this._addedById;
+    data['added_by'] = this._addedBy;
+    data['reply_text'] = this._replyText;
+    data['created_at'] = this._createdAt;
+    data['updated_at'] = this._updatedAt;
     return data;
   }
 }

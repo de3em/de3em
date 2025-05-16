@@ -11,15 +11,28 @@ class SellerProductController extends ChangeNotifier {
 
 
   ProductModel? sellerProduct;
-  Future <ApiResponse> getSellerProductList(String sellerId, int offset, String productId,
-      {bool reload = true, String search = '', String? categoryIds = '[]', String? brandIds = '[]' }) async {
-    ApiResponse apiResponse = await sellerProductServiceInterface!.getSellerProductList(sellerId, offset.toString(), productId, categoryIds : categoryIds, brandIds: brandIds, search: search);
+
+  Future <ApiResponse> getSellerProductList(String sellerId, int offset, String productId, {
+    bool reload = true,
+    String search = '',
+    String? categoryIds = '[]',
+    String? brandIds = '[]'
+  }) async {
+
+    // if(reload) {
+    //   sellerProduct = null;
+    // }
+
+    ApiResponse apiResponse = await sellerProductServiceInterface!.getSellerProductList(
+      sellerId, offset.toString(),
+      productId, categoryIds : categoryIds,
+      brandIds: brandIds, search: search,
+    );
+
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
       if(offset == 1){
-        sellerProduct = null;
-        if(ProductModel.fromJson(apiResponse.response!.data).products != null){
-          sellerProduct = (ProductModel.fromJson(apiResponse.response!.data));
-        }
+        sellerProduct = ProductModel.fromJson(apiResponse.response!.data);
+
       }else{
         sellerProduct?.products?.addAll(ProductModel.fromJson(apiResponse.response!.data).products!);
         sellerProduct?.offset = (ProductModel.fromJson(apiResponse.response!.data).offset!);
@@ -109,7 +122,6 @@ class SellerProductController extends ChangeNotifier {
   void clearSellerProducts() {
     sellerWiseFeaturedProduct = null;
     sellerWiseRecommandedProduct = null;
-    sellerProduct = null;
   }
 
 }

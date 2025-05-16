@@ -31,13 +31,23 @@ class SplashController extends ChangeNotifier {
   bool get firstTimeConnectionCheck => _firstTimeConnectionCheck;
 
   Future<bool> initConfig(BuildContext context) async {
+    // final ThemeController themeController = Provider.of<ThemeController>(context, listen: false);
+
     _hasConnection = true;
     ApiResponse apiResponse = await splashServiceInterface!.getConfig();
     bool isSuccess;
     if (apiResponse.response != null && apiResponse.response!.statusCode == 200) {
+
       _configModel = ConfigModel.fromJson(apiResponse.response!.data);
       _baseUrls = ConfigModel.fromJson(apiResponse.response!.data).baseUrls;
       String? currencyCode = splashServiceInterface!.getCurrency();
+
+      // themeController.setThemeColor(
+      //   primaryColor: ColorHelper.hexCodeToColor(_configModel?.primaryColorCode),
+      //   secondaryColor: ColorHelper.hexCodeToColor(_configModel?.secondaryColorCode),
+      // );
+
+
       for(CurrencyList currencyList in _configModel!.currencyList!) {
         if(currencyList.id == _configModel!.systemDefaultCurrency) {
           if(currencyCode == null || currencyCode.isEmpty) {
@@ -59,6 +69,7 @@ class SplashController extends ChangeNotifier {
       }
     }
     notifyListeners();
+
     return isSuccess;
   }
 

@@ -16,7 +16,6 @@ class ShopAgainFromRecentStoreListWidget extends StatelessWidget {
       body: Consumer<SellerProductController>(
           builder: (context, shopAgainProvider,_) {
             return ListView.builder(
-                shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemCount: shopAgainProvider.shopAgainFromRecentStoreList.length,
                 itemBuilder: (context, index) {

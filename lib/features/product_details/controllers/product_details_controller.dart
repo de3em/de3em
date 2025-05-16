@@ -16,12 +16,14 @@ class ProductDetailsController extends ChangeNotifier {
 
 
   int? _imageSliderIndex;
-  int? _quantity = 1;
+  int? _quantity = 0;
   int? _variantIndex;
   List<int>? _variationIndex;
   int? _orderCount;
   int? _wishCount;
   String? _sharableLink;
+  int? _digitalVariationIndex = 0;
+  int? _digitalVariationSubindex = 0;
 
   bool _isDetails = false;
   bool get isDetails =>_isDetails;
@@ -34,6 +36,8 @@ class ProductDetailsController extends ChangeNotifier {
   String? get sharableLink => _sharableLink;
   ProductDetailsModel? _productDetailsModel;
   ProductDetailsModel? get productDetailsModel => _productDetailsModel;
+  int? get digitalVariationIndex => _digitalVariationIndex;
+  int? get digitalVariationSubindex => _digitalVariationSubindex;
 
 
 
@@ -47,9 +51,8 @@ class ProductDetailsController extends ChangeNotifier {
       if(_productDetailsModel != null){
         log("=====slug===>$slug/ $productId");
         Provider.of<SellerProductController>(Get.context!, listen: false).
-        getSellerProductList(productDetailsModel!.userId.toString(), 1, productId);
+        getSellerProductList(_productDetailsModel?.addedBy == 'admin' ? '0' : productDetailsModel!.userId.toString(), 1, productId, reload: true);
       }
-
     } else {
       _isDetails = false;
       showCustomSnackBar(apiResponse.error.toString(), Get.context!);
@@ -71,9 +74,13 @@ class ProductDetailsController extends ChangeNotifier {
   }
 
   bool isReviewSelected = false;
-  void selectReviewSection(bool review){
+  void selectReviewSection(bool review, {bool isUpdate = true}){
     isReviewSelected = review;
-    notifyListeners();
+
+    if(isUpdate) {
+      notifyListeners();
+
+    }
   }
 
 
@@ -136,4 +143,17 @@ class ProductDetailsController extends ChangeNotifier {
 
     return regex.hasMatch(url);
   }
+
+  void setDigitalVariationIndex(int? minimumOrderQuantity, int index, int subIndex, BuildContext context) {
+    _quantity = minimumOrderQuantity;
+    _digitalVariationIndex = index;
+    _digitalVariationSubindex = subIndex;
+    notifyListeners();
+  }
+
+  void initDigitalVariationIndex() {
+    _digitalVariationIndex = 0;
+    _digitalVariationSubindex = 0;
+  }
+
 }

@@ -21,6 +21,61 @@ class OrderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double orderAmount = 0;
+
+    if(orderModel?.orderType == 'POS') {
+      double itemsPrice = 0;
+      double discount = 0;
+      double? eeDiscount = 0;
+      double tax = 0;
+      double coupon = 0;
+      double shipping = 0;
+      if (orderModel?.details != null && orderModel!.details!.isNotEmpty ) {
+        coupon = orderModel?.discountAmount ?? 0;
+        shipping = orderModel?.shippingCost ?? 0;
+        for (var orderDetails in orderModel!.details!) {
+          itemsPrice = itemsPrice + (orderDetails.price! * orderDetails.qty!);
+          discount = discount + orderDetails.discount!;
+          tax = tax + orderDetails.tax!;
+
+        }
+        if(orderModel!.orderType == 'POS'){
+          if(orderModel!.extraDiscountType == 'percent'){
+            eeDiscount = itemsPrice * (orderModel!.extraDiscount!/100);
+          }else{
+            eeDiscount = orderModel!.extraDiscount;
+          }
+        }
+      }
+      double subTotal = itemsPrice +tax - discount;
+
+      orderAmount = subTotal + shipping - coupon - eeDiscount!;
+
+
+
+
+      // double ? _extraDiscountAnount = 0;
+      // if(orderModel.extraDiscount != null){
+      //   _extraDiscountAnount = PriceConverter.convertWithDiscount(context, orderModel.totalProductPrice, orderModel.extraDiscount, orderModel.extraDiscountType == 'percent' ? 'percent' : 'amount' );
+      //   if(_extraDiscountAnount != null) {
+      //     double percentAmount = _extraDiscountAnount!;
+      //     _extraDiscountAnount = orderModel.totalProductPrice! - percentAmount;
+      //   }
+      // }
+      //
+      // double totalDiscount = (_extraDiscountAnount! + orderModel.totalProductDiscount!);
+      // double totalOrderAmount = (orderModel.totalProductPrice! + orderModel.totalTaxAmount!);
+      //
+      // orderAmount = totalOrderAmount - totalDiscount;
+      //
+      // orderAmount = orderModel.orderAmount! - orderModel.totalTaxAmount!;
+
+
+    }
+
+
+
     return InkWell(onTap: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => OrderDetailsScreen(orderId: orderModel!.id)));},
 
       child: Stack(children: [
@@ -44,7 +99,7 @@ class OrderWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                         child: CustomImageWidget(
                           placeholder: Images.placeholder, fit: BoxFit.scaleDown, width: 70, height: 70,
-                          image: '${Provider.of<SplashController>(context, listen: false).configModel?.baseUrls?.shopImageUrl}/${orderModel?.seller?.shop?.image}',
+                          image: orderModel?.sellerIs == 'admin' ? Provider.of<SplashController>(context, listen: false).configModel!.companyFavIcon?.path ?? '' : '${orderModel?.seller?.shop?.imageFullUrl?.path}',
                           )),),]),),
                 const SizedBox(width: Dimensions.paddingSizeLarge),
 
@@ -61,7 +116,7 @@ class OrderWidget extends StatelessWidget {
                         style: textMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor)),
                     const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                    Text(PriceConverter.convertPrice(context, orderModel!.orderAmount),
+                    Text(PriceConverter.convertPrice(context, orderModel!.orderType == 'POS' ? orderAmount : orderModel!.orderAmount),
                       style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault, color: ColorResources.getPrimary(context)),),])),
 
 
@@ -89,9 +144,17 @@ class OrderWidget extends StatelessWidget {
             ),
           ),
 
-          Positioned(top: 2, left: Provider.of<LocalizationController>(context, listen: false).isLtr? 90 : MediaQuery.of(context).size.width-50, child: Container(padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle),
-              child: Text("${orderModel?.orderDetailsCount}", style: textRegular.copyWith(color: Colors.white)))),
+        Positioned(top: 2, left: Provider.of<LocalizationController>(context, listen: false).isLtr? 90 : MediaQuery.of(context).size.width-50, child: Container(
+          height: 22,
+          width: 22,
+          padding: const EdgeInsets.all(3),
+          decoration: BoxDecoration(color: Theme.of(context).primaryColor, shape: BoxShape.circle),
+          child: FittedBox(child: Text(
+            "${orderModel?.orderDetailsCount}",
+            style: textRegular.copyWith(color: Colors.white),
+            textAlign: TextAlign.center,
+          )),
+        )),
         ],
       ),
     );

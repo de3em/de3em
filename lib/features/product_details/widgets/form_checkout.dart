@@ -394,7 +394,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               child: Text(widget.belowTextField ?? "",
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: widget.belowTextField ==
-                                'Invalid Key please enter the right key or contanct Amine'
+                                'Invalid Key please enter the right key or contanct us'
                             ? Colors.red
                             : Theme.of(context)
                                 .colorScheme

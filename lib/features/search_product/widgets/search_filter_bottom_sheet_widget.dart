@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:da3em/common/basewidget/custom_directionality_widget.dart';
 import 'package:da3em/features/brand/domain/models/brand_model.dart';
 import 'package:da3em/features/category/domain/models/category_model.dart';
 import 'package:da3em/helper/price_converter.dart';
@@ -60,10 +61,14 @@ class SearchFilterBottomSheetState extends State<SearchFilterBottomSheet> {
                           style: titilliumSemiBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
 
                         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                          Text("${PriceConverter.convertPrice(context, currentRangeValues.start)} - ",
-                            style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault),),
-                          Text(PriceConverter.convertPrice(context, currentRangeValues.end),
-                              style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault)),
+                          CustomDirectionalityWidget(child: Text(PriceConverter.convertPrice(context, currentRangeValues.start), style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault),)),
+                          
+                          Text(' - ', style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault),),
+
+                          CustomDirectionalityWidget(
+                            child: Text(PriceConverter.convertPrice(context, currentRangeValues.end),
+                                style: textBold.copyWith(fontSize: Dimensions.fontSizeDefault)),
+                          ),
                         ],),
 
                         Padding(padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeLarge),
@@ -100,63 +105,60 @@ class SearchFilterBottomSheetState extends State<SearchFilterBottomSheet> {
 
 
 
-                        Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                          child: Row(children: [
-                              Padding(padding: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
-                                child: SizedBox(width: 120,
-                                    child: CustomButton(backgroundColor: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(.5),
-                                        textColor: Provider.of<ThemeController>(context, listen: false).darkTheme? Colors.white : Theme.of(context).primaryColor,
-                                        radius: 8,
-                                        buttonText: getTranslated('clear', context),
-                                        onTap: () {
-                                      Provider.of<SearchProductController>(context, listen: false).setFilterIndex(0);
-                                      Navigator.of(context).pop();
-                                    }
-                                    )),
-                              ),
+                      Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                        child: Row(children: [
+                          SizedBox(width: 120, child: CustomButton(backgroundColor: Theme.of(context).colorScheme.tertiaryContainer.withOpacity(.5),
+                              textColor: Provider.of<ThemeController>(context, listen: false).darkTheme? Colors.white : Theme.of(context).primaryColor,
+                              radius: 8,
+                              buttonText: getTranslated('clear', context),
+                              onTap: () {
+                                searchProvider.setFilterIndex(0);
+                                searchProvider.setFilterApply(isSorted: false);
 
-                              Expanded(
-                                child: CustomButton(
-                                  radius: 8,
-                                  buttonText: getTranslated('apply', context),
-                                  onTap: () {
-                                    searchProvider.setFilterApply();
-                                    List<int> selectedBrandIdsList =[];
-                                    List<int> selectedCategoryIdsList =[];
+                                Navigator.of(context).pop();
+                              }
+                          )),
+                          const SizedBox(width: Dimensions.paddingSizeSmall),
 
-                                    for(CategoryModel category in categoryProvider.categoryList){
-                                      if(category.isSelected!){
-                                        selectedCategoryIdsList.add(category.id!);
-                                      }
-                                    }
-                                    for(CategoryModel category in categoryProvider.categoryList){
-                                      if(category.isSelected!){
-                                        if(category.subCategories != null){
-                                          for(int i=0; i< category.subCategories!.length; i++){
-                                            selectedCategoryIdsList.add(category.subCategories![i].id!);
-                                          }
-                                        }
+                          Expanded(child: CustomButton(
+                            radius: 8,
+                            buttonText: getTranslated('apply', context),
+                            onTap: () {
+                              searchProvider.setFilterApply(isSorted: true);
+                              List<int> selectedBrandIdsList =[];
+                              List<int> selectedCategoryIdsList =[];
 
-                                      }
+                              for(CategoryModel category in categoryProvider.categoryList){
+                                if(category.isSelected!){
+                                  selectedCategoryIdsList.add(category.id!);
+                                }
+                              }
+                              for(CategoryModel category in categoryProvider.categoryList){
+                                if(category.isSelected!){
+                                  if(category.subCategories != null){
+                                    for(int i=0; i< category.subCategories!.length; i++){
+                                      selectedCategoryIdsList.add(category.subCategories![i].id!);
                                     }
-                                    for(BrandModel brand in brandProvider.brandList){
-                                      if(brand.checked!){
-                                        selectedBrandIdsList.add(brand.id!);
-                                      }
-                                    }
+                                  }
 
-                                    String selectedCategoryId = selectedCategoryIdsList.isNotEmpty? jsonEncode(selectedCategoryIdsList) : '[]';
-                                    String selectedBrandId = selectedBrandIdsList.isNotEmpty? jsonEncode(selectedBrandIdsList) : '[]';
-                                    searchProvider.searchProduct(query : searchProvider.searchController.text.toString(),
-                                        offset: 1, brandIds: selectedBrandId, categoryIds: selectedCategoryId, sort: searchProvider.sortText,
-                                        priceMin: currentRangeValues.start.toString(), priceMax: currentRangeValues.end.toString());
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                                }
+                              }
+                              for(BrandModel brand in brandProvider.brandList){
+                                if(brand.checked!){
+                                  selectedBrandIdsList.add(brand.id!);
+                                }
+                              }
+
+                              String selectedCategoryId = selectedCategoryIdsList.isNotEmpty? jsonEncode(selectedCategoryIdsList) : '[]';
+                              String selectedBrandId = selectedBrandIdsList.isNotEmpty? jsonEncode(selectedBrandIdsList) : '[]';
+                              searchProvider.searchProduct(query : searchProvider.searchController.text.toString(),
+                                  offset: 1, brandIds: selectedBrandId, categoryIds: selectedCategoryId, sort: searchProvider.sortText,
+                                  priceMin: currentRangeValues.start.toString(), priceMax: currentRangeValues.end.toString());
+                              Navigator.pop(context);
+                            },
+                          )),
+                        ]),
+                      ),
                       ],
                     );
                   }

@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:da3em/data/datasource/remote/dio/dio_client.dart';
 import 'package:da3em/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:da3em/features/chat/domain/models/message_body.dart';
@@ -66,7 +67,7 @@ class ChatRepository implements ChatRepositoryInterface {
 
 
   @override
-  Future<http.StreamedResponse> sendMessage(MessageBody messageBody, String type, List<XFile?> file) async {
+  Future<http.StreamedResponse> sendMessage(MessageBody messageBody, String type, List<XFile?> file, List<PlatformFile>? platformFile) async {
     http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse('${AppConstants.baseUrl}${AppConstants.sendMessageUri}$type'));
     request.headers.addAll(<String,String>{'Authorization': 'Bearer ${Provider.of<AuthController>(Get.context!, listen: false).getUserToken()}'});
     for(int i=0; i<file.length;i++){
@@ -74,6 +75,15 @@ class ChatRepository implements ChatRepositoryInterface {
       var part = http.MultipartFile('image[]', file[i]!.readAsBytes().asStream(), list.length, filename: basename(file[i]!.path), contentType: MediaType('image', 'jpg'));
       request.files.add(part);
     }
+
+    if(platformFile != null ) {
+      if(platformFile.isNotEmpty) {
+        for(PlatformFile pfile in platformFile) {
+          request.files.add(http.MultipartFile('file[]', pfile.readStream!, pfile.size, filename: basename(pfile.name)));
+        }
+      }
+    }
+
     Map<String, String> fields = {};
     request.fields.addAll(<String, String>{'id': messageBody.id.toString(), 'message': messageBody.message??''});
     request.fields.addAll(fields);

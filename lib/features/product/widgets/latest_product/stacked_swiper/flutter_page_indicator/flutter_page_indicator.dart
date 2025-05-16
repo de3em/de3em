@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import '../transformer_page_view/transformer_page_view.dart';
 
 class WarmPainter extends BasePainter {
-  WarmPainter(PageIndicator widget, double page, int index, Paint paint)
-      : super(widget, page, index, paint);
+  WarmPainter(super.widget, super.page, super.index, super.paint);
 
   @override
   void draw(Canvas canvas, double space, double size, double radius) {
@@ -36,8 +35,7 @@ class WarmPainter extends BasePainter {
 }
 
 class DropPainter extends BasePainter {
-  DropPainter(PageIndicator widget, double page, int index, Paint paint)
-      : super(widget, page, index, paint);
+  DropPainter(super.widget, super.page, super.index, super.paint);
 
   @override
   void draw(Canvas canvas, double space, double size, double radius) {
@@ -57,8 +55,7 @@ class DropPainter extends BasePainter {
 }
 
 class NonePainter extends BasePainter {
-  NonePainter(PageIndicator widget, double page, int index, Paint paint)
-      : super(widget, page, index, paint);
+  NonePainter(super.widget, super.page, super.index, super.paint);
 
   @override
   void draw(Canvas canvas, double space, double size, double radius) {
@@ -77,8 +74,7 @@ class NonePainter extends BasePainter {
 }
 
 class SlidePainter extends BasePainter {
-  SlidePainter(PageIndicator widget, double page, int index, Paint paint)
-      : super(widget, page, index, paint);
+  SlidePainter(super.widget, super.page, super.index, super.paint);
 
   @override
   void draw(Canvas canvas, double space, double size, double radius) {
@@ -88,8 +84,7 @@ class SlidePainter extends BasePainter {
 }
 
 class ScalePainter extends BasePainter {
-  ScalePainter(PageIndicator widget, double page, int index, Paint paint)
-      : super(widget, page, index, paint);
+  ScalePainter(super.widget, super.page, super.index, super.paint);
 
   @override
   bool _shouldSkip(int index) {
@@ -137,8 +132,7 @@ class ScalePainter extends BasePainter {
 }
 
 class ColorPainter extends BasePainter {
-  ColorPainter(PageIndicator widget, double page, int index, Paint paint)
-      : super(widget, page, index, paint);
+  ColorPainter(super.widget, super.page, super.index, super.paint);
 
   @override
   bool _shouldSkip(int index) {
@@ -308,7 +302,7 @@ enum PageIndicatorLayout {
 
 class PageIndicator extends StatefulWidget {
   const PageIndicator({
-    Key? key,
+    super.key,
     this.size = 20.0,
     this.space = 5.0,
     required this.count,
@@ -319,7 +313,7 @@ class PageIndicator extends StatefulWidget {
     this.activeColor = Colors.white,
     this.scale = 0.6,
     this.dropHeight = 20.0,
-  }) : super(key: key);
+  });
 
   /// size of the dots
   final double size;

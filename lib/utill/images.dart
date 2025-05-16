@@ -1,5 +1,8 @@
 
 class Images {
+
+  static const String logo_white = 'assets/images/logo_white.png';
+
   static const String splashLogo = 'assets/images/logo_splash.png';
   static const String moreFilledImage = 'assets/images/more_filled.png';
   static const String cartArrowDownImage = 'assets/images/cart_arrow_down.png';
@@ -7,7 +10,7 @@ class Images {
   static const String homeImage = 'assets/images/home.png';
   static const String officeImage = 'assets/images/office.png';
   static const String logoImage = 'assets/images/logo.png';
-  static const String logoWithNameImage = 'assets/logo_full.webp';
+  static const String logoWithNameImage = 'assets/images/logo_with_name.png';
   static const String logoWithNameImageWhite = 'assets/images/logo_with_name_white.png';
   static const String messageImage = 'assets/images/inbox.png';
   static const String moreImage = 'assets/images/more.png';
@@ -15,7 +18,7 @@ class Images {
   static const String wishImage = 'assets/images/wish.png';
   static const String background = 'assets/images/background.jpg';
   static const String couponBannerImage = 'assets/images/coupon_banner.png';
-  static const String chatImage = 'assets/images/chat.png';
+  static const String chatImage = 'assets/images/chat2.png';
   static const String filterImage = 'assets/images/filter.png';
   static const String fastDelivery = 'assets/images/fast_delivery.png';
   static const String delivery = 'assets/images/delivery.png';
@@ -187,7 +190,13 @@ class Images {
   static const String warning = 'assets/images/warning.png';
   static const String bgLatest = 'assets/images/bg_l.png';
   static const String shippingMethodIcon = 'assets/images/shipping_method_icon.png';
-
+  static const String file = 'assets/images/file_icon.png';
+  static const String fileIcon = 'assets/images/file.png';
+  static const String myReviewIcon = 'assets/images/my_review_icon.png';
+  static const String sellerReplyIcon = 'assets/images/seller_reply_icon.png';
+  static const String addressInfoIcon = 'assets/images/address_info.png';
+  static const String downloadIcon = 'assets/images/download_icon.png';
+  static const String update = 'assets/images/update.png';
 
   static const String onBoarding1 = 'assets/images/onboarding_image_one.png';
   static const String onBoarding2 = 'assets/images/onboarding_image_two.png';

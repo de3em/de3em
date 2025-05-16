@@ -17,7 +17,8 @@ import 'package:provider/provider.dart';
 class CouponItemWidget extends StatefulWidget {
   final Coupons coupons;
   final bool fromCheckout;
-  const CouponItemWidget({super.key, required this.coupons,  this.fromCheckout = false});
+  final Function(String?)? onCopy;
+  const CouponItemWidget({super.key, required this.coupons,  this.fromCheckout = false, this.onCopy});
 
   @override
   State<CouponItemWidget> createState() => _CouponItemWidgetState();
@@ -124,6 +125,10 @@ class _CouponItemWidgetState extends State<CouponItemWidget> {
              child: InkWell(
                onTap: () async {
                  tooltipController.showTooltip();
+                 if(widget.onCopy != null) {
+                   widget.onCopy!(widget.coupons.code);
+
+                 }
                  await Clipboard.setData(ClipboardData(text: widget.coupons.code??''));
                },
                child: Padding(padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),

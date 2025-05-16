@@ -4,7 +4,6 @@ library transformer_page_view;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'index_controller.dart';
 
@@ -91,8 +90,7 @@ typedef PageTransformerBuilderCallback = Widget Function(
 );
 
 class PageTransformerBuilder extends PageTransformer {
-  PageTransformerBuilder({bool reverse = false, required this.builder})
-      : super(reverse: reverse);
+  PageTransformerBuilder({super.reverse, required this.builder});
 
   final PageTransformerBuilderCallback builder;
 
@@ -105,16 +103,14 @@ class PageTransformerBuilder extends PageTransformer {
 class TransformerPageController extends PageController {
   TransformerPageController({
     int initialPage = 0,
-    bool keepPage = true,
-    double viewportFraction = 1.0,
+    super.keepPage,
+    super.viewportFraction,
     this.loop = false,
     this.itemCount = 0,
     this.reverse = false,
   }) : super(
             initialPage: TransformerPageController._getRealIndexFromRenderIndex(
-                initialPage, loop, itemCount, reverse),
-            keepPage: keepPage,
-            viewportFraction: viewportFraction);
+                initialPage, loop, itemCount, reverse));
 
   final bool loop;
   final int itemCount;
@@ -213,7 +209,7 @@ class TransformerPageView extends StatefulWidget {
   /// [itemBuilder] will be called only with indices greater than or equal to
   /// zero and less than [itemCount].
   const TransformerPageView({
-    Key? key,
+    super.key,
     this.index,
     Duration? duration,
     this.curve = Curves.ease,
@@ -231,8 +227,7 @@ class TransformerPageView extends StatefulWidget {
     required this.itemCount,
   })  : assert(itemCount == 0 || itemBuilder != null || transformer != null),
         duration = duration ??
-            const Duration(milliseconds: kDefaultTransactionDuration),
-        super(key: key);
+            const Duration(milliseconds: kDefaultTransactionDuration);
 
   factory TransformerPageView.children({
     Key? key,
@@ -427,10 +422,9 @@ class _TransformerPageViewState extends State<TransformerPageView> {
   @override
   Widget build(BuildContext context) {
     final builder = _transformer == null ? _buildItemNormal : _buildItem;
-    print("====TransFormar=====>>>${_transformer}");
     final child = Container(
       color:  Colors.green,
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: PageView.builder(
         allowImplicitScrolling: widget.allowImplicitScrolling,
         itemBuilder: builder,

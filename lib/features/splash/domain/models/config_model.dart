@@ -1,3 +1,5 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
 class ConfigModel {
   String? brandSetting;
   String? digitalProductSetting;
@@ -8,8 +10,8 @@ class ConfigModel {
   String? posActive;
   String? companyPhone;
   String? companyEmail;
-  String? companyLogo;
-  String? companyCoverImage;
+  ImageFullUrl? companyLogo;
+  ImageFullUrl? companyCoverImage;
   String? companyIcon;
   String? companyName;
   int? deliveryCountryRestriction;
@@ -28,7 +30,7 @@ class ConfigModel {
   String? businessMode;
   bool? maintenanceMode;
   List<Language>? language;
-  List<Colors>? colors;
+  List<ColorsModel>? colors;
   List<String>? unit;
   String? shippingMethod;
   bool? emailVerification;
@@ -63,72 +65,81 @@ class ConfigModel {
   InhouseVacationAdd? inhouseVacationAdd;
   int? mapApiStatus;
   DefaultLocation? defaultLocation;
+  UserAppVersionControl? userAppVersionControl;
+  ImageFullUrl? companyFavIcon;
+  String? primaryColorCode;
+  String? secondaryColorCode;
 
   ConfigModel(
       {this.brandSetting,
-      this.digitalProductSetting,
-      this.systemDefaultCurrency,
-      this.digitalPayment,
-      this.cashOnDelivery,
-      this.sellerRegistration,
-      this.posActive,
-      this.companyPhone,
-      this.companyEmail,
-      this.companyLogo,
-      this.companyCoverImage,
-      this.companyIcon,
-      this.companyName,
-      this.deliveryCountryRestriction,
-      this.deliveryZipCodeAreaRestriction,
-      this.baseUrls,
-      this.staticUrls,
-      this.aboutUs,
-      this.privacyPolicy,
-      this.faq,
-      this.termsConditions,
-      this.refundPolicy,
-      this.returnPolicy,
-      this.cancellationPolicy,
-      this.currencyList,
-      this.currencySymbolPosition,
-      this.businessMode,
-      this.maintenanceMode,
-      this.language,
-      this.colors,
-      this.unit,
-      this.shippingMethod,
-      this.emailVerification,
-      this.phoneVerification,
-      this.countryCode,
-      this.socialLogin,
-      this.currencyModel,
-      this.forgotPasswordVerification,
-      this.announcement,
-      this.softwareVersion,
-      this.decimalPointSettings,
-      this.inhouseSelectedShippingType,
-      this.billingInputByCustomer,
-      this.minimumOrderLimit,
-      this.walletStatus,
-      this.loyaltyPointStatus,
-      this.loyaltyPointExchangeRate,
-      this.loyaltyPointMinimumPoint,
-      this.paymentMethods,
-      this.offlinePayment,
-      this.paymentMethodImagePath,
-      this.refEarningStatus,
-      this.activeTheme,
-      this.popularTags,
-      this.guestCheckOut,
-      this.addFundsToWallet,
-      this.minimumAddFundAmount,
-      this.maximumAddFundAmount,
-      this.refSignup,
-      this.orderVerification,
-      this.inhouseTemporaryClose,
-      this.inhouseVacationAdd,
-      this.mapApiStatus,
-      this.defaultLocation});
+        this.digitalProductSetting,
+        this.systemDefaultCurrency,
+        this.digitalPayment,
+        this.cashOnDelivery,
+        this.sellerRegistration,
+        this.posActive,
+        this.companyPhone,
+        this.companyEmail,
+        this.companyLogo,
+        this.companyCoverImage,
+        this.companyIcon,
+        this.companyName,
+        this.deliveryCountryRestriction,
+        this.deliveryZipCodeAreaRestriction,
+        this.baseUrls,
+        this.staticUrls,
+        this.aboutUs,
+        this.privacyPolicy,
+        this.faq,
+        this.termsConditions,
+        this.refundPolicy,
+        this.returnPolicy,
+        this.cancellationPolicy,
+        this.currencyList,
+        this.currencySymbolPosition,
+        this.businessMode,
+        this.maintenanceMode,
+        this.language,
+        this.colors,
+        this.unit,
+        this.shippingMethod,
+        this.emailVerification,
+        this.phoneVerification,
+        this.countryCode,
+        this.socialLogin,
+        this.currencyModel,
+        this.forgotPasswordVerification,
+        this.announcement,
+        this.softwareVersion,
+        this.decimalPointSettings,
+        this.inhouseSelectedShippingType,
+        this.billingInputByCustomer,
+        this.minimumOrderLimit,
+        this.walletStatus,
+        this.loyaltyPointStatus,
+        this.loyaltyPointExchangeRate,
+        this.loyaltyPointMinimumPoint,
+        this.paymentMethods,
+        this.offlinePayment,
+        this.paymentMethodImagePath,
+        this.refEarningStatus,
+        this.activeTheme,
+        this.popularTags,
+        this.guestCheckOut,
+        this.addFundsToWallet,
+        this.minimumAddFundAmount,
+        this.maximumAddFundAmount,
+        this.refSignup,
+        this.orderVerification,
+        this.inhouseTemporaryClose,
+        this.inhouseVacationAdd,
+        this.mapApiStatus,
+        this.defaultLocation,
+        this.userAppVersionControl,
+        this.companyFavIcon,
+        this.primaryColorCode,
+        this.secondaryColorCode,
+      });
 
   ConfigModel.fromJson(Map<String, dynamic> json) {
     brandSetting = json['brand_setting'];
@@ -140,28 +151,28 @@ class ConfigModel {
     posActive = json['pos_active'];
     companyPhone = json['company_phone'].toString();
     companyEmail = json['company_email'];
-    companyLogo = json['company_logo']?['path'];
-    companyCoverImage = json['company_cover_image']['path'];
-    companyIcon = json['company_fav_icon']['path'];
+    companyLogo = json['company_cover_image'] != null
+      ? ImageFullUrl.fromJson(json['company_cover_image'])
+      : null;
+    companyCoverImage = json['company_logo'] != null
+        ? ImageFullUrl.fromJson(json['company_logo'])
+        : null;
+    // companyIcon = json['company_fav_icon'];
     companyName = json['company_name'];
-    if (json['delivery_country_restriction'] != null) {
+    if(json['delivery_country_restriction'] != null){
       deliveryCountryRestriction = json['delivery_country_restriction'];
-    } else {
+    }else{
       deliveryCountryRestriction = 0;
     }
 
-    if (json['delivery_zip_code_area_restriction'] != null) {
-      deliveryZipCodeAreaRestriction =
-          json['delivery_zip_code_area_restriction'];
-    } else {
+    if(json['delivery_zip_code_area_restriction'] != null){
+      deliveryZipCodeAreaRestriction = json['delivery_zip_code_area_restriction'];
+    }else{
       deliveryZipCodeAreaRestriction = 0;
     }
 
-    baseUrls =
-        json['base_urls'] != null ? BaseUrls.fromJson(json['base_urls']) : null;
-    staticUrls = json['static_urls'] != null
-        ? StaticUrls.fromJson(json['static_urls'])
-        : null;
+    baseUrls = json['base_urls'] != null ? BaseUrls.fromJson(json['base_urls']) : null;
+    staticUrls = json['static_urls'] != null ? StaticUrls.fromJson(json['static_urls']) : null;
     aboutUs = json['about_us'];
     privacyPolicy = json['privacy_policy'];
     if (json['faq'] != null) {
@@ -171,15 +182,9 @@ class ConfigModel {
       });
     }
     termsConditions = json['terms_&_conditions'];
-    refundPolicy = json['refund_policy'] != null
-        ? RefundPolicy.fromJson(json['refund_policy'])
-        : null;
-    returnPolicy = json['return_policy'] != null
-        ? RefundPolicy.fromJson(json['return_policy'])
-        : null;
-    cancellationPolicy = json['cancellation_policy'] != null
-        ? RefundPolicy.fromJson(json['cancellation_policy'])
-        : null;
+    refundPolicy = json['refund_policy'] != null ? RefundPolicy.fromJson(json['refund_policy']) : null;
+    returnPolicy = json['return_policy'] != null ? RefundPolicy.fromJson(json['return_policy']) : null;
+    cancellationPolicy = json['cancellation_policy'] != null ? RefundPolicy.fromJson(json['cancellation_policy']) : null;
     if (json['currency_list'] != null) {
       currencyList = <CurrencyList>[];
       json['currency_list'].forEach((v) {
@@ -196,9 +201,9 @@ class ConfigModel {
       });
     }
     if (json['colors'] != null) {
-      colors = <Colors>[];
+      colors = <ColorsModel>[];
       json['colors'].forEach((v) {
-        colors!.add(Colors.fromJson(v));
+        colors!.add(ColorsModel.fromJson(v));
       });
     }
     unit = json['unit'].cast<String>();
@@ -214,14 +219,11 @@ class ConfigModel {
     }
     currencyModel = json['currency_model'];
     forgotPasswordVerification = json['forgot_password_verification'];
-    announcement = json['announcement'] != null
-        ? Announcement.fromJson(json['announcement'])
-        : null;
+    announcement = json['announcement'] != null ? Announcement.fromJson(json['announcement']) : null;
     softwareVersion = json['software_version'];
-    if (json['decimal_point_settings'] != null) {
-      decimalPointSettings =
-          int.parse(json['decimal_point_settings'].toString());
-    } else {
+    if(json['decimal_point_settings'] != null){
+      decimalPointSettings = int.parse(json['decimal_point_settings'].toString());
+    }else{
       decimalPointSettings = 1;
     }
 
@@ -230,9 +232,9 @@ class ConfigModel {
     minimumOrderLimit = json['minimum_order_limit'];
     walletStatus = json['wallet_status'];
     loyaltyPointStatus = json['loyalty_point_status'];
-    if (json['loyalty_point_exchange_rate'] != null) {
-      loyaltyPointExchangeRate = json['loyalty_point_exchange_rate'].toDouble();
-    } else {
+    if(json['loyalty_point_exchange_rate'] != null){
+      loyaltyPointExchangeRate =  double.parse(json['loyalty_point_exchange_rate'].toString());
+    }else{
       loyaltyPointExchangeRate = 1;
     }
 
@@ -243,9 +245,7 @@ class ConfigModel {
         paymentMethods!.add(PaymentMethods.fromJson(v));
       });
     }
-    offlinePayment = json['offline_payment'] != null
-        ? OfflinePayment.fromJson(json['offline_payment'])
-        : null;
+    offlinePayment = json['offline_payment'] != null ? OfflinePayment.fromJson(json['offline_payment']) : null;
     paymentMethodImagePath = json['payment_method_image_path'];
     refEarningStatus = json['ref_earning_status'].toString();
     activeTheme = json['active_theme'];
@@ -255,35 +255,33 @@ class ConfigModel {
         popularTags!.add(PopularTags.fromJson(v));
       });
     }
-    if (json['guest_checkout'] != null) {
+    if(json['guest_checkout'] != null){
       guestCheckOut = int.parse(json['guest_checkout'].toString());
-    } else {
+    }else{
       guestCheckOut = 0;
     }
-    if (json['add_funds_to_wallet'] != null) {
+    if(json['add_funds_to_wallet'] != null){
       addFundsToWallet = int.parse(json['add_funds_to_wallet'].toString());
-    } else {
+    }else{
       addFundsToWallet = 0;
     }
-    if (json['minimum_add_fund_amount'] != null) {
-      minimumAddFundAmount =
-          double.parse(json['minimum_add_fund_amount'].toString());
-    } else {
+    if(json['minimum_add_fund_amount'] != null){
+      minimumAddFundAmount = double.parse(json['minimum_add_fund_amount'].toString());
+    }else{
       minimumAddFundAmount = 0;
     }
 
-    if (json['maximum_add_fund_amount'] != null) {
-      maximumAddFundAmount =
-          double.parse(json['maximum_add_fund_amount'].toString());
-    } else {
+    if(json['maximum_add_fund_amount'] != null){
+      maximumAddFundAmount = double.parse(json['maximum_add_fund_amount'].toString());
+    }else{
       maximumAddFundAmount = 0;
     }
     refSignup = json['referral_customer_signup_url'];
 
-    if (json['order_verification'] != null) {
-      try {
+    if(json['order_verification'] != null){
+      try{
         orderVerification = json['order_verification'];
-      } catch (e) {
+      }catch(e){
         orderVerification = int.parse(json['order_verification'].toString());
       }
     }
@@ -294,14 +292,24 @@ class ConfigModel {
     inhouseVacationAdd = json['inhouse_vacation_add'] != null
         ? InhouseVacationAdd.fromJson(json['inhouse_vacation_add'])
         : null;
-    mapApiStatus = json['map_api_status'] != null
-        ? int.parse(json['map_api_status'].toString())
-        : null;
+    mapApiStatus = json['map_api_status'] != null ? int.parse(json['map_api_status'].toString()) : null;
 
     defaultLocation = json['default_location'] != null
-        ? DefaultLocation.fromJson(json['default_location'])
-        : null;
+      ? DefaultLocation.fromJson(json['default_location'])
+      : null;
+
+    userAppVersionControl = json['user_app_version_control'] != null
+      ? UserAppVersionControl.fromJson(json['user_app_version_control'])
+      : null;
+
+    // companyFavIcon
+    companyFavIcon = json['company_fav_icon'] != null
+      ? ImageFullUrl.fromJson(json['company_fav_icon'])
+      : null;
+    primaryColorCode = json['primary_color'];
+    secondaryColorCode = json['secondary_color'];
   }
+
 }
 
 class BaseUrls {
@@ -320,17 +328,17 @@ class BaseUrls {
 
   BaseUrls(
       {this.productImageUrl,
-      this.productThumbnailUrl,
-      this.digitalProductUrl,
-      this.brandImageUrl,
-      this.customerImageUrl,
-      this.bannerImageUrl,
-      this.categoryImageUrl,
-      this.reviewImageUrl,
-      this.sellerImageUrl,
-      this.shopImageUrl,
-      this.notificationImageUrl,
-      this.deliveryManImageUrl});
+        this.productThumbnailUrl,
+        this.digitalProductUrl,
+        this.brandImageUrl,
+        this.customerImageUrl,
+        this.bannerImageUrl,
+        this.categoryImageUrl,
+        this.reviewImageUrl,
+        this.sellerImageUrl,
+        this.shopImageUrl,
+        this.notificationImageUrl,
+        this.deliveryManImageUrl});
 
   BaseUrls.fromJson(Map<String, dynamic> json) {
     productImageUrl = json['product_image_url'];
@@ -346,6 +354,7 @@ class BaseUrls {
     notificationImageUrl = json['notification_image_url'];
     deliveryManImageUrl = json['delivery_man_image_url'];
   }
+
 }
 
 class StaticUrls {
@@ -363,6 +372,8 @@ class StaticUrls {
     categories = json['categories'];
     customerAccount = json['customer_account'];
   }
+
+
 }
 
 class Faq {
@@ -376,12 +387,12 @@ class Faq {
 
   Faq(
       {this.id,
-      this.question,
-      this.answer,
-      this.ranking,
-      this.status,
-      this.createdAt,
-      this.updatedAt});
+        this.question,
+        this.answer,
+        this.ranking,
+        this.status,
+        this.createdAt,
+        this.updatedAt});
 
   Faq.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -392,6 +403,7 @@ class Faq {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
+
 }
 
 class RefundPolicy {
@@ -401,16 +413,17 @@ class RefundPolicy {
   RefundPolicy({this.status, this.content});
 
   RefundPolicy.fromJson(Map<String, dynamic> json) {
-    if (json['status'] != null) {
-      try {
+    if(json['status'] != null){
+      try{
         status = json['status'];
-      } catch (e) {
+      }catch(e){
         status = int.parse(json['status'].toString());
       }
     }
 
     content = json['content'];
   }
+
 }
 
 class CurrencyList {
@@ -418,31 +431,39 @@ class CurrencyList {
   String? name;
   String? symbol;
   String? code;
+  bool? status;
   double? exchangeRate;
   String? createdAt;
   String? updatedAt;
 
   CurrencyList(
       {this.id,
-      this.name,
-      this.symbol,
-      this.code,
-      this.exchangeRate,
-      this.createdAt,
-      this.updatedAt});
+        this.name,
+        this.symbol,
+        this.code,
+        this.status,
+        this.exchangeRate,
+        this.createdAt,
+        this.updatedAt});
 
   CurrencyList.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     symbol = json['symbol'];
     code = json['code'];
-    if (json['exchange_rate'] != null) {
-      exchangeRate = double.parse(json['exchange_rate'].toString());
+    status = json['status'];
+    if(json['exchange_rate'] != null){
+      try{
+        exchangeRate = json['exchange_rate'].toDouble();
+      }catch(e){
+        exchangeRate = double.parse(json['exchange_rate'].toString());
+      }
     }
 
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
+
 }
 
 class Language {
@@ -457,22 +478,23 @@ class Language {
   }
 }
 
-class Colors {
+class ColorsModel {
   int? id;
   String? name;
   String? code;
   String? createdAt;
   String? updatedAt;
 
-  Colors({this.id, this.name, this.code, this.createdAt, this.updatedAt});
+  ColorsModel({this.id, this.name, this.code, this.createdAt, this.updatedAt});
 
-  Colors.fromJson(Map<String, dynamic> json) {
+  ColorsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     code = json['code'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
+
 }
 
 class SocialLogin {
@@ -485,6 +507,7 @@ class SocialLogin {
     loginMedium = json['login_medium'];
     status = json['status'];
   }
+
 }
 
 class Announcement {
@@ -501,6 +524,7 @@ class Announcement {
     textColor = json['text_color'];
     announcement = json['announcement'];
   }
+
 }
 
 class PaymentMethods {
@@ -511,10 +535,9 @@ class PaymentMethods {
 
   PaymentMethods.fromJson(Map<String, dynamic> json) {
     keyName = json['key_name'];
-    additionalDatas = json['additional_datas'] != null
-        ? AdditionalDatas.fromJson(json['additional_datas'])
-        : null;
+    additionalDatas = json['additional_datas'] != null ? AdditionalDatas.fromJson(json['additional_datas']) : null;
   }
+
 }
 
 class AdditionalDatas {
@@ -527,6 +550,7 @@ class AdditionalDatas {
     gatewayTitle = json['gateway_title'];
     gatewayImage = json['gateway_image'];
   }
+
 }
 
 class OfflinePayment {
@@ -539,6 +563,7 @@ class OfflinePayment {
     name = json['name'];
     image = json['image'];
   }
+
 }
 
 class PopularTags {
@@ -547,7 +572,8 @@ class PopularTags {
   String? createdAt;
   String? updatedAt;
 
-  PopularTags({this.id, this.tag, this.createdAt, this.updatedAt});
+  PopularTags(
+      {this.id, this.tag,  this.createdAt, this.updatedAt});
 
   PopularTags.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -555,7 +581,9 @@ class PopularTags {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
+
 }
+
 
 class InhouseTemporaryClose {
   int? status;
@@ -574,17 +602,18 @@ class InhouseVacationAdd {
 
   InhouseVacationAdd(
       {this.status,
-      this.vacationStartDate,
-      this.vacationEndDate,
-      this.vacationNote});
+        this.vacationStartDate,
+        this.vacationEndDate,
+        this.vacationNote});
 
   InhouseVacationAdd.fromJson(Map<String, dynamic> json) {
-    status = json['status'] ?? 0;
+    status = json['status']??0;
     vacationStartDate = json['vacation_start_date'];
     vacationEndDate = json['vacation_end_date'];
     vacationNote = json['vacation_note'];
   }
 }
+
 
 class DefaultLocation {
   String? lat;
@@ -598,9 +627,59 @@ class DefaultLocation {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['lat'] = lat;
+    data['lng'] = lng;
+    return data;
+  }
+}
+
+
+class UserAppVersionControl {
+  ForAndroid? forAndroid;
+  ForAndroid? forIos;
+
+  UserAppVersionControl({this.forAndroid, this.forIos});
+
+  UserAppVersionControl.fromJson(Map<String, dynamic> json) {
+    forAndroid = json['for_android'] != null
+      ? ForAndroid.fromJson(json['for_android'])
+      : null;
+    forIos = json['for_ios'] != null
+      ? ForAndroid.fromJson(json['for_ios'])
+      : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data =  <String, dynamic>{};
+    if (forAndroid != null) {
+      data['for_android'] = forAndroid!.toJson();
+    }
+    if (forIos != null) {
+      data['for_ios'] = forIos!.toJson();
+    }
+    return data;
+  }
+}
+
+class ForAndroid {
+  int? status;
+  String? version;
+  String? link;
+
+  ForAndroid({this.status, this.version, this.link});
+
+  ForAndroid.fromJson(Map<String, dynamic> json) {
+    status = int.parse(json['status'].toString());
+    version = json['version'];
+    link = json['link'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['version'] = version;
+    data['link'] = link;
     return data;
   }
 }

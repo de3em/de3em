@@ -5,7 +5,6 @@ import 'package:da3em/features/product/screens/brand_and_category_product_screen
 import 'package:da3em/helper/responsive_helper.dart';
 import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/localization/controllers/localization_controller.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:da3em/theme/controllers/theme_controller.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
@@ -104,7 +103,7 @@ class FindWhatYouNeedView extends StatelessWidget {
                                                     borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                                                     border: Border.all(width: 0.50, color: Theme.of(context).primaryColor.withOpacity(0.125)),),
                                                   child: CustomImageWidget(fit: BoxFit.cover,
-                                                    image: '${Provider.of<SplashController>(context, listen: false).configModel?.baseUrls?.categoryImageUrl}/${productController.findWhatYouNeedModel!.findWhatYouNeed![index].childes?[subIndex].icon}',),),
+                                                    image: '${productController.findWhatYouNeedModel!.findWhatYouNeed![index].childes?[subIndex].iconFullUrl?.path}',),),
                                               ),
                                               const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 

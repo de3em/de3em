@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/common/basewidget/custom_app_bar_widget.dart';
+import 'package:da3em/utill/dimensions.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:url_launcher/url_launcher.dart';
 class SpecificationScreen extends StatelessWidget {
   final String specification;
   const SpecificationScreen({super.key, required this.specification});
@@ -11,15 +13,17 @@ class SpecificationScreen extends StatelessWidget {
 
 
     return Scaffold(
-      body: Column(children: [
-        CustomAppBar(title: getTranslated('specification', context)),
-        Expanded(child: SingleChildScrollView(child: Html(data: specification,
-          style: {"table": Style(backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee)),
-            "tr": Style(border: const Border(bottom: BorderSide(color: Colors.grey))),
-            "th": Style(padding:  HtmlPaddings.all(6), backgroundColor: Colors.grey),
-            "td": Style(padding: HtmlPaddings.all(6), alignment: Alignment.topLeft),
-          },),)),
-      ]),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+        child: Column(children: [
+          CustomAppBar(title: getTranslated('specification', context)),
+          Expanded(child: SingleChildScrollView(child: HtmlWidget(specification, onTapUrl: (String url) {
+            return launchUrl(Uri.parse(url),mode: LaunchMode.externalApplication);
+          }),)),
+          const SizedBox(height: Dimensions.paddingSizeSmall),
+
+        ]),
+      ),
     );
   }
 }

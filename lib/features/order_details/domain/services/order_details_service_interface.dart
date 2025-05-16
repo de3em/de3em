@@ -1,8 +1,12 @@
+import 'dart:io';
+
 abstract class OrderDetailsServiceInterface {
 
   Future<dynamic> getOrderFromOrderId(String orderID);
 
   Future <dynamic> getOrderDetails(String orderID);
+
+  Future <dynamic> getOrderInvoice(String orderID);
 
   Future<dynamic> downloadDigitalProduct(int orderDetailsId);
 
@@ -11,5 +15,8 @@ abstract class OrderDetailsServiceInterface {
   Future<dynamic> verifyDigitalProductOtp(int orderId, String otp);
 
   Future<dynamic> trackOrder(String orderId, String phoneNumber);
+
+  Future<HttpClientResponse> productDownload(String url);
+
 
 }

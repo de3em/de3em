@@ -1,3 +1,5 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
 class WishlistModel {
   int? id;
   int? customerId;
@@ -39,6 +41,7 @@ class ProductFullInfo {
   int? refundable;
   String? colorImage;
   String? thumbnail;
+  ImageFullUrl? thumbnailFullUrl;
   int? featured;
   String? videoProvider;
   String? colors;
@@ -87,6 +90,7 @@ class ProductFullInfo {
         this.refundable,
         this.colorImage,
         this.thumbnail,
+        this.thumbnailFullUrl,
         this.featured,
         this.videoProvider,
         this.colors,
@@ -168,7 +172,9 @@ class ProductFullInfo {
     }else{
       reviewsCount = 0;
     }
-
+    thumbnailFullUrl = json['thumbnail_full_url'] != null
+        ? ImageFullUrl.fromJson(json['thumbnail_full_url'])
+        : null;
   }
 
 }

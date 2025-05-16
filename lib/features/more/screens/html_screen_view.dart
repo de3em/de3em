@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:da3em/utill/dimensions.dart';
 import 'package:da3em/common/basewidget/custom_app_bar_widget.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HtmlViewScreen extends StatelessWidget {
   final String? title;
@@ -15,9 +16,10 @@ class HtmlViewScreen extends StatelessWidget {
           Expanded(child: SingleChildScrollView(
               padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
               physics: const BouncingScrollPhysics(),
-              child: Html(style: {
-                'html': Style(textAlign: TextAlign.justify)
-                }, data: url))),
+            child: HtmlWidget(url ?? '', onTapUrl: (String url) {
+              return launchUrl(Uri.parse(url),mode: LaunchMode.externalApplication);
+            }),
+          )),
         ],
       ),
     );

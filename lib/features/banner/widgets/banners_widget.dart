@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:da3em/features/banner/controllers/banner_controller.dart';
 import 'package:da3em/features/banner/widgets/banner_shimmer.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:da3em/theme/controllers/theme_controller.dart';
 import 'package:da3em/utill/dimensions.dart';
 import 'package:da3em/common/basewidget/custom_image_widget.dart';
@@ -21,28 +20,19 @@ class BannersWidget extends StatelessWidget {
 
             double width = MediaQuery.of(context).size.width;
             return Stack(children: [
-                // bannerProvider.mainBannerList != null ? 
-                // bannerProvider.mainBannerList!.isNotEmpty ?
-                if (bannerProvider.mainBannerList != null && bannerProvider.mainBannerList!.isNotEmpty)
-                SizedBox(width: width,
+                bannerProvider.mainBannerList != null ? bannerProvider.mainBannerList!.isNotEmpty ?
+                SizedBox(height: width * 0.4,width: width,
                   child: Column(children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Theme.of(context).primaryColor.withOpacity(.05),
-                        ),
-                        height: width * 0.33, width: width,
+                      SizedBox(height: width * 0.33, width: width,
                         child: CarouselSlider.builder(
                           options: CarouselOptions(
                             aspectRatio: 4/1,
-                            viewportFraction: 1,
+                            viewportFraction: 0.8,
                             autoPlay: true,
                             pauseAutoPlayOnTouch: true,
                             pauseAutoPlayOnManualNavigate: true,
                               pauseAutoPlayInFiniteScroll: true,
-                            enlargeFactor: 0,
+                            enlargeFactor: .2,
                             enlargeCenterPage: true,
                             disableCenter: true,
                             onPageChanged: (index, reason) {
@@ -61,14 +51,13 @@ class BannersWidget extends StatelessWidget {
                                 }
                                 },
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(0),
+                                borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
                                 child: Container(decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
                                   color: Provider.of<ThemeController>(context, listen: false).darkTheme?
                                   Theme.of(context).primaryColor.withOpacity(.1) :
                                   Theme.of(context).primaryColor.withOpacity(.05)),
-                                    child: CustomImageWidget(image: '${Provider.of<SplashController>(context,listen: false).baseUrls?.bannerImageUrl}'
-                                    '/${bannerProvider.mainBannerList?[index].photo}')
+                                    child: CustomImageWidget(image: '${bannerProvider.mainBannerList?[index].photoFullUrl?.path}')
                                 ),
                               ),
                             );
@@ -77,19 +66,17 @@ class BannersWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-                //  : const SizedBox() : const BannerShimmer(),
+                ) : const SizedBox() : const BannerShimmer(),
 
                 if( bannerProvider.mainBannerList != null &&  bannerProvider.mainBannerList!.isNotEmpty)
-                  Positioned(bottom: 5, left: 0, right: 0,
+                  Positioned(bottom: 0, left: 0, right: 0,
                     child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Container(height: 2, width: 20,
-                      margin:  const EdgeInsets.symmetric(horizontal: 2.0),
-                      decoration:  BoxDecoration(color: Colors.black.withOpacity(0.2),
-                        // shape: BoxShape.circle,
+                      Container(height: 7, width: 7,
+                      margin:  const EdgeInsets.symmetric(horizontal: 5.0),
+                      decoration:  BoxDecoration(color: Theme.of(context).primaryColor.withOpacity(0.2),
+                        shape: BoxShape.circle,
                       ),
                     ),
-                    if (false)
                         Row(mainAxisAlignment: MainAxisAlignment.center,
                           children: bannerProvider.mainBannerList!.map((banner) {
                             int index = bannerProvider.mainBannerList!.indexOf(banner);
@@ -104,9 +91,10 @@ class BannersWidget extends StatelessWidget {
                             ):const SizedBox();
                           }).toList(),
                         ),
-                      Container(height: 2, width: 20,
-                        margin:  const EdgeInsets.symmetric(horizontal: 2.0),
-                        decoration:  BoxDecoration(color: Colors.black.withOpacity(0.2),
+                      Container(height: 7, width: 7,
+                        margin:  const EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration:  BoxDecoration(color: Theme.of(context).primaryColor.withOpacity(0.2),
+                          shape: BoxShape.circle,
                         ),
                       )
                       ],

@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:da3em/data/datasource/remote/dio/dio_client.dart';
 import 'package:da3em/data/datasource/remote/exception/api_error_handler.dart';
 import 'package:da3em/data/model/api_response.dart';
@@ -12,9 +14,6 @@ import 'package:provider/provider.dart';
 class OrderDetailsRepository implements OrderDetailsRepositoryInterface{
   final DioClient? dioClient;
   OrderDetailsRepository({required this.dioClient});
-
-
-
 
   @override
   Future<ApiResponse> get(String orderID) async {
@@ -116,6 +115,29 @@ class OrderDetailsRepository implements OrderDetailsRepositoryInterface{
   Future update(Map<String, dynamic> body, int id) {
     // TODO: implement update
     throw UnimplementedError();
+  }
+
+  @override
+  Future getOrderInvoice(String orderID) async{
+    try {
+      final response = await dioClient!.get('${AppConstants.generateInvoice}$orderID');
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
+
+
+
+
+  @override
+  Future<HttpClientResponse> productDownload(String? url) async {
+      HttpClient client = HttpClient();
+    final response = await client.getUrl(Uri.parse(url!)).then((HttpClientRequest request) {
+          return request.close();
+        },
+      );
+    return response;
   }
 
 

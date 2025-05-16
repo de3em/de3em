@@ -28,7 +28,6 @@ class ReviewRepository implements ReviewRepositoryInterface{
 
   @override
   Future<http.StreamedResponse> submitReview(ReviewBody reviewBody, List<File> files,  bool update) async {
-    log("----repo===>${reviewBody.orderId}");
     http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse(update?'${AppConstants.baseUrl}${AppConstants.updateOrderWiseReview}':'${AppConstants.baseUrl}${AppConstants.submitReviewUri}'));
     request.headers.addAll(<String,String>{'Authorization': 'Bearer ${Provider.of<AuthController>(Get.context!, listen: false).getUserToken()}'});
     for(int index=0; index <files.length ; index++) {

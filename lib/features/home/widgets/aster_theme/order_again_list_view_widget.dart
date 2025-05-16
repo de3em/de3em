@@ -5,7 +5,6 @@ import 'package:da3em/features/reorder/controllers/re_order_controller.dart';
 import 'package:da3em/helper/date_converter.dart';
 import 'package:da3em/helper/price_converter.dart';
 import 'package:da3em/localization/language_constrants.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:da3em/utill/color_resources.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
@@ -85,9 +84,9 @@ class OrderAgainCard extends StatelessWidget {
                           itemBuilder: (context, detailsIndex) {
                             return Padding(padding: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
                               child: InkWell(onTap: (){
-                                  showDialog(context: context, builder: (_) => ImageDialog(imageUrl: '${Provider.of<SplashController>(context,listen: false).configModel?.baseUrls?.productThumbnailUrl}/${orders.details?[detailsIndex].product?.thumbnail??''}'));
+                                  showDialog(context: context, builder: (_) => ImageDialog(imageUrl: orders.details?[detailsIndex].product?.thumbnailFullUrl?.path??''));
                                 } ,
-                                child: CustomImageWidget(fit: BoxFit.cover, width: 45, height: 45, image: '${Provider.of<SplashController>(context,listen: false).configModel?.baseUrls?.productThumbnailUrl}/${orders.details?[detailsIndex].product?.thumbnail??''}'),),);}),),
+                                child: CustomImageWidget(fit: BoxFit.cover, width: 45, height: 45, image: orders.details?[detailsIndex].product?.thumbnailFullUrl?.path ?? ''),),);}),),
 
                       if(orders.details!.length> 3)
                       Text('+${orders.details!.length-3}\n ${getTranslated('more', context)}', style: textRegular),
@@ -98,14 +97,19 @@ class OrderAgainCard extends StatelessWidget {
 
               Row(children: [
                 Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text("Order ID : #${orders.id}", style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                      Text("${getTranslated('order_id', context)} : #${orders.id}", style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall)),
                       const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                      Text("Final Total : ${PriceConverter.convertPrice(context, orders.orderAmount)}", style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),])),
+                      Text("${getTranslated('final_total', context)} : ${PriceConverter.convertPrice(context, orders.orderAmount)}", style: robotoBold.copyWith(fontSize: Dimensions.fontSizeDefault)),])),
 
                 SizedBox(height: 36, width: 100,
-                    child: CustomButton(backgroundColor: ColorResources.getGreen(context),
-                        buttonText: getTranslated('order_again', context)!, onTap: () {
-                      Provider.of<ReOrderController>(context, listen: false).reorder(orderId: orders.id.toString());}))]),
+                    child: CustomButton(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      buttonText: getTranslated('order_again', context)!,
+                      fontSize: Dimensions.fontSizeDefault,
+                      onTap: () {
+                        Provider.of<ReOrderController>(context, listen: false).reorder(orderId: orders.id.toString());
+                        },
+                    ))]),
             ],
             ),
           )

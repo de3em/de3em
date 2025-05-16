@@ -13,7 +13,7 @@ class ValidateCheck{
     final kEmailValid = RegExp(pattern);
     bool isValid = kEmailValid.hasMatch(value.toString());
     if (value!.isEmpty) {
-      return '\u26A0 ${getTranslated('EMAIL_MUST_BE_REQUIRED', Get.context!)}';
+      return '\u26A0 ${getTranslated('email_is_required', Get.context!)}';
     } else if (isValid == false) {
       return '\u26A0 ${getTranslated("enter_valid_email_address", Get.context!)}';
     }

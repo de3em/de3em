@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:da3em/common/basewidget/paginated_list_view_widget.dart';
+import 'package:da3em/features/home/shimmers/transaction_shimmer.dart';
 import 'package:da3em/features/loyaltyPoint/controllers/loyalty_point_controller.dart';
+import 'package:da3em/features/loyaltyPoint/widget/loyalty_point_widget.dart';
 import 'package:da3em/features/profile/controllers/profile_contrroller.dart';
 import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/features/auth/controllers/auth_controller.dart';
@@ -10,9 +13,10 @@ import 'package:da3em/common/basewidget/custom_button_widget.dart';
 import 'package:da3em/common/basewidget/not_loggedin_widget.dart';
 import 'package:da3em/features/home/screens/home_screens.dart';
 import 'package:da3em/features/loyaltyPoint/widget/loyalty_point_converter_dialogue_widget.dart';
-import 'package:da3em/features/loyaltyPoint/widget/loyalty_point_list_widget.dart';
 import 'package:da3em/features/loyaltyPoint/widget/loyalty_point_info_widget.dart';
 import 'package:provider/provider.dart';
+
+import '../../../common/basewidget/no_internet_screen_widget.dart';
 
 
 class LoyaltyPointScreen extends StatefulWidget {
@@ -22,17 +26,25 @@ class LoyaltyPointScreen extends StatefulWidget {
 }
 
 class _LoyaltyPointScreenState extends State<LoyaltyPointScreen> {
+  final ScrollController scrollController = ScrollController();
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    if(Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
+      Provider.of<LoyaltyPointController>(context, listen: false).getLoyaltyPointList(context, 1);
+    }
+
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    final ScrollController scrollController = ScrollController();
-    bool isFirstTime = true;
-    bool isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
-    if(isFirstTime) {
-      if(Provider.of<AuthController>(context, listen: false).isLoggedIn()) {
-        Provider.of<LoyaltyPointController>(context, listen: false).getLoyaltyPointList(context,1);
-      }
-      isFirstTime = false;
-    }
+    final bool isGuestMode = !Provider.of<AuthController>(context, listen: false).isLoggedIn();
+
 
     return Scaffold(
       body: RefreshIndicator(color: Theme.of(context).cardColor,
@@ -67,8 +79,30 @@ class _LoyaltyPointScreenState extends State<LoyaltyPointScreen> {
                     ))),
             ];
           },
-          body: isGuestMode ? const NotLoggedInWidget() :
-          SingleChildScrollView(child: LoyaltyPointListViewWidget(scrollController: scrollController)))),
+          body: isGuestMode ? const NotLoggedInWidget() : Consumer<LoyaltyPointController>(
+              builder: (context, loyaltyPointController, _) {
+                return (loyaltyPointController.loyaltyPointModel?.loyaltyPointList?.isNotEmpty ?? false) ? PaginatedListView(
+                  scrollController: scrollController,
+                  onPaginate: (int? offset){},
+                  totalSize: loyaltyPointController.loyaltyPointModel?.totalLoyaltyPoint,
+                  offset: loyaltyPointController.loyaltyPointModel?.offset,
+                  itemView: Expanded(child: ListView.builder(
+                    itemCount: loyaltyPointController.loyaltyPointModel?.loyaltyPointList?.length,
+                    itemBuilder: (ctx,index){
+                      return LoyaltyPointWidget(
+                        loyaltyPointModel: loyaltyPointController.loyaltyPointModel?.loyaltyPointList?[index],
+                        isLastItem: index + 1 == loyaltyPointController.loyaltyPointModel?.loyaltyPointList?.length,
+                      );
+                    },
+                  )),
+                ) : (loyaltyPointController.loyaltyPointModel?.loyaltyPointList?.isEmpty ?? false) ? Padding(
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/6),
+                  child: const NoInternetOrDataScreenWidget(isNoInternet: false, icon: Images.noTransaction, message: 'no_transaction_history'),
+                ) : const TransactionShimmer();
+              }
+          ),
+        ),
+      ),
 
         floatingActionButton: Padding(padding: const EdgeInsets.only(left: 30),
           child: Consumer<ProfileController>(

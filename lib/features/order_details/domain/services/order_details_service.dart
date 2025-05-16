@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:da3em/features/order_details/domain/repositories/order_details_repository_interface.dart';
 import 'package:da3em/features/order_details/domain/services/order_details_service_interface.dart';
 
@@ -15,6 +17,11 @@ class OrderDetailsService implements OrderDetailsServiceInterface{
   @override
   Future getOrderDetails(String orderID) async{
     return await orderDetailsRepositoryInterface.get(orderID);
+  }
+
+  @override
+  Future getOrderInvoice(String orderID) async{
+    return await orderDetailsRepositoryInterface.getOrderInvoice(orderID);
   }
 
   @override
@@ -36,6 +43,12 @@ class OrderDetailsService implements OrderDetailsServiceInterface{
   Future trackOrder(String orderId, String phoneNumber) async{
     return await orderDetailsRepositoryInterface.trackYourOrder(orderId, phoneNumber);
   }
+
+  @override
+  Future<HttpClientResponse> productDownload(String url) async{
+    return await orderDetailsRepositoryInterface.productDownload(url);
+  }
+
 
 
 }

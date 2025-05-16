@@ -67,13 +67,22 @@ class ReviewController extends ChangeNotifier {
 
 
   ReviewModel? orderWiseReview;
-  Future<void> getOrderWiseReview(String productId, String orderId) async {
+  Future<void> getOrderWiseReview(String productId, String orderId, {bool showLoading = false}) async {
+    if(showLoading){
+      _isLoading = true;
+      notifyListeners();
+    }
     ApiResponse reviewResponse = await reviewServiceInterface.getOrderWiseReview(productId, orderId);
-    if (reviewResponse.response != null && reviewResponse.response!.statusCode == 200) {
+    if (reviewResponse.response != null && reviewResponse.response!.statusCode == 200 && reviewResponse.response?.data is !List) {
       orderWiseReview = null;
       orderWiseReview = ReviewModel.fromJson(reviewResponse.response?.data);
-    } else {
+    } else if (reviewResponse.response?.data is List){
+      orderWiseReview = null;
+    }else {
       ApiChecker.checkApi( reviewResponse);
+    }
+    if(showLoading){
+      _isLoading = false;
     }
     notifyListeners();
   }

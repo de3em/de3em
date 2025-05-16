@@ -1,16 +1,17 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+//import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class FacebookLoginController with ChangeNotifier {
   Map? userData;
-  late LoginResult result;
+ // late LoginResult result;
 
   Future<void> login() async {
-    result = await FacebookAuth.instance.login();
+
+   /* result = await FacebookAuth.instance.login();
     if (result.status == LoginStatus.success) {
       userData = await FacebookAuth.instance.getUserData();
 
-    }
+    }*/
     notifyListeners();
   }
 

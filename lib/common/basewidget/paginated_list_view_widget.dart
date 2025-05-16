@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:da3em/utill/dimensions.dart';
 
@@ -9,12 +7,13 @@ class PaginatedListView extends StatefulWidget {
   final Function(int? offset) onPaginate;
   final int? totalSize;
   final int? offset;
+  final int? limit;
   final Widget itemView;
   final bool enabledPagination;
   final bool reverse;
   const PaginatedListView({
     super.key, required this.scrollController, required this.onPaginate, required this.totalSize,
-    required this.offset, required this.itemView, this.enabledPagination = true, this.reverse = false,
+    required this.offset, required this.itemView, this.enabledPagination = true, this.reverse = false, this.limit = 10,
   });
 
   @override
@@ -44,8 +43,7 @@ class _PaginatedListViewState extends State<PaginatedListView> {
   }
 
   void _paginate() async {
-    int pageSize = (widget.totalSize! / 10).ceil();
-    log("====>offset==> $_offset/ $pageSize");
+    int pageSize = (widget.totalSize! / widget.limit!).ceil();
     if (_offset! < pageSize && !_offsetList.contains(_offset!+1)) {
 
       setState(() {
@@ -54,9 +52,12 @@ class _PaginatedListViewState extends State<PaginatedListView> {
         _isLoading = true;
       });
       await widget.onPaginate(_offset);
-      setState(() {
-        _isLoading = false;
-      });
+
+      if(mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
 
     }else {
       if(_isLoading) {
@@ -69,9 +70,7 @@ class _PaginatedListViewState extends State<PaginatedListView> {
 
   @override
   Widget build(BuildContext context) {
-    log("offset777==>${widget.offset}");
     if(widget.offset != null) {
-      log("offset88==>${widget.offset}");
       _offset = widget.offset;
       _offsetList = [];
       for(int index=1; index<=widget.offset!; index++) {

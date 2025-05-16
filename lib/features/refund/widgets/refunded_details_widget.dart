@@ -46,8 +46,8 @@ class RefundDetailsWidgetState extends State<RefundDetailsWidget> {
                 borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
                 border: Border.all(color: Colors.green, width: 1)
               ),
-                child: Text("${getTranslated("${refund.refundResultModel!.refundRequest![0].status}", context)}",
-                    style:  textBold.copyWith(fontSize: Dimensions.fontSizeDefault, color: Colors.green)),),
+                child:  refund.refundResultModel != null ? Text("${getTranslated("${refund.refundResultModel!.refundRequest![0].status}", context)}",
+                    style:  textBold.copyWith(fontSize: Dimensions.fontSizeDefault, color: Colors.green)) : const Center(child: CircularProgressIndicator())),
             );
           }
         )),
@@ -156,8 +156,7 @@ class RefundDetailsWidgetState extends State<RefundDetailsWidget> {
                                             decoration: const BoxDecoration(
                                               color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20))),
                                             child: ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeExtraSmall)),
-                                              child: CustomImageWidget(placeholder: Images.placeholder, image: '${AppConstants.baseUrl}/storage/app/public/refund/'
-                                                      '${refund.refundResultModel!.refundRequest![0].images![index]}',
+                                              child: CustomImageWidget(placeholder: Images.placeholder, image: '${refund.refundResultModel!.refundRequest![0].imagesFullUrl![index].path}',
                                                   width: 85, height: 85, fit: BoxFit.cover),) ,
                                           ),
                                         ),

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:da3em/common/basewidget/custom_textfield_widget.dart';
 import 'package:da3em/features/checkout/controllers/checkout_controller.dart';
+import 'package:da3em/helper/velidate_check.dart';
 import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
 import 'package:provider/provider.dart';
 
 class CreateAccountWidget extends StatelessWidget {
-  const CreateAccountWidget({super.key});
+  final GlobalKey<FormState> formKey;
+  const CreateAccountWidget({super.key, required this.formKey});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class CreateAccountWidget extends StatelessWidget {
                   height: 24, width: 30,
                   child: Checkbox(
                     visualDensity: VisualDensity.compact,
-                    side: MaterialStateBorderSide.resolveWith(
+                    side: WidgetStateBorderSide.resolveWith(
                             (states) => BorderSide(width: 2, color: Theme.of(context).primaryColor.withOpacity(0.10))),
                     checkColor: Colors.white,
                     value: checkoutController.isCheckCreateAccount,
@@ -38,34 +40,33 @@ class CreateAccountWidget extends StatelessWidget {
               ]),
 
               checkoutController.isCheckCreateAccount ?
-              Column(
+              Form(key: formKey, child: Column(
                 children: [
                   const SizedBox(height: Dimensions.paddingSizeSmall),
-                  Container(
-                      child: CustomTextFieldWidget(
-                        hintText: getTranslated('minimum_password_length', context),
-                        labelText: getTranslated('password', context),
-                        controller: checkoutController.passwordController,
-                        isPassword: true,
-                        //nextFocus: _confirmPasswordFocus,
-                        inputAction: TextInputAction.next,
-                        // validator: (value)=> ValidateCheck.validatePassword(value, "password_must_be_required"),
-                      )
+                  CustomTextFieldWidget(
+                    hintText: getTranslated('minimum_password_length', context),
+                    labelText: getTranslated('password', context),
+                    controller: checkoutController.passwordController,
+                    isPassword: true,
+                    required: true,
+                    //nextFocus: _confirmPasswordFocus,
+                    inputAction: TextInputAction.next,
+                    validator: (value)=> ValidateCheck.validatePassword(value, "password_must_be_required"),
                   ),
                   const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                  Container(
-                    child: CustomTextFieldWidget(
-                      isPassword: true,
-                      hintText: getTranslated('re_enter_password', context),
-                      labelText: getTranslated('re_enter_password', context),
-                      controller:  checkoutController.confirmPasswordController,
-                      // focusNode: _confirmPasswordFocus,
-                      inputAction: TextInputAction.done,
-                      //validator: (value)=> ValidateCheck.validateConfirmPassword(value, _passwordController.text.trim()),
-                    )),
+                  CustomTextFieldWidget(
+                    isPassword: true,
+                    required: true,
+                    hintText: getTranslated('re_enter_password', context),
+                    labelText: getTranslated('re_enter_password', context),
+                    controller:  checkoutController.confirmPasswordController,
+                    // focusNode: _confirmPasswordFocus,
+                    inputAction: TextInputAction.done,
+                    validator: (value)=> ValidateCheck.validateConfirmPassword(value, checkoutController.passwordController.text.trim()),
+                  ),
                 ],
-              ) : const SizedBox(),
+              )) : const SizedBox(),
             ])
         ));
       }

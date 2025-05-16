@@ -12,33 +12,27 @@ class OrderTypeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Consumer<OrderController>(builder: (context, orderController, _) {
-        return TextButton(
-          onPressed: () => orderController.setIndex(index),
-          style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
-          child: Container(
-            height: 35,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                color: orderController.orderTypeIndex == index
-                    ? ColorResources.getPrimary(context)
-                    : Theme.of(context).primaryColor.withOpacity(0.07),
+      child: Consumer<OrderController>(
+        builder: (context, orderController,_) {
+          return TextButton(onPressed: () => orderController.setIndex(index),
+            style: TextButton.styleFrom(padding: const EdgeInsets.all(0)),
+            child: Container(height: 35,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(color: orderController.orderTypeIndex == index ? ColorResources.getPrimary(context) :
+                Theme.of(context).primaryColor.withOpacity(0.07),
                 borderRadius: BorderRadius.circular(50)),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(text!,
-                    style: titilliumBold.copyWith(
-                        color: orderController.orderTypeIndex == index
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : ColorResources.getReviewRattingColor(context))),
-                const SizedBox(width: 5),
-              ],
+              child: Row(crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Text(text!, style: titilliumBold.copyWith(color: orderController.orderTypeIndex == index ?
+                  Theme.of(context).highlightColor : ColorResources.getReviewRattingColor(context))),
+                  const SizedBox(width: 5),
+
+                ],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        }
+      ),
     );
   }
 }

@@ -19,8 +19,9 @@ class DateConverter {
   }
 
   static DateTime isoStringToLocalDate(String dateTime) {
-    return DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTime).toLocal();
+    return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').parse(dateTime,true).toLocal();
   }
+
   static String localDateToIsoStringAMPM(DateTime dateTime) {
     return DateFormat('dd/MM/yyyy').format(dateTime.toLocal());
   }
@@ -49,6 +50,14 @@ class DateConverter {
     return DateFormat('dd-MMM-yyyy hh:mm a').format(isoStringToLocalDate(dateTime));
   }
 
+  static String isoStringToLocalDateAndTimeConversation(String dateTime) {
+    return DateFormat('dd MMM yyyy \'at\' ${_timeFormatter()}').format(isoUtcStringToLocalDate(dateTime));
+  }
+
+  static DateTime isoUtcStringToLocalDate(String dateTime) {
+    return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').parse(dateTime, true).toLocal();
+  }
+
   static String dateFormatForWalletBonus(String dateTime) {
     return DateFormat('dd MMM, yyyy').format(isoStringToLocalDate(dateTime));
   }
@@ -58,6 +67,10 @@ class DateConverter {
 
   static String dateTimeStringToDateAndTime(String dateTime) {
     return DateFormat('hh:mm a, dd MMM yyyy').format(DateFormat('yyyy-MM-ddTHH:mm:ss').parse(dateTime));
+  }
+
+  static String dateTimeStringToMonthDateAndTime(String dateTime) {
+    return DateFormat('MMMM d, yyyy').format(DateFormat('yyyy-MM-ddTHH:mm:ss').parse(dateTime));
   }
 
   static String refundDateTime(String dateTime) {
@@ -71,10 +84,36 @@ class DateConverter {
     return DateFormat('${_timeFormatter()} | dd-MMM-yyyy ').format(dateTime.toLocal());
   }
 
-  static String _timeFormatter() {
-    return 'hh:mm a';
-    // return Get.find<SplashController>().configModel.timeformat == '24' ? 'HH:mm' : 'hh:mm a';
+  static DateTime isoUtcStringToLocalTimeOnly(String dateTime) {
+    return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').parse(dateTime, true).toLocal();
   }
+
+  static String convertStringTimeToDate(DateTime time) {
+    return DateFormat('EEE \'at\' ${_timeFormatter()}').format(time.toLocal());
+  }
+
+  static String convertStringTimeToDateChatting(DateTime time) {
+    return DateFormat('EEE \'at\' ${_timeFormatter()}').format(time.toLocal());
+  }
+
+  static String convert24HourTimeTo12HourTimeWithDay(DateTime time, bool isToday) {
+    if(isToday){
+      return DateFormat('\'Today at\' ${_timeFormatter()}').format(time);
+    }else{
+      return DateFormat('\'Yesterday at\' ${_timeFormatter()}').format(time);
+    }
+
+  }
+
+  static String convert24HourTimeTo12HourTime(DateTime time) {
+    return DateFormat(_timeFormatter()).format(time);
+  }
+
+
+  static String _timeFormatter() {
+    return '24';
+  }
+
   static String customTime(DateTime dateTime) {
     DateTime now = DateTime.now();
     DateTime justNow = now.subtract(const Duration(minutes: 1));
@@ -125,5 +164,12 @@ class DateConverter {
     } else {
       return DateFormat('MM/dd/yyyy').format(parsedDate);
     }
+  }
+
+  static int countDays(DateTime ? dateTime) {
+    final startDate = dateTime!;
+    final endDate = DateTime.now();
+    final difference = endDate.difference(startDate).inDays;
+    return difference;
   }
 }

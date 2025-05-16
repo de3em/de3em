@@ -1,3 +1,4 @@
+import 'package:da3em/data/model/image_full_url.dart';
 import 'package:da3em/features/shop/domain/models/seller_model.dart';
 
 class ShopAgainFromRecentStoreModel {
@@ -5,6 +6,7 @@ class ShopAgainFromRecentStoreModel {
   String? name;
   String? slug;
   String? thumbnail;
+  ImageFullUrl? thumbnailFullUrl;
   double? unitPrice;
   int? userId;
   int? reviewsCount;
@@ -16,6 +18,7 @@ class ShopAgainFromRecentStoreModel {
         this.name,
         this.slug,
         this.thumbnail,
+        this.thumbnailFullUrl,
         this.unitPrice,
         this.userId,
         this.reviewsCount,
@@ -31,6 +34,9 @@ class ShopAgainFromRecentStoreModel {
     userId = json['user_id'];
     reviewsCount = int.parse(json['reviews_count'].toString());
     seller = json['seller'] != null ? Seller.fromJson(json['seller']) : null;
+    thumbnailFullUrl = json['thumbnail_full_url'] != null
+      ? ImageFullUrl.fromJson(json['thumbnail_full_url'])
+      : null;
   }
 }
 

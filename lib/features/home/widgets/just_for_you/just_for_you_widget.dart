@@ -1,9 +1,10 @@
 
-import 'package:card_swiper/card_swiper.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:da3em/common/basewidget/product_widget.dart';
 import 'package:da3em/features/product/controllers/product_controller.dart';
 import 'package:da3em/features/product/domain/models/product_model.dart';
-import 'package:da3em/features/home/widgets/just_for_you/just_for_you_product_card_widget.dart';
+import 'package:da3em/helper/responsive_helper.dart';
 import 'package:provider/provider.dart';
 
 class JustForYouView extends StatefulWidget {
@@ -20,14 +21,25 @@ class _JustForYouViewState extends State<JustForYouView> {
   Widget build(BuildContext context) {
     return Consumer<ProductController>(
       builder: (context, productController,_) {
-        return Column(children: [
-          SizedBox(height: 400,
-            child: Swiper(autoplay: true,
-              layout: SwiperLayout.TINDER,
-              itemWidth: MediaQuery.of(context).size.width-60,
-              itemHeight: 400.0,
-              itemBuilder: (BuildContext context,int index)=> JustForYouProductCard(widget.productList![index], index: index),
-              itemCount: widget.productList!.length))]);
+        return SizedBox(
+          height: ResponsiveHelper.isTab(context)? MediaQuery.of(context).size.width * .58 : 320,
+          child: CarouselSlider.builder(
+            options: CarouselOptions(
+              viewportFraction: ResponsiveHelper.isTab(context)? .5 :.65,
+              autoPlay: false,
+              pauseAutoPlayOnTouch: true,
+              pauseAutoPlayOnManualNavigate: true,
+              enlargeFactor: 0.2,
+              enlargeCenterPage: true,
+              pauseAutoPlayInFiniteScroll: true,
+              disableCenter: true,
+            ),
+            itemCount: widget.productList?.length,
+            itemBuilder: (context, index, next) {
+              return ProductWidget(productModel: widget.productList![index], productNameLine: 1);
+            },
+          ),
+        );
       }
     );
   }

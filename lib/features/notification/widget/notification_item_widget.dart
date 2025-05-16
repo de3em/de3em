@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:da3em/features/notification/domain/models/notification_model.dart';
 import 'package:da3em/helper/date_converter.dart';
 import 'package:da3em/features/notification/controllers/notification_controller.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:da3em/utill/color_resources.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
@@ -16,7 +15,6 @@ class NotificationItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var splashController = Provider.of<SplashController>(context, listen: false);
     return InkWell(onTap:(){
       Provider.of<NotificationController>(context, listen: false).seenNotification(notificationItem.id!);
       showModalBottomSheet(backgroundColor: Colors.transparent,
@@ -30,7 +28,7 @@ class NotificationItemWidget extends StatelessWidget {
                       border: Border.all(color: Theme.of(context).primaryColor.withOpacity(.15), width: .35),
                       borderRadius: BorderRadius.circular(40)),
                       child: CustomImageWidget(width: 50,height: 50,
-                          image: '${splashController.baseUrls!.notificationImageUrl}/${notificationItem.image}'))),
+                          image: '${notificationItem.imageFullUrl?.path}'))),
 
 
 

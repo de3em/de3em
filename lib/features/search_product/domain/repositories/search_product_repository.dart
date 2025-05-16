@@ -25,7 +25,6 @@ class SearchProductRepository implements SearchProductRepositoryInterface{
       'offset' : offset,
       'guest_id' : '1'};
 
-    print('===dekhen===>>${data}');
 
     try {
       log("===limit==>" );

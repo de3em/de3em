@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:da3em/common/basewidget/product_shimmer_item_widget.dart';
 import 'package:da3em/helper/responsive_helper.dart';
-import 'package:da3em/utill/color_resources.dart';
 import 'package:da3em/utill/dimensions.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ProductShimmer extends StatelessWidget {
   final bool isEnabled;
@@ -23,54 +22,10 @@ class ProductShimmer extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Theme.of(context).highlightColor),
-            child: Shimmer.fromColors(
-              baseColor: Theme.of(context).cardColor,
-              highlightColor: Colors.grey[300]!,
-              enabled: true,
-              child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                Expanded(
-                  flex: 6,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: ColorResources.iconBg(),
-                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                    ),
-                  ),
-                ),
-
-                // Product Details
-                Expanded(
-                  flex: 4,
-                  child: Padding(
-                    padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(height: 20, color: Colors.white),
-                        const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                        Row(children: [
-                          Expanded(
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Container(height: 20, width: 50, color: Colors.white),
-                            ]),
-                          ),
-                          Container(height: 10, width: 50, color: Colors.white),
-                          const Icon(Icons.star, color: Colors.orange, size: 15),
-                        ]),
-                      ],
-                    ),
-                  ),
-                ),
-              ]),
-            ),
-          );
+          return const ProductShimmerItemWidget();
         },
       ),
     );
   }
 }
+

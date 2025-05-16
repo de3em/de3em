@@ -47,7 +47,7 @@ class _SearchProductWidgetState extends State<SearchProductWidget> {
                           child: SizedBox(width: 25,height: 24,child: Image.asset(Images.sort,
                               color: Provider.of<ThemeController>(context, listen: false).darkTheme?
                               Colors.white:Theme.of(context).primaryColor)),),
-                      if(searchProductController.filterApply)
+                      if(searchProductController.isSortingApplied)
                       CircleAvatar(radius: 5, backgroundColor: Theme.of(context).primaryColor,)
                       ],
                     )),
@@ -66,7 +66,7 @@ class _SearchProductWidgetState extends State<SearchProductWidget> {
                           child: SizedBox(width: 25,height: 24, child: Image.asset(Images.dropdown,
                               color: Provider.of<ThemeController>(context, listen: false).darkTheme?
                               Colors.white:Theme.of(context).primaryColor))),
-                      if(searchProductController.filterApply)
+                      if(searchProductController.isFilterApplied)
                         CircleAvatar(radius: 5, backgroundColor: Theme.of(context).primaryColor,)
                       ],
                     ))])),

@@ -106,7 +106,7 @@ class _SupportConversationScreenState extends State<SupportConversationScreen> {
                           _controller.text = '';
                         }
                       },
-                      child: Icon(Icons.send, color: Theme.of(context).primaryColor, size: Dimensions.iconSizeDefault,),
+                      child: support.isLoading ? const CircularProgressIndicator() : Icon(Icons.send, color: Theme.of(context).primaryColor, size: Dimensions.iconSizeDefault),
                     ),
                   ]),
                 ),

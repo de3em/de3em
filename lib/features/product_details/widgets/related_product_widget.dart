@@ -22,7 +22,7 @@ class RelatedProductWidget extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (BuildContext context, int index) => ProductWidget(productModel: prodProvider.relatedProductList![index]),
-          ):  Center(child: Text(getTranslated('no_related_product', context)??"")) :
+          ):  const SizedBox() :
           ProductShimmer(isHomePage: false, isEnabled: Provider.of<ProductController>(context).relatedProductList == null),
         ]);
       },

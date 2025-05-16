@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:da3em/common/basewidget/custom_image_widget.dart';
+import 'package:da3em/features/order_details/controllers/order_details_controller.dart';
 import 'package:da3em/features/order_details/domain/models/order_details_model.dart';
 import 'package:da3em/features/review/controllers/review_controller.dart';
 import 'package:da3em/features/review/domain/models/review_body.dart';
 import 'package:da3em/helper/price_converter.dart';
 import 'package:da3em/localization/language_constrants.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:da3em/main.dart';
 import 'package:da3em/theme/controllers/theme_controller.dart';
 import 'package:da3em/utill/color_resources.dart';
@@ -104,25 +104,25 @@ class _ReviewDialogState extends State<ReviewDialog> {
                         inputAction: TextInputAction.done),
 
 
-                    if(reviewController.orderWiseReview != null && reviewController.orderWiseReview!.attachment != null && reviewController.orderWiseReview!.attachment!.isNotEmpty)
+                    if(reviewController.orderWiseReview != null && reviewController.orderWiseReview!.attachmentFullUrl != null && reviewController.orderWiseReview!.attachmentFullUrl!.isNotEmpty)
                       Padding(padding: const EdgeInsets.symmetric(vertical : Dimensions.paddingSizeDefault),
                           child: SizedBox(height: 75,
                               child: ListView.builder(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
-                                  itemCount : reviewController.orderWiseReview?.attachment?.length ,
+                                  itemCount : reviewController.orderWiseReview?.attachmentFullUrl?.length ,
                                   itemBuilder: (BuildContext context, index){
-                                    log("--img--> ${Provider.of<SplashController>(context, listen: false).baseUrls?.reviewImageUrl}/${reviewController.orderWiseReview?.attachment?[index]}");
+                                   // log("--img--> ${Provider.of<SplashController>(context, listen: false).baseUrls?.reviewImageUrl}/${reviewController.orderWiseReview?.attachment?[index]}");
                                     return Stack(children: [
                                       Padding(padding: const EdgeInsets.only(right : Dimensions.paddingSizeSmall),
                                           child: Container(decoration: const BoxDecoration(color: Colors.white,
                                             borderRadius: BorderRadius.all(Radius.circular(20)),),
                                               child: ClipRRect(borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeExtraSmall)),
-                                                  child:  CustomImageWidget(image: "${Provider.of<SplashController>(context, listen: false).baseUrls?.reviewImageUrl}/review/${reviewController.orderWiseReview?.attachment?[index]}",)))),
+                                                  child:  CustomImageWidget(image: "${reviewController.orderWiseReview?.attachmentFullUrl?[index].path}",)))),
 
 
                                       Positioned(top:0,right: 0,
-                                          child: InkWell(onTap :() => reviewController.deleteOrderWiseReviewImage(reviewController.orderWiseReview!.id!.toString(), reviewController.orderWiseReview!.attachment![index].toString(), widget.productID, widget.orderId),
+                                          child: InkWell(onTap :() => reviewController.deleteOrderWiseReviewImage(reviewController.orderWiseReview!.id!.toString(), reviewController.orderWiseReview!.attachmentFullUrl![index].key ?? '', widget.productID, widget.orderId),
                                               child: Container(decoration: const BoxDecoration(color: Colors.white,
                                                   borderRadius: BorderRadius.all(Radius.circular(Dimensions.paddingSizeDefault))),
                                                   child: Padding(padding: const EdgeInsets.all(4.0),
@@ -181,38 +181,45 @@ class _ReviewDialogState extends State<ReviewDialog> {
                             style: textRegular.copyWith(color: ColorResources.red))) :
                       const SizedBox.shrink(),
 
-                      Consumer<ReviewController>(builder: (context, reviewController,_) => !reviewController.isLoading ?
-                        CustomButton(buttonText: getTranslated('submit', context),
-                          onTap: () {
-                            log("===>orderid====> ${widget.orderId}");
-                            if(reviewController.rating == 0) {
-                              reviewController.setErrorText('${getTranslated('add_a_rating', context)}');
-                            }else if(_controller.text.isEmpty) {
-                              reviewController.setErrorText('${getTranslated('write_a_review', context)}');
-                            }else {
-                              reviewController.setErrorText('');
-                              ReviewBody reviewBody = ReviewBody(
-                                id: reviewController.orderWiseReview?.id.toString(),
-                                  productId: widget.productID,
-                                orderId: widget.orderId,
-                                rating: reviewController.rating.toString(),
-                                comment: _controller.text.isEmpty ? '' : _controller.text);
-                              reviewController.submitReview(reviewBody, reviewController.reviewImages, reviewController.orderWiseReview != null).then((value) {
-                                if(value.isSuccess) {
-                                  Navigator.pop(context);
-                                  widget.callback!();
-                                  FocusScopeNode currentFocus = FocusScope.of(context);
-                                  if (!currentFocus.hasPrimaryFocus) {
-                                    currentFocus.unfocus();
-                                  }
-                                  _controller.clear();
+                      Consumer<ReviewController>(builder: (context, reviewController,_) => Consumer<OrderDetailsController>(
+                          builder: (context, orderDetailsController, _) {
+                            return CustomButton(
+                              isLoading: (orderDetailsController.orderDetails == null) || reviewController.isLoading,
+                              buttonText: getTranslated('submit', context),
+                              onTap: () {
+                                if(reviewController.rating == 0) {
+                                  reviewController.setErrorText('${getTranslated('add_a_rating', context)}');
+                                }else if(_controller.text.isEmpty) {
+                                  reviewController.setErrorText('${getTranslated('write_a_review', context)}');
                                 }else {
-                                  reviewController.setErrorText(value.message);
+                                  reviewController.setErrorText('');
+                                  ReviewBody reviewBody = ReviewBody(
+                                    id: reviewController.orderWiseReview?.id.toString(),
+                                      productId: widget.productID,
+                                    orderId: widget.orderId,
+                                    rating: reviewController.rating.toString(),
+                                    comment: _controller.text.isEmpty ? '' : _controller.text);
+                                  reviewController.submitReview(reviewBody, reviewController.reviewImages, reviewController.orderWiseReview != null).then((value) async {
+                                    if(value.isSuccess) {
+                                      await orderDetailsController.getOrderDetails(widget.orderId);
+                                      if(context.mounted) {
+                                        Navigator.pop(context);
+                                        widget.callback!();
+                                        FocusScopeNode currentFocus = FocusScope.of(context);
+                                        if (!currentFocus.hasPrimaryFocus) {
+                                          currentFocus.unfocus();
+                                        }
+                                        _controller.clear();
+                                      }
+                                    }else {
+                                      reviewController.setErrorText(value.message);
+                                    }
+                                  });
                                 }
-                              });
-                            }
-                          },
-                        ) : Center(child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor))),
+                              },
+                            );
+                          }
+                        ),
                       ),
 
                     ],
@@ -260,8 +267,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),
                   child: FadeInImage.assetNetwork(
                     placeholder: Images.placeholder, fit: BoxFit.scaleDown, width: 70, height: 70,
-                    image: '${Provider.of<SplashController>(context, listen: false).
-                    baseUrls!.productThumbnailUrl}/${widget.orderDetailsModel.productDetails?.thumbnail}',
+                    image: '${widget.orderDetailsModel.productDetails?.thumbnailFullUrl?.path}',
                     imageErrorBuilder: (c, o, s) => Image.asset(Images.placeholder,
                         fit: BoxFit.scaleDown, width: 70, height: 70)))),
               const SizedBox(width: Dimensions.marginSizeDefault),

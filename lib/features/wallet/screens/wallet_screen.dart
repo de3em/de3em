@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:da3em/common/basewidget/no_internet_screen_widget.dart';
+import 'package:da3em/common/basewidget/paginated_list_view_widget.dart';
 import 'package:da3em/features/dashboard/screens/dashboard_screen.dart';
+import 'package:da3em/features/home/shimmers/transaction_shimmer.dart';
 import 'package:da3em/features/profile/controllers/profile_contrroller.dart';
 import 'package:da3em/features/wallet/controllers/wallet_controller.dart';
-import 'package:da3em/features/wallet/widgets/transaction_list_view.dart';
+import 'package:da3em/features/wallet/widgets/transaction_widget.dart';
 import 'package:da3em/features/wallet/widgets/wallet_bonus_widget.dart';
 import 'package:da3em/features/wallet/widgets/wallet_card_widget.dart';
 import 'package:da3em/localization/language_constrants.dart';
@@ -15,6 +18,7 @@ import 'package:da3em/utill/dimensions.dart';
 import 'package:da3em/common/basewidget/not_loggedin_widget.dart';
 import 'package:da3em/features/wallet/widgets/transaction_filter_bottom_sheet_widget.dart';
 import 'package:da3em/features/home/screens/aster_theme_home_screen.dart';
+import 'package:da3em/utill/images.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:provider/provider.dart';
 
@@ -82,7 +86,7 @@ class _WalletScreenState extends State<WalletScreen> {
               SliverToBoxAdapter(
                 child: Column(children: [
 
-                  isGuestMode ? const NotLoggedInWidget() :
+                  isGuestMode ? NotLoggedInWidget(message: getTranslated('to_view_the_wishlist', context)) :
                   Column(children: [
                     Consumer<WalletController>(builder: (context, walletP,_) {
                     return Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
@@ -124,8 +128,33 @@ class _WalletScreenState extends State<WalletScreen> {
                          ]));
                      })])), height: 60)),
 
-                SliverToBoxAdapter(child: isGuestMode ? const NotLoggedInWidget() :
-                  TransactionListView(scrollController: scrollController))
+                SliverToBoxAdapter(
+                  child: isGuestMode ? const NotLoggedInWidget() : Consumer<WalletController>(
+                    builder: (context, walletController, _) {
+                      return (walletController.walletTransactionModel?.walletTransactioList?.isNotEmpty ?? false) ?  PaginatedListView(
+                        scrollController: scrollController,
+                        onPaginate: (int? offset) async => await  walletController.getTransactionList(context, offset ?? 1, walletController.selectedFilterType, reload: false),
+                        totalSize: walletController.walletTransactionModel?.totalWalletTransactio,
+                        offset: walletController.walletTransactionModel?.offset,
+                        itemView: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: walletController.walletTransactionModel?.walletTransactioList?.length,
+                          itemBuilder: (ctx,index){
+                            return TransactionWidget(
+                              transactionModel: walletController.walletTransactionModel?.walletTransactioList?[index],
+                              isLastIndex: index + 1 == walletController.walletTransactionModel?.walletTransactioList?.length,
+                            );
+
+                          },
+                        ),
+
+                      ) : (walletController.walletTransactionModel?.walletTransactioList?.isEmpty ?? false) ?  const NoInternetOrDataScreenWidget(
+                        isNoInternet: false, message: 'no_transaction_history', icon: Images.noTransaction,
+                      ) : const TransactionShimmer();
+                    }
+                  ),
+                )
               ],
             ),
           )

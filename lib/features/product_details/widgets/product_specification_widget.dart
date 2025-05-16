@@ -1,46 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:da3em/features/product_details/screens/specification_screen.dart';
 import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/theme/controllers/theme_controller.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class ProductSpecificationWidget extends StatelessWidget {
   final String productSpecification;
+
+
   const ProductSpecificationWidget({super.key, required this.productSpecification});
 
   @override
   Widget build(BuildContext context) {
-    String htmlContent = productSpecification;
-    String cleanedHtmlContent = htmlContent.replaceAll(RegExp(r'<[^>]*>'), '');
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-        Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall),
-          child: Text(getTranslated('product_specification', context)??'',style: textMedium ),),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+      child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(getTranslated('product_specification', context)??'',style: textMedium ),
         const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
+        Column(children: [
+          Stack(children: [
+            Container(
+              height: (productSpecification.isNotEmpty && productSpecification.length > 400) ? 150 : null,
+              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall).copyWith(bottom: 0),
+              child: SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                child: HtmlWidget(productSpecification,  onTapUrl: (String url) {
+                  return launchUrl(Uri.parse(url),mode: LaunchMode.externalApplication);
+                }),
+              ),
+            ),
 
-      cleanedHtmlContent.isNotEmpty ?
-        Expanded(child: Html(data: cleanedHtmlContent,
-          style: {
-            "table": Style(backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee)),
-            "tr": Style(border: const Border(bottom: BorderSide(color: Colors.grey))),
-            "th": Style(padding: HtmlPaddings.symmetric(vertical: 6), backgroundColor: Colors.grey),
-            "td": Style(padding: HtmlPaddings.symmetric(vertical: 6), alignment: Alignment.topLeft)})) :
-        const Center(child: Text('No specification')),
-        const SizedBox(height: Dimensions.paddingSizeDefault),
+            if( (productSpecification.isNotEmpty && productSpecification.length > 400)) Positioned.fill(child: Align(
+              alignment: Alignment.bottomCenter, child: Container(
+              decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+                Theme.of(context).cardColor.withOpacity(0),
+                Theme.of(context).cardColor,
+              ])),
+              height: 55,
+            ),
+            )),
+
+          ]),
+
+          if(productSpecification.isNotEmpty && productSpecification.length > 400)
+            Center(child: InkWell(
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => SpecificationScreen(specification: productSpecification))),
+              child: Text(getTranslated('view_full_detail', context)!, style: titleRegular.copyWith(
+                color: Provider.of<ThemeController>(context, listen: false).darkTheme
+                    ? Colors.white
+                    : Theme.of(context).primaryColor,
+              )),
+            )),
 
 
-        Center(child: InkWell(onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) =>
-            SpecificationScreen(specification: cleanedHtmlContent))),
-            child: Text(getTranslated('view_full_detail', context)!,
-              style: titleRegular.copyWith(color: Provider.of<ThemeController>(context, listen: false).darkTheme?
-              Colors.white : Theme.of(context).primaryColor))))
-
-      ],
+        ]),
+      ]),
     );
   }
 }

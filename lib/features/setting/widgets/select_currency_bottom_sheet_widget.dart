@@ -68,7 +68,7 @@ class _SelectCurrencyBottomSheetWidgetState extends State<SelectCurrencyBottomSh
                                         color: selectedIndex == index? Theme.of(context).primaryColor: Theme.of(context).primaryColor.withOpacity(.5)) ,
                                     child: Center(
                                       child: Text(currencyProvider.configModel!.currencyList![index].symbol??'',
-                                          style: textRegular.copyWith(color : Theme.of(context).cardColor)),
+                                          style: textRegular.copyWith(color : Colors.white)),
                                     )),
 
                                 Padding(padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),

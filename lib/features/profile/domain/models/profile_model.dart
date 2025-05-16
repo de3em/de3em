@@ -1,3 +1,5 @@
+import 'package:da3em/data/model/image_full_url.dart';
+
 class ProfileModel {
   int? id;
   String? name;
@@ -6,6 +8,7 @@ class ProfileModel {
   String? lName;
   String? phone;
   String? image;
+  ImageFullUrl? imageFullUrl;
   String? email;
   String? emailVerifiedAt;
   String? createdAt;
@@ -32,7 +35,8 @@ class ProfileModel {
         this.loyaltyPoint,
         this.referCode,
         this.referCount,
-        this.totalOrder
+        this.totalOrder,
+        this.imageFullUrl
       });
 
   ProfileModel.fromJson(Map<String, dynamic> json) {
@@ -72,8 +76,11 @@ class ProfileModel {
       }catch(e){
         totalOrder = double.parse(json['orders_count'].toString());
       }
-
     }
+
+    imageFullUrl = json['image_full_url'] != null
+      ? ImageFullUrl.fromJson(json['image_full_url'])
+      : null;
 
   }
 

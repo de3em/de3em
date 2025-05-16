@@ -31,9 +31,23 @@ class SearchProductController with ChangeNotifier {
     notifyListeners();
   }
 
-  bool filterApply = false;
-  void setFilterApply(){
-    filterApply = true;
+
+  bool _isFilterApplied = false;
+  bool _isSortingApplied = false;
+
+  bool get isFilterApplied => _isFilterApplied;
+  bool get isSortingApplied => _isSortingApplied;
+
+
+  void setFilterApply({bool? isFiltered, bool? isSorted}){
+    if(isFiltered != null) {
+      _isFilterApplied = isFiltered;
+    }
+
+    if(isSorted != null) {
+      _isSortingApplied = isSorted;
+    }
+
     notifyListeners();
   }
 
@@ -123,6 +137,8 @@ class SearchProductController with ChangeNotifier {
 
 
   TextEditingController searchController = TextEditingController();
+  FocusNode searchFocusNode = FocusNode();
+
   SuggestionModel? suggestionModel;
   List<String> nameList = [];
   List<int> idList = [];
@@ -176,7 +192,5 @@ class SearchProductController with ChangeNotifier {
 
   void setInitialFilerData(){
     _filterIndex = 0;
-    double minPriceForFilter = AppConstants.minFilter;
-    double maxPriceForFilter = AppConstants.maxFilter;
   }
 }

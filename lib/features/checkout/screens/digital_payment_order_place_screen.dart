@@ -38,27 +38,18 @@ class DigitalPaymentScreenState extends State<DigitalPaymentScreen> {
 
   void _initData() async {
     browser = MyInAppBrowser(context);
-    if(Platform.isAndroid){
-      await InAppWebViewController.setWebContentsDebuggingEnabled(true);
-      bool swAvailable = await WebViewFeature.isFeatureSupported(WebViewFeature.SERVICE_WORKER_BASIC_USAGE);
-      bool swInterceptAvailable = await WebViewFeature.isFeatureSupported(WebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
-      if (swAvailable && swInterceptAvailable) {
-        ServiceWorkerController serviceWorkerController = ServiceWorkerController.instance();
-        await serviceWorkerController.setServiceWorkerClient(ServiceWorkerClient(
-          shouldInterceptRequest: (request) async {
-            if (kDebugMode) {
-              print(request);
-            }
-            return null;
-          },
-        ));
-      }
+    if(!Platform.isIOS){
+      await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
     }
+
+    var options = InAppBrowserClassOptions(
+        crossPlatform: InAppBrowserOptions(hideUrlBar: true, hideToolbarTop: Platform.isAndroid),
+        inAppWebViewGroupOptions: InAppWebViewGroupOptions(
+            crossPlatform: InAppWebViewOptions(useShouldOverrideUrlLoading: true, useOnLoadResource: true, javaScriptEnabled: true)));
+
     await browser.openUrlRequest(
-        urlRequest: URLRequest(url: WebUri(selectedUrl??'')),
-        settings: InAppBrowserClassSettings(
-            webViewSettings: InAppWebViewSettings(useShouldOverrideUrlLoading: true, useOnLoadResource: true),
-            browserSettings: InAppBrowserSettings(hideUrlBar: true, hideToolbarTop: Platform.isAndroid)));
+        urlRequest: URLRequest(url: Uri.parse(selectedUrl ?? '')),
+        options: options);
 
   }
 
@@ -119,8 +110,8 @@ class MyInAppBrowser extends InAppBrowser {
     if (kDebugMode) {
       print("\n\nStarted: $url\n\n");
     }
-    bool _isNewUser = isNewUser(url.toString());
-    _pageRedirect(url.toString(), _isNewUser);
+    bool isNewUser = getIsNewUser(url.toString());
+    _pageRedirect(url.toString(), isNewUser);
   }
 
   @override
@@ -129,8 +120,8 @@ class MyInAppBrowser extends InAppBrowser {
     if (kDebugMode) {
       print("\n\nStopped: $url\n\n");
     }
-    bool _isNewUser = isNewUser(url.toString());
-    _pageRedirect(url.toString(), _isNewUser);
+    bool isNewUser = getIsNewUser(url.toString());
+    _pageRedirect(url.toString(), isNewUser);
   }
 
   @override
@@ -152,7 +143,7 @@ class MyInAppBrowser extends InAppBrowser {
   }
 
 
-  bool isNewUser(String url) {
+  bool getIsNewUser(String url) {
     List<String> parts = url.split('?');
     if (parts.length < 2) {
       return false;

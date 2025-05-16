@@ -133,9 +133,11 @@ abstract class _CustomLayoutStateBase<T extends _SubSwiper> extends State<T>
       onPanStart: _onPanStart,
       onPanEnd: _onPanEnd,
       onPanUpdate: _onPanUpdate,
-      child: Align(
-        alignment: Alignment.bottomRight,
-        child: _buildContainer(list),
+      child: ClipRect(
+        child: Align(
+          alignment: Alignment.bottomRight,
+          child: _buildContainer(list),
+        ),
       ),
     );
   }
@@ -157,8 +159,6 @@ abstract class _CustomLayoutStateBase<T extends _SubSwiper> extends State<T>
   bool _lockScroll = false;
 
   Future<void> _move(double position, {int? nextIndex}) async {
-
-    print("MoveCall");
 
     if (_lockScroll) return;
     try {
@@ -223,8 +223,6 @@ abstract class _CustomLayoutStateBase<T extends _SubSwiper> extends State<T>
 
   Future<void> _onPanEnd(DragEndDetails details) async {
     if (_lockScroll) return;
-
-    print("====OnPenEnd=====>>>");
 
 
     final velocity = widget.scrollDirection == Axis.horizontal
@@ -325,9 +323,9 @@ abstract class TransformBuilder<T> {
 
 class ScaleTransformBuilder extends TransformBuilder<double> {
   ScaleTransformBuilder({
-    required List<double> values,
+    required super.values,
     this.alignment = Alignment.center,
-  }) : super(values: values);
+  });
 
   final Alignment alignment;
 
@@ -339,8 +337,7 @@ class ScaleTransformBuilder extends TransformBuilder<double> {
 }
 
 class OpacityTransformBuilder extends TransformBuilder<double> {
-  OpacityTransformBuilder({required List<double> values})
-      : super(values: values);
+  OpacityTransformBuilder({required super.values});
 
   @override
   Widget build(int i, double animationValue, Widget widget) {
@@ -353,8 +350,7 @@ class OpacityTransformBuilder extends TransformBuilder<double> {
 }
 
 class RotateTransformBuilder extends TransformBuilder<double> {
-  RotateTransformBuilder({required List<double> values})
-      : super(values: values);
+  RotateTransformBuilder({required super.values});
 
   @override
   Widget build(int i, double animationValue, Widget widget) {
@@ -367,8 +363,7 @@ class RotateTransformBuilder extends TransformBuilder<double> {
 }
 
 class TranslateTransformBuilder extends TransformBuilder<Offset> {
-  TranslateTransformBuilder({required List<Offset> values})
-      : super(values: values);
+  TranslateTransformBuilder({required super.values});
 
   @override
   Widget build(int i, double animationValue, Widget widget) {
@@ -407,31 +402,18 @@ class CustomLayoutOption {
 class _CustomLayoutSwiper extends _SubSwiper {
   const _CustomLayoutSwiper({
     required this.option,
-    double? itemWidth,
-    required bool loop,
-    double? itemHeight,
-    ValueChanged<int>? onIndexChanged,
-    Key? key,
-    IndexedWidgetBuilder? itemBuilder,
-    required Curve curve,
-    int? duration,
-    int? index,
-    required int itemCount,
-    Axis? scrollDirection,
-    required SwiperController controller,
-  }) : super(
-          loop: loop,
-          onIndexChanged: onIndexChanged,
-          itemWidth: itemWidth,
-          itemHeight: itemHeight,
-          key: key,
-          itemBuilder: itemBuilder,
-          curve: curve,
-          duration: duration,
-          index: index,
-          itemCount: itemCount,
-          controller: controller,
-          scrollDirection: scrollDirection);
+    super.itemWidth,
+    required super.loop,
+    super.itemHeight,
+    super.onIndexChanged,
+    super.itemBuilder,
+    required super.curve,
+    super.duration,
+    super.index,
+    required super.itemCount,
+    super.scrollDirection = null,
+    required super.controller,
+  });
 
   final CustomLayoutOption option;
 

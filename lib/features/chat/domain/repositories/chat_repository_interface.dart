@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:da3em/features/chat/domain/models/message_body.dart';
 import 'package:da3em/interface/repo_interface.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,5 +12,5 @@ abstract class ChatRepositoryInterface<T> extends RepositoryInterface{
 
   Future<dynamic> seenMessage(int id, String type);
 
-  Future<dynamic> sendMessage(MessageBody messageBody, String type, List<XFile?> file);
+  Future<dynamic> sendMessage(MessageBody messageBody, String type, List<XFile?> file, List<PlatformFile>? platformFile);
 }

@@ -16,11 +16,7 @@ class PriceConverter {
 
     return '${inRight ? '' : Provider.of<SplashController>(context, listen: false).myCurrency!.symbol}'
         '${(singleCurrency? price : price! * Provider.of<SplashController>(context, listen: false).myCurrency!.exchangeRate!
-        * (1/Provider.of<SplashController>(context, listen: false).usdCurrency!.exchangeRate!))!
-        .toInt().toString(
-          //.toStringAsFixed
-          // Provider.of<SplashController>(context,listen: false).configModel!.decimalPointSettings??1
-        ).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}'
+        * (1/Provider.of<SplashController>(context, listen: false).usdCurrency!.exchangeRate!))!.toStringAsFixed(Provider.of<SplashController>(context,listen: false).configModel!.decimalPointSettings??1).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}'
         '${inRight ? Provider.of<SplashController>(context, listen: false).myCurrency!.symbol : ''}';
   }
 

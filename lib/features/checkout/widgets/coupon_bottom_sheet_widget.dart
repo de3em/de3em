@@ -18,8 +18,8 @@ class CouponBottomSheetWidget extends StatefulWidget {
 
 class _CouponBottomSheetWidgetState extends State<CouponBottomSheetWidget> {
 
-
   TextEditingController couponController =TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Consumer<CouponController>(
@@ -96,7 +96,13 @@ class _CouponBottomSheetWidgetState extends State<CouponBottomSheetWidget> {
                     shrinkWrap: true,
                     itemCount: couponProvider.availableCouponList!.length,
                     itemBuilder: (context, index){
-                      return CouponItemWidget(coupons: couponProvider.availableCouponList![index], fromCheckout: true);
+                      return CouponItemWidget(
+                        coupons: couponProvider.availableCouponList![index],
+                        fromCheckout: true,
+                        onCopy: (String? code ) { 
+                          couponController.text = code ?? '';
+                        },
+                      );
                     }),
                 ),
               ) : const NoInternetOrDataScreenWidget(isNoInternet: false) :

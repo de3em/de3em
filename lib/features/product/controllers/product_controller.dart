@@ -65,6 +65,9 @@ class ProductController extends ChangeNotifier {
   int? get latestPageSize => _latestPageSize;
   int? get featuredPageSize => _featuredPageSize;
 
+  ProductModel? _discountedProductModel;
+  ProductModel? get discountedProductModel => _discountedProductModel;
+
 
   bool filterApply = false;
 
@@ -80,7 +83,7 @@ class ProductController extends ChangeNotifier {
   Future<void> getLatestProductList(int offset, {bool reload = false}) async {
     if(reload || offset == 1) {
       _offsetList = [];
-      _latestProductList = [];
+      _latestProductList = null;
     }
     _lOffset = offset;
     if(!_offsetList.contains(offset)) {
@@ -100,6 +103,10 @@ class ProductController extends ChangeNotifier {
           _filterIsLoading = false;
           removeFirstLoading();
       } else {
+
+        if(reload || offset == 1) {
+          _latestProductList = [];
+        }
         ApiChecker.checkApi( apiResponse);
       }
       notifyListeners();
@@ -111,6 +118,8 @@ class ProductController extends ChangeNotifier {
     }
 
   }
+
+
 
   //latest product
   Future<void> getLProductList(String offset, {bool reload = false}) async {
@@ -241,8 +250,8 @@ int selectedProductTypeIndex = 0;
   }
 
 
-  double featuredIndex = 0.7;
-  void setFeaturedIndex(double index){
+  int featuredIndex = 0;
+  void setFeaturedIndex(int index){
     featuredIndex = index;
     notifyListeners();
   }
@@ -250,7 +259,6 @@ int selectedProductTypeIndex = 0;
 
 
   Future<void> getFeaturedProductList(String offset, {bool reload = false}) async {
-    print("<<=====GetFeaturedProductList=====>>${offset}");
     if(reload) {
       _featuredOffsetList = [];
       _featuredProductList = [];
@@ -276,8 +284,6 @@ int selectedProductTypeIndex = 0;
       } else {
         ApiChecker.checkApi( apiResponse);
       }
-
-      print("=====LetestPageSize======>>${_latestPageSize}");
 
       notifyListeners();
     }else {
@@ -385,8 +391,40 @@ int selectedProductTypeIndex = 0;
     notifyListeners();
   }
 
-}
+  Future<void> getDiscountedProductList(int offset, bool reload, { bool isUpdate = true}) async {
 
+    if(reload) {
+      _discountedProductModel = null;
+
+      if(isUpdate) {
+        notifyListeners();
+      }
+    }
+
+    ApiResponse apiResponse = await productServiceInterface!.getFilteredProductList(Get.context!, offset.toString(), ProductType.discountedProduct, title);
+
+    if (apiResponse.response?.data != null && apiResponse.response?.statusCode == 200) {
+      if(offset == 1){
+        _discountedProductModel = ProductModel.fromJson(apiResponse.response?.data);
+      } else {
+        _discountedProductModel?.totalSize = ProductModel.fromJson(apiResponse.response?.data).totalSize;
+        _discountedProductModel?.offset = ProductModel.fromJson(apiResponse.response?.data).offset;
+        _discountedProductModel?.products?.addAll(ProductModel.fromJson(apiResponse.response?.data).products ?? []);
+      }
+
+      notifyListeners();
+
+    } else {
+      ApiChecker.checkApi(apiResponse);
+
+    }
+
+  }
+
+
+
+
+}
 
 class ProductTypeModel{
   String? title;
@@ -394,3 +432,4 @@ class ProductTypeModel{
 
   ProductTypeModel(this.title, this.productType);
 }
+

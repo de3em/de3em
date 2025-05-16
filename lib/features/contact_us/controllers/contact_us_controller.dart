@@ -14,7 +14,7 @@ class ContactUsController extends ChangeNotifier{
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Future<ApiResponse> contactUs(ContactUsBody contactUsBody) async {
+  Future<bool> contactUs(ContactUsBody contactUsBody) async {
     _isLoading = true;
     notifyListeners();
     ApiResponse apiResponse = await contactUsServiceInterface.add(contactUsBody);
@@ -26,7 +26,8 @@ class ContactUsController extends ChangeNotifier{
       ApiChecker.checkApi( apiResponse);
     }
     notifyListeners();
-    return apiResponse;
+
+    return apiResponse.response?.statusCode == 200;
   }
 
 }

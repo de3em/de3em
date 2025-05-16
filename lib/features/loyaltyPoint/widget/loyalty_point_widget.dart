@@ -1,25 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:da3em/features/loyaltyPoint/domain/models/loyalty_point_model.dart';
 import 'package:da3em/helper/date_converter.dart';
+import 'package:da3em/localization/language_constrants.dart';
 import 'package:da3em/utill/color_resources.dart';
 import 'package:da3em/utill/custom_themes.dart';
 import 'package:da3em/utill/dimensions.dart';
 import 'package:da3em/utill/images.dart';
 class LoyaltyPointWidget extends StatelessWidget {
   final LoyaltyPointList? loyaltyPointModel;
-  final int length;
-  final int index;
-  const LoyaltyPointWidget({super.key, this.loyaltyPointModel, required this.length, required this.index});
+  final bool isLastItem;
+  const LoyaltyPointWidget({super.key, this.loyaltyPointModel, required this.isLastItem});
 
   @override
   Widget build(BuildContext context) {
-    String type = loyaltyPointModel?.transactionType??'';
-    String? reformatType;
-    if (type.contains('_')){
-      reformatType = type.replaceAll('_', ' ');
-    }
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Dimensions.homePagePadding,vertical: Dimensions.paddingSizeSmall),
+      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault,vertical: Dimensions.paddingSizeSmall),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start,children: [
@@ -34,12 +30,18 @@ class LoyaltyPointWidget extends StatelessWidget {
                   Text('${loyaltyPointModel!.credit! > 0 ? loyaltyPointModel!.credit: loyaltyPointModel!.debit}',
                     style: textRegular.copyWith(color: ColorResources.getTextTitle(context),
                         fontSize: Dimensions.fontSizeLarge)),
+                  const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                  Text(' points', style: textRegular.copyWith(color: ColorResources.getHint(context)))]),
+                  Text(getTranslated('points', context)!, style: textRegular.copyWith(color: ColorResources.getHint(context)))]),
               const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
 
+              Text(
+                getTranslated(loyaltyPointModel?.transactionType ?? '', context)!,
+                style: textRegular.copyWith(color: ColorResources.getHint(context)),
+              ),
 
-              Text('$reformatType', style: textRegular.copyWith(color: ColorResources.getHint(context)))])),
+            ]),
+            ),
 
 
             Column(crossAxisAlignment: CrossAxisAlignment.end,children: [
@@ -49,12 +51,15 @@ class LoyaltyPointWidget extends StatelessWidget {
               const SizedBox(height: Dimensions.paddingSizeExtraSmall,),
 
 
-              Text( loyaltyPointModel!.credit! > 0 ? 'Credit': 'Debit',
-                style: textRegular.copyWith(color: loyaltyPointModel!.credit! > 0 ? Colors.green: Colors.red))]),
-          ],),
-          index+1 != length?
-          Padding(padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-            child: Divider(thickness: .4,color: Theme.of(context).hintColor.withOpacity(.8),),):const SizedBox(height: 50),
+              Text(getTranslated((loyaltyPointModel?.credit ?? 0) > 0 ? 'credit' : 'debit', context)!,
+                style: textRegular.copyWith(color: loyaltyPointModel!.credit! > 0 ? Colors.green: Colors.red)),
+            ]),
+          ]),
+
+          !isLastItem ? Padding(
+            padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
+            child: Divider(thickness: .4,color: Theme.of(context).hintColor.withOpacity(.8)),
+          ) : const SizedBox(height: 80),
         ],
       ),);
   }

@@ -11,39 +11,33 @@ class SearchHomePageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-          horizontal: Dimensions.homePagePadding,
-          vertical: Dimensions.paddingSizeSmall),
-      alignment: Alignment.center,
-      child: Container(
-        clipBehavior: Clip.antiAlias,
-        height: 40,
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(100),
-          border: Border.all(color: Colors.grey.shade400, width: 1),
-        ),
-        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-                color: Provider.of<ThemeController>(context, listen: false)
-                        .darkTheme
-                    ? Colors.transparent
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(10)),
-            child: Icon(
-              Icons.search,
-              color: Theme.of(context).primaryColor,
-              size: Dimensions.iconSizeSmall,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraExtraSmall),
+      child: Container(padding:  const EdgeInsets.symmetric(
+          horizontal: Dimensions.homePagePadding, vertical: Dimensions.paddingSizeSmall),
+
+        alignment: Alignment.center,
+        child: Container(padding:  EdgeInsets.only(
+          left: Provider.of<LocalizationController>(context, listen: false).isLtr?
+          Dimensions.homePagePadding : Dimensions.paddingSizeExtraSmall,
+            right: Provider.of<LocalizationController>(context, listen: false).isLtr? Dimensions.paddingSizeExtraSmall : Dimensions.homePagePadding),
+          height: 60, alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(color: Theme.of(context).cardColor,
+            boxShadow: Provider.of<ThemeController>(context).darkTheme ? null :
+            [BoxShadow(color: Theme.of(context).hintColor.withOpacity(.1), spreadRadius: 1, blurRadius: 1, offset: const Offset(0,0))],
+            borderRadius: BorderRadius.circular(Dimensions.paddingSizeExtraSmall),),
+          child: Row(mainAxisAlignment : MainAxisAlignment.spaceBetween, children: [
+
+            Text(getTranslated('search_hint', context)??'',
+                style: textRegular.copyWith(color: Theme.of(context).hintColor)),
+
+            Container(width: 40,height: 40,decoration: BoxDecoration(color: Theme.of(context).primaryColor,
+                borderRadius: const BorderRadius.all(Radius.circular(Dimensions.paddingSizeExtraSmall))),
+              child: Icon(Icons.search, color: Provider.of<ThemeController>(context, listen: false).darkTheme?
+              Colors.white : Theme.of(context).cardColor, size: Dimensions.iconSizeSmall),
             ),
-          ),
-          Text(getTranslated('search_hint', context) ?? '',
-              style: textRegular.copyWith(color: Theme.of(context).hintColor)),
-        ]),
+          ]),
+        ),
       ),
     );
   }

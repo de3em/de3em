@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:da3em/features/banner/controllers/banner_controller.dart';
 import 'package:da3em/features/banner/domain/models/banner_model.dart';
-import 'package:da3em/features/splash/controllers/splash_controller.dart';
 import 'package:da3em/common/basewidget/custom_image_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -32,8 +31,7 @@ class SingleBannersWidget extends StatelessWidget {
                 decoration:  BoxDecoration(borderRadius: BorderRadius.all(noRadius?
                 const Radius.circular(0): const Radius.circular(5))),
                 child: ClipRRect(borderRadius: BorderRadius.all(Radius.circular(noRadius?0:5)),
-                  child: CustomImageWidget(image: '${Provider.of<SplashController>(context,listen: false).baseUrls?.bannerImageUrl}'
-                      '/${bannerModel?.photo}')))));
+                  child: CustomImageWidget(image: '${bannerModel?.photoFullUrl?.path}')))));
     },
     ),],
     );

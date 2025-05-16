@@ -42,6 +42,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 3, offset: const Offset(0, 1),)]),
               child: const SearchSuggestion()),
             const SizedBox(height: Dimensions.paddingSizeDefault),
+
             Consumer<SearchProductController>(
               builder: (context, searchProvider, child) {
                 return (searchProvider.isLoading && searchProvider.searchedProduct == null) ?
